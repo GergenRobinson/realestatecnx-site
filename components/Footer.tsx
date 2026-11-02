@@ -4,6 +4,12 @@ import Newsletter from "./Newsletter";
 import { nav, site } from "@/lib/site";
 import { markets } from "@/lib/markets";
 
+const brokerages = [
+  { name: "West USA Realty", caption: "Arizona", logo: "/brokerages/west-usa-realty.png", w: 640, h: 163, size: "h-10 md:h-12" },
+  { name: "John L. Scott Talent Group", caption: "Washington", logo: "/brokerages/john-l-scott-talent-group.png", w: 640, h: 308, size: "h-14 md:h-16" },
+  { name: "The Cicero Group", caption: "Team", logo: "/brokerages/the-cicero-group.png", w: 640, h: 117, size: "h-8 md:h-9" },
+];
+
 export default function Footer() {
   return (
     <footer className="bg-ink text-white">
@@ -48,6 +54,20 @@ export default function Footer() {
         </div>
         <div className="md:col-span-4">
           <Newsletter dark />
+        </div>
+      </div>
+      {/* Brokerage affiliations: logos are made for light backgrounds, so they sit on a white band. */}
+      <div className="bg-white text-ink">
+        <div className="container-x flex flex-col items-center gap-6 py-8 md:flex-row md:justify-between">
+          <p className="eyebrow shrink-0">Brokerage affiliations</p>
+          <ul className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6">
+            {brokerages.map((b) => (
+              <li key={b.name} className="flex flex-col items-center justify-end gap-2 self-stretch">
+                <Image src={b.logo} alt={b.name} width={b.w} height={b.h} className={`${b.size} w-auto`} />
+                <span className="text-xs font-semibold text-black/55">{b.caption}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
       <div className="border-t border-white/10">
