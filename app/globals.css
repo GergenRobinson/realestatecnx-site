@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+@theme {
+  --color-crimson: #b22222;
+  --color-crimson-dark: #8e1b1b;
+  --color-gold: #d4a017;
+  --color-gold-light: #f3e3b3;
+  --color-ink: #1a1a1a;
+  --color-paper: #faf8f4;
+  --font-display: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-open-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
+}
+
+html { scroll-behavior: smooth; }
+body { background: #ffffff; color: var(--color-ink); }
+
+h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
+
+.container-x { margin-inline: auto; max-width: 76rem; padding-inline: 1.25rem; }
+@media (min-width: 768px) { .container-x { padding-inline: 2rem; } }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; border-radius: 9999px; padding: .8rem 1.5rem; font-family: var(--font-display); font-weight: 700; font-size: .95rem; transition: all .15s ease; }
+.btn-primary { background: var(--color-crimson); color: #fff; }
+.btn-primary:hover { background: var(--color-crimson-dark); }
+.btn-gold { background: var(--color-gold); color: var(--color-ink); }
+.btn-gold:hover { filter: brightness(1.07); }
+.btn-outline { border: 2px solid currentColor; }
+.btn-outline:hover { background: rgba(255,255,255,.08); }
+
+.eyebrow { font-family: var(--font-display); font-size: .75rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--color-crimson); }
+
+.field { width: 100%; border-radius: .6rem; border: 1px solid #d6d3cd; background: #fff; padding: .7rem .9rem; font-size: 1rem; }
+.field:focus { outline: 2px solid var(--color-gold); outline-offset: 1px; border-color: transparent; }
+.label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: .35rem; }
+
+.prose-cnx p { margin-bottom: 1rem; line-height: 1.75; }
