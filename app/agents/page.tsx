@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import ConnectForm from "@/components/ConnectForm";
 import PageHero from "@/components/PageHero";
+import { photos } from "@/lib/photos";
 import SectionHeading from "@/components/SectionHeading";
 import { site } from "@/lib/site";
 
@@ -20,7 +21,7 @@ const pillars = [
 export default function AgentsPage() {
   return (
     <>
-      <PageHero eyebrow="For agents and pros" title="Your network is your net worth." intro="Real Estate CNX connects agents across markets, so referrals flow both ways and nobody has to send a client to a stranger.">
+      <PageHero eyebrow="For agents and pros" title="Your network is your net worth." intro="Real Estate CNX connects agents across markets, so referrals flow both ways and nobody has to send a client to a stranger." image={photos.agentTour}>
         <div className="mt-8 flex flex-wrap gap-3">
           <a href="#join" className="btn btn-gold">Join the network</a>
           <a href="#ascend" className="btn btn-outline text-white">Agent Ascend</a>

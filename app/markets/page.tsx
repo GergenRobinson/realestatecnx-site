@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageHero from "@/components/PageHero";
+import { photos } from "@/lib/photos";
 import { markets } from "@/lib/markets";
 
 export const metadata: Metadata = { title: "Markets", description: "Local real estate updates, guides and connections in Arizona and Washington, with more states coming." };
@@ -8,7 +9,7 @@ export const metadata: Metadata = { title: "Markets", description: "Local real e
 export default function MarketsPage() {
   return (
     <>
-      <PageHero eyebrow="Markets" title="Local knowledge, national network." intro="We're starting where we know the ground best. Each market hub has local updates, guides and a direct line to trusted agents." />
+      <PageHero eyebrow="Markets" title="Local knowledge, national network." intro="We're starting where we know the ground best. Each market hub has local updates, guides and a direct line to trusted agents." image={photos.phoenixCity} />
       <section className="py-16 md:py-24">
         <div className="container-x grid gap-6 md:grid-cols-3">
           {markets.map((m) => (

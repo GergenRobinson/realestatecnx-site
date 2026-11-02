@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import PageHero from "@/components/PageHero";
+import { photos } from "@/lib/photos";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = { title: "About", description: "Real Estate CNX is a media and community hub connecting buyers, sellers and agents with information and trusted people." };
@@ -9,7 +10,7 @@ export const metadata: Metadata = { title: "About", description: "Real Estate CN
 export default function AboutPage() {
   return (
     <>
-      <PageHero eyebrow="About" title="Your connection to everything real estate." intro={site.mission} />
+      <PageHero eyebrow="About" title="Your connection to everything real estate." intro={site.mission} image={photos.seattleNight} />
       <section className="py-16 md:py-24">
         <div className="container-x grid gap-12 lg:grid-cols-12 lg:items-start">
           <div className="prose-cnx text-lg text-black/75 lg:col-span-7">

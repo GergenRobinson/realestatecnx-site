@@ -3,6 +3,7 @@ import { Montserrat, Open_Sans, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import RevealObserver from "@/components/RevealObserver";
 import { site } from "@/lib/site";
 
 const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat", weight: ["600", "700", "800", "900"] });
@@ -26,11 +27,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${montserrat.variable} ${openSans.variable} ${playfair.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${montserrat.variable} ${openSans.variable} ${playfair.variable}`}>
+      <head>
+        {/* Lets CSS hide reveal-on-scroll content only when JavaScript is running. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
       <body className="font-sans antialiased">
         <Header />
         <main>{children}</main>
         <Footer />
+        <RevealObserver />
       </body>
     </html>
   );

@@ -6,6 +6,7 @@ import SectionHeading from "@/components/SectionHeading";
 import { getMarket, markets } from "@/lib/markets";
 import { guides } from "@/lib/guides";
 import { site } from "@/lib/site";
+import { photos } from "@/lib/photos";
 
 export function generateStaticParams() {
   return markets.map((m) => ({ slug: m.slug }));
@@ -22,7 +23,7 @@ export default async function MarketPage({ params }: { params: Promise<{ slug: s
   if (!m) notFound();
   return (
     <>
-      <PageHero eyebrow={`${m.name} hub`} title={`${m.name} real estate, connected.`} intro={m.intro}>
+      <PageHero eyebrow={`${m.name} hub`} title={`${m.name} real estate, connected.`} intro={m.intro} image={photos[m.photo]}>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link href={`/connect?state=${m.slug}`} className="btn btn-primary">Get connected in {m.name}</Link>
           <a href={site.substack} target="_blank" rel="noopener noreferrer" className="btn btn-outline text-white">Read the {m.updateName}</a>
@@ -33,7 +34,7 @@ export default async function MarketPage({ params }: { params: Promise<{ slug: s
           <SectionHeading eyebrow="Start here" title={`What to know about ${m.name}`} />
           <div className="mt-10 grid gap-6 md:grid-cols-3">
             {m.highlights.map((h) => (
-              <div key={h.title} className="rounded-2xl bg-paper p-6 ring-1 ring-black/5">
+              <div key={h.title} data-reveal className="rounded-2xl bg-paper p-6 ring-1 ring-black/5">
                 <h3 className="text-lg font-extrabold">{h.title}</h3>
                 <p className="mt-2 text-sm text-black/60">{h.body}</p>
               </div>
