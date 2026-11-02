@@ -4,10 +4,19 @@ import Newsletter from "./Newsletter";
 import { nav, site } from "@/lib/site";
 import { markets } from "@/lib/markets";
 
+// Grouped by state. The Cicero Group is a team within West USA Realty.
 const brokerages = [
-  { name: "West USA Realty", caption: "Arizona", logo: "/brokerages/west-usa-realty.png", w: 640, h: 163, size: "h-10 md:h-12" },
-  { name: "John L. Scott Talent Group", caption: "Washington", logo: "/brokerages/john-l-scott-talent-group.png", w: 640, h: 308, size: "h-14 md:h-16" },
-  { name: "The Cicero Group", caption: "Team", logo: "/brokerages/the-cicero-group.png", w: 640, h: 117, size: "h-8 md:h-9" },
+  {
+    caption: "Arizona: The Cicero Group at West USA Realty",
+    logos: [
+      { name: "The Cicero Group", src: "/brokerages/the-cicero-group.png", w: 640, h: 117, size: "h-7 md:h-9" },
+      { name: "West USA Realty", src: "/brokerages/west-usa-realty.png", w: 640, h: 163, size: "h-9 md:h-12" },
+    ],
+  },
+  {
+    caption: "Washington: John L. Scott Talent Group",
+    logos: [{ name: "John L. Scott Talent Group", src: "/brokerages/john-l-scott-talent-group.png", w: 640, h: 308, size: "h-14 md:h-16" }],
+  },
 ];
 
 export default function Footer() {
@@ -61,10 +70,17 @@ export default function Footer() {
         <div className="container-x flex flex-col items-center gap-6 py-8 md:flex-row md:justify-between">
           <p className="eyebrow shrink-0">Brokerage affiliations</p>
           <ul className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6">
-            {brokerages.map((b) => (
-              <li key={b.name} className="flex flex-col items-center justify-end gap-2 self-stretch">
-                <Image src={b.logo} alt={b.name} width={b.w} height={b.h} className={`${b.size} w-auto`} />
-                <span className="text-xs font-semibold text-black/55">{b.caption}</span>
+            {brokerages.map((g) => (
+              <li key={g.caption} className="flex flex-col items-center justify-end gap-2 self-stretch">
+                <div className="flex items-center gap-3 md:gap-5">
+                  {g.logos.map((l, i) => (
+                    <div key={l.name} className="flex items-center gap-5">
+                      {i > 0 && <span className="h-10 w-px bg-black/15" aria-hidden />}
+                      <Image src={l.src} alt={l.name} width={l.w} height={l.h} className={`${l.size} w-auto`} />
+                    </div>
+                  ))}
+                </div>
+                <span className="text-center text-xs font-semibold text-black/55">{g.caption}</span>
               </li>
             ))}
           </ul>

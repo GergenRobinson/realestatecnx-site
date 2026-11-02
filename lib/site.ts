@@ -28,7 +28,7 @@ export const site = {
   ],
   // Required licensing disclosure (verified against ADRE and WA DOL, Nov 1, 2026).
   licensing: [
-    { state: "Arizona", detail: "Arizona: Gergen Robinson, Associate Broker, license BR697838000, West USA Realty, Inc." },
+    { state: "Arizona", detail: "Arizona: Gergen Robinson, Associate Broker, license BR697838000, The Cicero Group at West USA Realty, Inc." },
     { state: "Washington", detail: "Washington: Gergen Robinson, Managing Broker, license 25666, John L. Scott DuPont (Talent Real Estate LLC)." },
   ],
 };
