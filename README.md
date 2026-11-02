@@ -40,3 +40,7 @@ npm run dev
 3. Add `realestatecnx.com` and `www.realestatecnx.com` in Vercel > Settings > Domains and set the DNS records Vercel shows at your domain registrar.
 
 Old Hostinger URLs (`/blog`, `/az-snap-market-update`, the prompt tool pages) redirect to their new homes (`next.config.ts`).
+
+## Analytics
+
+Vercel Web Analytics is on (free tier, included in the plan). The `<Analytics />` component in `app/layout.tsx` sends page views; view them in Vercel → realestatecnx-site → Analytics. Google Search Console is verified for the realestatecnx.com domain (TXT record in GoDaddy DNS; keep it).
