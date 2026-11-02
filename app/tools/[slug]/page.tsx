@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import PageHero from "@/components/PageHero";
-import PromptBuilder from "@/components/PromptBuilder";
+import ToolFrame from "@/components/ToolFrame";
 import { getPromptTool, promptTools } from "@/lib/promptTools";
 
 export function generateStaticParams() {
@@ -18,16 +16,9 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
   const tool = getPromptTool((await params).slug);
   if (!tool) notFound();
   return (
-    <>
-      <PageHero eyebrow="Free agent tool" title={tool.name} intro={tool.intro} />
-      <section className="py-12 md:py-20">
-        <div className="container-x">
-          <PromptBuilder slug={tool.slug} />
-          <p className="mt-10 text-sm text-black/60">
-            <Link href="/tools" className="font-bold text-crimson hover:underline">&larr; All tools</Link>
-          </p>
-        </div>
-      </section>
-    </>
+    <section className="bg-ink">
+      <h1 className="sr-only">{tool.name}</h1>
+      <ToolFrame src={`/tools/${tool.slug}.html`} title={tool.name} />
+    </section>
   );
 }

@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#AF1500">
+<title>Real Estate CNX — Agent Online Presence &amp; Reputation Audit</title>
+<meta name="description" content="Free AI-powered audit for real estate agents and brokers. One prompt runs a complete audit of your online presence in ChatGPT, Claude, or Perplexity — then delivers a scorecard, straight-talk recap, and interactive coaching plan.">
+<meta property="og:title" content="Real Estate CNX — Agent Presence Audit">
+<meta property="og:description" content="See yourself the way today's buyers — and today's AI — see you. A free, AI-powered online presence and reputation audit for real estate agents.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Real Estate CNX">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%23131313'/%3E%3Ctext x='32' y='36' font-family='Arial,sans-serif' font-weight='800' font-size='22' text-anchor='middle' fill='%23ffc50a'%3ECNX%3C/text%3E%3Crect x='10' y='44' width='40' height='5' rx='2.5' fill='%23b31217'/%3E%3Cpath d='M50 41.5l8 5-8 5z' fill='%23b31217'/%3E%3C/svg%3E">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Real Estate CNX Agent Presence Audit",
+  "alternateName": "RealEstateCNX Online Presence & Reputation Audit",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Any (web browser)",
+  "description": "A free AI-powered audit that shows real estate agents how they appear across Google, real estate portals, reviews, social media, and AI search engines — with a scorecard, recap, and coaching plan generated in the agent's own AI chat.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "audience": { "@type": "Audience", "audienceType": "Real estate agents and brokers" },
+  "publisher": { "@type": "Organization", "name": "Real Estate CNX", "slogan": "How Real Estate Connects" }
+}
+</script>
+<style>
+  :root {
+    color-scheme: dark;
+    /* surfaces & ink (dark — the only mode) */
+    --page:        #0d0d0d;
+    --surface-1:   #1a1a19;
+    --ink-1:       #ffffff;
+    --ink-2:       #c3c2b7;
+    --ink-muted:   #898781;
+    --grid:        #2c2c2a;
+    --baseline:    #383835;
+    --ring:        rgba(255,255,255,0.10);
+    /* RealEstateCNX brand */
+    --accent:      #E32B12;
+    --accent-deep: #E32B12;
+    --accent-soft: #3d1416;
+    --gold:        #E6C01F;
+    --gold-deep:   #E6C01F;
+    --gold-soft:   #3a2f10;
+    /* status (fixed) */
+    --st-good:     #0ca30c;
+    --st-warn:     #fab219;
+    --st-serious:  #ec835a;
+    --st-critical: #d03b3b;
+    --good-text:   #0ca30c;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--page);
+    color: var(--ink-1);
+    line-height: 1.55;
+    font-size: 16px;
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+
+  /* ---------- header ---------- */
+  header.site {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--page) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--grid);
+  }
+  header.site::before { content: ""; display: block; height: 3px; background: linear-gradient(90deg, var(--accent) 0%, var(--accent) 35%, var(--gold) 75%, var(--gold-deep) 100%); }
+  .site-inner { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; gap: 12px; }
+  .logo { font-weight: 800; font-size: 1.15rem; letter-spacing: -.02em; white-space: nowrap; }
+  .logo .mark { position: relative; display: inline-block; padding-bottom: 5px; }
+  .logo .mark::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; border-radius: 2px; background: linear-gradient(90deg, var(--accent), var(--gold)); }
+  .logo .re { color: var(--accent); }
+  .logo .cnx { color: var(--ink-1); }
+  .logo small { display:block; font-weight:600; font-size:.68rem; letter-spacing:.05em; color: var(--ink-muted); margin-top: 3px; white-space: normal; }
+  @media (max-width: 680px) {
+    header.site { position: static; }
+    .site-inner { flex-wrap: wrap; padding: 10px 0; }
+    .logo { flex: 1 1 100%; }
+    .hdr-actions { flex: 1 1 100%; justify-content: flex-start; }
+    .hero { padding-top: 36px; }
+    nav.stepper { overflow-x: auto; }
+    nav.stepper button { padding: 10px 10px 12px; font-size: .85rem; white-space: nowrap; }
+  }
+  .hdr-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+
+  /* ---------- buttons ---------- */
+  .btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    font: inherit; font-weight: 600; font-size: .9rem;
+    padding: 9px 16px; border-radius: 9px; border: 1px solid var(--ring);
+    background: var(--surface-1); color: var(--ink-1); cursor: pointer;
+    transition: transform .06s ease, box-shadow .12s ease, background .12s ease;
+  }
+  .btn:hover { box-shadow: var(--shadow); }
+  .btn:active { transform: translateY(1px); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.primary:hover { background: var(--accent-deep); border-color: var(--accent-deep); }
+  .btn.small { padding: 6px 12px; font-size: .82rem; border-radius: 8px; }
+  .btn.ghost { background: transparent; }
+  .btn[disabled] { opacity: .45; cursor: not-allowed; }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 56px 0 34px; }
+  .hero h1 { font-size: clamp(1.7rem, 4.2vw, 2.6rem); line-height: 1.15; letter-spacing: -.025em; margin: 0 0 14px; max-width: 21ch; }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero p.lede { font-size: 1.08rem; color: var(--ink-2); max-width: 62ch; margin: 0 0 22px; }
+  .hero-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 28px 0 8px; }
+  .stat-tile { background: var(--surface-1); border: 1px solid var(--ring); border-radius: 12px; padding: 16px 18px; }
+  .stat-tile .big { font-size: 1.7rem; font-weight: 750; letter-spacing: -.02em; color: var(--accent); }
+  .stat-tile .cap { font-size: .82rem; color: var(--ink-2); margin-top: 2px; }
+
+  .how { display: grid; grid-template-columns: repeat(auto-fit, minmax(205px, 1fr)); gap: 12px; margin: 26px 0 10px; }
+  .how .card { background: var(--surface-1); border: 1px solid var(--ring); border-radius: 12px; padding: 18px; }
+  .how .num { width: 26px; height: 26px; border-radius: 50%; background: var(--gold); color: #131313; font-weight: 750; font-size: .85rem; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 8px; }
+  .how h3 { margin: 0 0 6px; font-size: 1rem; }
+  .how p { margin: 0; font-size: .88rem; color: var(--ink-2); }
+
+  /* ---------- stepper ---------- */
+  nav.stepper { display: flex; gap: 6px; margin: 30px 0 18px; border-bottom: 1px solid var(--grid); }
+  nav.stepper button {
+    font: inherit; font-weight: 650; font-size: .92rem;
+    background: none; border: none; border-bottom: 3px solid transparent;
+    color: var(--ink-muted); padding: 10px 14px 12px; cursor: pointer;
+  }
+  nav.stepper button.active { color: var(--ink-1); border-bottom-color: var(--accent); }
+  nav.stepper button:hover { color: var(--ink-1); }
+  nav.stepper .count { font-size: .74rem; font-weight: 700; background: var(--grid); border-radius: 99px; padding: 1px 8px; margin-left: 6px; color: var(--ink-2); }
+
+  .step-panel { display: none; padding-bottom: 60px; }
+  .step-panel.active { display: block; }
+
+  /* ---------- forms ---------- */
+  fieldset { border: 1px solid var(--ring); border-radius: 14px; background: var(--surface-1); padding: 20px 22px 22px; margin: 0 0 18px; }
+  legend { font-weight: 750; font-size: .95rem; padding: 0 8px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px 16px; }
+  @media (max-width: 680px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+  label.f { display: block; font-size: .82rem; font-weight: 650; color: var(--ink-2); margin-bottom: 4px; }
+  label.f .req { color: var(--st-critical); }
+  label.f .opt { font-weight: 500; color: var(--ink-muted); }
+  input[type=text], input[type=email], input[type=tel], input[type=url], select, textarea {
+    width: 100%; font: inherit; font-size: .95rem;
+    padding: 9px 12px; border-radius: 9px; border: 1px solid var(--baseline);
+    background: var(--page); color: var(--ink-1);
+  }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+  .hint { font-size: .78rem; color: var(--ink-muted); margin-top: 4px; }
+  .fld { min-width: 0; }
+
+  /* ---------- audit cards ---------- */
+  .cat-card { background: var(--surface-1); border: 1px solid var(--ring); border-radius: 14px; margin-bottom: 14px; overflow: hidden; }
+  .cat-head { display: flex; align-items: center; gap: 14px; padding: 16px 20px; cursor: pointer; user-select: none; }
+  .cat-head:hover { background: color-mix(in srgb, var(--surface-1) 70%, var(--page)); }
+  .cat-ico { width: 38px; height: 38px; flex: 0 0 38px; border-radius: 10px; background: var(--accent-soft); color: var(--accent-deep); display: flex; align-items: center; justify-content: center; }
+  .cat-ico svg { width: 20px; height: 20px; }
+  .cat-title { flex: 1; min-width: 0; }
+  .cat-title h3 { margin: 0; font-size: 1.02rem; letter-spacing: -.01em; }
+  .cat-title .sub { font-size: .8rem; color: var(--ink-muted); }
+  .cat-score-pill { font-size: .85rem; font-weight: 750; color: var(--ink-2); white-space: nowrap; }
+  .chev { transition: transform .18s ease; color: var(--ink-muted); flex: 0 0 auto; }
+  .cat-card.open .chev { transform: rotate(180deg); }
+  .cat-body { display: none; padding: 0 20px 20px; border-top: 1px solid var(--grid); }
+  .cat-card.open .cat-body { display: block; }
+  .why { font-size: .9rem; color: var(--ink-2); background: var(--page); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 10px 14px; margin: 16px 0; }
+  .why strong { color: var(--ink-1); }
+
+  .prompt-box { position: relative; margin: 12px 0 6px; }
+  .prompt-box textarea {
+    width: 100%; min-height: 190px; resize: vertical;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: .8rem; line-height: 1.5; background: var(--page);
+  }
+  .prompt-tools { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; align-items: center; }
+  .copied-note { font-size: .8rem; color: var(--good-text); font-weight: 650; display: none; }
+
+  details.addon { margin: 12px 0; border: 1px dashed var(--baseline); border-radius: 10px; padding: 0; }
+  details.addon summary { cursor: pointer; font-size: .86rem; font-weight: 650; padding: 10px 14px; color: var(--ink-2); }
+  details.addon .inner { padding: 0 14px 14px; font-size: .85rem; color: var(--ink-2); }
+  details.addon textarea { min-height: 110px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .78rem; margin-top: 8px; }
+  .mode-toggle { display: inline-flex; gap: 0; margin: 16px 0 4px; border: 1px solid var(--baseline); border-radius: 10px; overflow: hidden; }
+  .mode-toggle button { font: inherit; font-size: .86rem; font-weight: 650; padding: 8px 16px; border: none; background: var(--page); color: var(--ink-2); cursor: pointer; }
+  .mode-toggle button + button { border-left: 1px solid var(--baseline); }
+  .mode-toggle button.active { background: var(--accent); color: #fff; }
+  .market-row { border: 1px dashed var(--baseline); border-radius: 10px; padding: 14px 16px; margin-top: 12px; }
+  .mr-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: .85rem; }
+  .sample-table { width: 100%; border-collapse: collapse; font-size: .84rem; }
+  .sample-table th { text-align: left; font-size: .72rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-muted); padding: 6px 8px 6px 0; border-bottom: 1px solid var(--baseline); }
+  .sample-table td { padding: 7px 8px 7px 0; border-bottom: 1px solid var(--grid); vertical-align: top; }
+  .sample-table td:nth-child(2) { font-weight: 700; font-variant-numeric: tabular-nums; }
+
+  .paste-zone { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--grid); }
+  .paste-zone h4 { margin: 0 0 6px; font-size: .92rem; }
+  .paste-zone textarea { min-height: 110px; font-size: .82rem; }
+  .parse-result { font-size: .85rem; margin-top: 8px; }
+  .parse-ok { color: var(--good-text); font-weight: 650; }
+  .parse-warn { color: var(--ink-2); }
+  .manual-score { display: flex; align-items: center; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+  .manual-score input[type=number] { width: 84px; }
+
+  /* ---------- status chips ---------- */
+  .chip { display: inline-flex; align-items: center; gap: 5px; font-size: .74rem; font-weight: 700; letter-spacing: .01em; padding: 3px 10px 3px 7px; border-radius: 99px; border: 1px solid var(--ring); background: var(--surface-1); color: var(--ink-1); white-space: nowrap; }
+  .chip .dot svg { display: block; width: 12px; height: 12px; }
+  .chip.pending { color: var(--ink-muted); border-style: dashed; }
+
+  /* ---------- scorecard ---------- */
+  .report-head { display: flex; gap: 16px; align-items: stretch; flex-wrap: wrap; margin: 6px 0 20px; }
+  .hero-tile { flex: 1 1 260px; background: var(--surface-1); border: 1px solid var(--ring); border-radius: 14px; padding: 22px 24px; }
+  .hero-tile .lbl { font-size: .8rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-muted); }
+  .hero-tile .val { font-size: 3.2rem; font-weight: 780; letter-spacing: -.03em; line-height: 1.05; margin: 4px 0 2px; }
+  .hero-tile .val span.of { font-size: 1.2rem; font-weight: 600; color: var(--ink-muted); letter-spacing: 0; }
+  .hero-tile .meta { font-size: .82rem; color: var(--ink-2); margin-top: 8px; }
+  .report-agent { flex: 1 1 300px; background: var(--surface-1); border: 1px solid var(--ring); border-radius: 14px; padding: 22px 24px; font-size: .9rem; }
+  .report-agent h3 { margin: 0 0 4px; font-size: 1.05rem; }
+  .report-agent .muted { color: var(--ink-2); }
+
+  .viz-root { background: var(--surface-1); border: 1px solid var(--ring); border-radius: 14px; padding: 22px 24px; margin-bottom: 18px; }
+  .viz-root h3 { margin: 0 0 2px; font-size: 1.05rem; }
+  .viz-root .viz-sub { font-size: .82rem; color: var(--ink-muted); margin-bottom: 18px; }
+  .bar-row { display: grid; grid-template-columns: 236px 1fr 52px 132px; gap: 12px; align-items: center; padding: 7px 0; }
+  @media (max-width: 720px) { .bar-row { grid-template-columns: 1fr 60px; } .bar-row .bar-name { grid-column: 1 / -1; padding-top: 6px; } .bar-row .chipcell { display:none; } }
+  .bar-name { font-size: .86rem; font-weight: 600; color: var(--ink-1); line-height: 1.25; }
+  .bar-name small { display: block; font-weight: 500; color: var(--ink-muted); font-size: .72rem; }
+  .bar-track { position: relative; height: 14px; background: var(--page); border-radius: 4px; overflow: hidden; border: 1px solid var(--grid); }
+  .bar-fill { position: absolute; inset: 0 auto 0 0; background: var(--accent); border-radius: 0 4px 4px 0; transition: width .5s cubic-bezier(.2,.8,.2,1); }
+  .bar-fill.empty { background: repeating-linear-gradient(45deg, var(--grid), var(--grid) 4px, transparent 4px, transparent 9px); }
+  .bar-val { font-size: .86rem; font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; color: var(--ink-1); }
+  .bar-val.na { color: var(--ink-muted); font-weight: 500; }
+
+  .actions-list { list-style: none; margin: 0; padding: 0; }
+  .actions-list li { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--grid); font-size: .92rem; }
+  .actions-list li:last-child { border-bottom: none; }
+  .actions-list .tag { flex: 0 0 auto; font-size: .7rem; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; color: var(--accent-deep); background: var(--accent-soft); border-radius: 6px; padding: 3px 8px; margin-top: 2px; white-space: nowrap; }
+  .findings-cat { margin-bottom: 16px; }
+  .findings-cat h4 { margin: 0 0 6px; font-size: .95rem; }
+  .findings-cat ul { margin: 0; padding-left: 20px; font-size: .88rem; color: var(--ink-2); }
+  .findings-cat ul li { margin-bottom: 4px; }
+  .empty-note { color: var(--ink-muted); font-size: .9rem; padding: 8px 0; }
+
+  .toolbar-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 4px 0 22px; }
+
+  /* ---------- misc ---------- */
+  .notice { font-size: .82rem; color: var(--ink-muted); border-top: 1px solid var(--grid); margin-top: 30px; padding: 18px 0 40px; }
+  footer.site { border-top: 1px solid var(--grid); padding: 26px 0 40px; font-size: .84rem; color: var(--ink-muted); }
+  .toast {
+    position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%) translateY(20px);
+    background: var(--ink-1); color: var(--page); font-size: .88rem; font-weight: 600;
+    padding: 10px 18px; border-radius: 10px; opacity: 0; pointer-events: none;
+    transition: opacity .2s ease, transform .2s ease; z-index: 100; box-shadow: var(--shadow);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap site-inner">
+    <div class="logo"><span class="mark"><span class="re">Real Estate</span> <span class="cnx">CNX</span></span><small>How Real Estate Connects · Agent Presence Audit</small></div>
+    <div class="hdr-actions">
+      <button class="btn small" id="btnLoadTop">Load my info</button>
+      <button class="btn small" id="btnSaveTop">Save my info</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <h1>See yourself the way today's buyers — <em>and today's AI</em> — see you.</h1>
+    <p class="lede">Buyers now vet agents through Google, Zillow, social media, and AI assistants like ChatGPT before they ever call. This free tool builds custom audit prompts from your info and lets your favorite AI do the digging — delivering a scorecard, a straight-talk recap, and an interactive coaching plan, all in one chat.</p>
+    <div class="hero-stats">
+      <div class="stat-tile"><div class="big">93%</div><div class="cap">of homebuyers start their search online before contacting anyone</div></div>
+      <div class="stat-tile"><div class="big">17% → 67%</div><div class="cap">growth in buyers using AI search to research agents, in 18 months</div></div>
+      <div class="stat-tile"><div class="big">+9%</div><div class="cap">revenue lift associated with a one-star improvement in online ratings</div></div>
+      <div class="stat-tile"><div class="big">62%</div><div class="cap">of consumers avoid businesses with inconsistent listing info online</div></div>
+    </div>
+    <div class="how">
+      <div class="card"><span class="num">1</span><h3>Tell us about your presence</h3><p>Your name, markets, licenses, and the profiles you know about. Nothing is uploaded — everything stays in your browser, and you can save your info to a file for next time.</p></div>
+      <div class="card"><span class="num">2</span><h3>Run the audit with your AI</h3><p>Copy one comprehensive prompt into ChatGPT, Claude, Perplexity, or Gemini (with web search on). It works through all eight areas in a single chat and delivers your scorecard right there.</p></div>
+      <div class="card"><span class="num">3</span><h3>Get coached</h3><p>A second prompt turns your AI into a presence coach: it asks what you want to improve first, builds a Now / Next / Later plan, and drafts your review scripts, posts, and content calendars.</p></div>
+      <div class="card"><span class="num">4</span><h3>Measure progress quarterly</h3><p>Re-run the audit in a fresh chat each quarter and compare scorecards: what improved, what's still open, and your next five moves. Each cycle makes the next one smarter.</p></div>
+    </div>
+    <details class="addon" style="margin-top:20px;background:var(--surface-1)">
+      <summary>See a sample audit before you start <span style="display:inline-block;background:var(--gold);color:#131313;font-size:.68rem;font-weight:800;letter-spacing:.05em;border-radius:99px;padding:2px 9px;margin-left:6px;vertical-align:1px">FICTIONAL SAMPLE</span></summary>
+      <div class="inner">
+        <p style="margin:6px 0 12px"><em><strong>This is a fictional example.</strong> "Jordan Avery" is not a real agent, and every score and finding below is invented purely to show what your AI delivers at each stage — it reflects no actual agent or brokerage.</em></p>
+        <p style="margin:0 0 6px"><strong>While the audit runs,</strong> each AI reply ends with one progress line:</p>
+        <p style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.78rem;background:var(--page);border:1px solid var(--grid);border-radius:8px;padding:8px 12px">PROGRESS ▸ 5 of 8 areas complete: ✓ Search ✓ Google Profile ✓ Portals ✓ Reviews ✓ Social · Next: Website — say "continue"</p>
+        <p style="margin:14px 0 6px"><strong>When it finishes,</strong> the scorecard appears in the chat:</p>
+        <table class="sample-table">
+          <thead><tr><th>Area</th><th>Score</th><th>Status</th><th>Top action</th></tr></thead>
+          <tbody>
+            <tr><td>Google Search &amp; Discovery</td><td>74</td><td>Fair</td><td>Push old-brokerage profile off page one</td></tr>
+            <tr><td>Google Business Profile</td><td>58</td><td>Weak</td><td>Claim &amp; merge the duplicate listing splitting reviews</td></tr>
+            <tr><td>Real Estate Portals</td><td>81</td><td>Strong</td><td>Finish the empty Realtor.com bio</td></tr>
+            <tr><td>Reviews &amp; Reputation</td><td>66</td><td>Fair</td><td>Restart the pipeline — only 2 reviews in 6 months</td></tr>
+            <tr><td>Social Media</td><td>49</td><td>Weak</td><td>Revive Instagram, dormant 8 months</td></tr>
+            <tr><td>Website &amp; AI-Readiness</td><td>72</td><td>Fair</td><td>Add RealEstateAgent schema markup</td></tr>
+            <tr><td>AI Engine Visibility</td><td>41</td><td>Weak</td><td>Absent from every "best agent in Olympia" AI answer</td></tr>
+            <tr><td>License &amp; Credentials</td><td>95</td><td>Excellent</td><td>Nothing — clean and consistent</td></tr>
+          </tbody>
+        </table>
+        <p style="margin:8px 0 0;font-size:.85rem"><strong>Overall: 65/100</strong> <span style="color:var(--ink-muted)">— (74×12 + 58×15 + 81×15 + 66×18 + 49×12 + 72×10 + 41×13 + 95×5) ÷ 100 ≈ 64.8</span></p>
+        <p style="margin:14px 0 6px"><strong>Then the coach takes over.</strong> A typical coaching reply:</p>
+        <div style="background:var(--page);border:1px solid var(--grid);border-radius:8px;padding:12px 14px;font-size:.85rem">
+          <div><strong>▸ FOCUS</strong> — Reviving your review pipeline; momentum died in March and it's your heaviest-weighted gap.</div>
+          <div style="margin-top:6px"><strong>▸ THIS WEEK</strong> — Text your last six closed clients the review link (~20 min, script below). Reply to the three unanswered Google reviews (15 min).</div>
+          <div style="margin-top:6px"><strong>▸ MATERIALS</strong> — "Hi Sam! It was an honor helping you land the Maple St. house. Would you take 60 seconds to share how it went? It means everything to a local business: [link]"</div>
+          <div style="margin-top:6px"><strong>▸ YOUR TURN</strong> — Paste the exact wording of your two negative reviews and I'll draft the responses.</div>
+        </div>
+      </div>
+    </details>
+    <p style="margin-top:22px"><button class="btn primary" id="btnStart">Start my audit →</button></p>
+  </section>
+
+  <!-- STEPPER -->
+  <nav class="stepper" id="stepper" aria-label="Audit steps">
+    <button data-step="profile" class="active">1 · Your Profile</button>
+    <button data-step="audit">2 · Run the Audit</button>
+    <button data-step="coach">3 · Coach</button>
+    <button data-step="progress">4 · Progress Check</button>
+  </nav>
+
+  <!-- STEP 1: PROFILE -->
+  <section class="step-panel active" id="panel-profile">
+    <form id="profileForm" onsubmit="return false;">
+      <fieldset>
+        <legend>The basics</legend>
+        <div class="grid3">
+          <div class="fld"><label class="f" for="f_name">Your name as marketed <span class="req">*</span></label><input type="text" id="f_name" placeholder="e.g., Gergen Robinson" autocomplete="name"></div>
+          <div class="fld"><label class="f" for="f_niche">Primary niche / focus</label>
+            <select id="f_niche">
+              <option value="residential buyers and sellers">Residential (general)</option>
+              <option value="luxury and high-end homes">Luxury / high-end</option>
+              <option value="first-time homebuyers">First-time buyers</option>
+              <option value="investors and investment property">Investors</option>
+              <option value="new construction">New construction</option>
+              <option value="relocation clients">Relocation</option>
+              <option value="commercial real estate">Commercial</option>
+              <option value="__custom">Other — type your own…</option>
+            </select>
+            <input type="text" id="f_nicheCustom" placeholder="e.g., waterfront &amp; vacation homes" style="display:none;margin-top:8px">
+          </div>
+          <div class="fld"><label class="f" for="f_years">Years in the business <span class="opt">(optional)</span></label><input type="text" id="f_years" placeholder="e.g., 8"></div>
+        </div>
+        <div id="marketsWrap"></div>
+        <p style="margin:12px 0 0"><button class="btn small" id="btnAddMarket" type="button">＋ Add another market</button>
+        <span class="hint" style="display:inline">Work more than one market — maybe two states, two brokerages? Each market gets its own brokerage, ZIPs, and business lines, and the audit evaluates each separately.</span></p>
+      </fieldset>
+
+      <fieldset>
+        <legend>License, MLS &amp; public contact info</legend>
+        <div class="grid3">
+          <div class="fld"><label class="f" for="f_licstate">License state <span class="req">*</span></label>
+            <select id="f_licstate"></select>
+          </div>
+          <div class="fld"><label class="f" for="f_licnum">License number <span class="opt">(optional)</span></label><input type="text" id="f_licnum" placeholder="e.g., SA123456000"></div>
+          <div class="fld"><label class="f" for="f_mls">MLS membership(s) <span class="opt">(optional — commas for more than one)</span></label><input type="text" id="f_mls" placeholder="e.g., NWMLS, ARMLS"></div>
+        </div>
+        <div id="extraLicWrap"></div>
+        <p style="margin:12px 0 0"><button class="btn small" id="btnAddLic" type="button">＋ Add another state license / MLS</button>
+        <span class="hint" style="display:inline">Licensed in more than one state, or in multiple MLSs? Add each one — every audit prompt will cover all of them.</span></p>
+        <div class="grid3" style="margin-top:14px">
+          <div class="fld"><label class="f" for="f_designations">Designations claimed <span class="opt">(optional — commas for more than one)</span></label><input type="text" id="f_designations" placeholder="e.g., ABR, CRS, RamseyTrusted"></div>
+          <div class="fld"><label class="f" for="f_phone">Phone(s) as published on your marketing <span class="opt">(commas for more than one)</span></label><input type="tel" id="f_phone" placeholder="e.g., (360) 555-0142, (602) 555-0198"></div>
+          <div class="fld"><label class="f" for="f_email">Email(s) as published on your marketing <span class="opt">(commas for more than one)</span></label><input type="text" id="f_email" placeholder="e.g., Gergen@GergenRobinson.com, GergenRobinson@JohnLScott.com"></div>
+        </div>
+        <div class="hint" style="margin-top:8px"><strong>More than one?</strong> Use commas to list multiple phones, emails, websites, or designations — for example, a different number per market. No need for a separate license entry just to add contact info. We use these to have the AI check <strong>NAP consistency</strong> — whether your Name, Address (brokerage), and Phone match everywhere online. Mismatches quietly hurt your Google ranking and AI visibility.</div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Your online profiles <span style="font-weight:500;color:var(--ink-muted)">— paste the full link OR just your username/page name (we'll build the link). Commas for more than one on any field. Leave anything blank and the AI is instructed to hunt for it by name anyway.</span></legend>
+        <div class="fld" style="margin-bottom:14px">
+          <label class="f" for="f_aliases">Names, handles &amp; brand names you use online <span class="opt">(separate with commas)</span></label>
+          <input type="text" id="f_aliases" placeholder="e.g., Gergen Robinson One, RealEstateCNX, @gergensellswa">
+          <div class="hint"><strong>Start here — it's the easy way.</strong> List every name, @handle, team brand, past name, or nickname you've ever posted or advertised under, and the AI hunts for all of it across every platform. Then, if you know the exact link or username for a specific platform, add it in the fields below — links just get the AI there faster.</div>
+        </div>
+        <div class="grid2">
+          <div class="fld"><label class="f" for="f_website">Personal / team website(s)</label><input type="text" id="f_website" placeholder="e.g., GergenRobinson.com, RealEstateCNX.com"></div>
+          <div class="fld"><label class="f" for="f_gbp">Google Business Profile name or Maps link</label><input type="text" id="f_gbp" placeholder="Business name on Google, or maps.google.com link"></div>
+          <div class="fld"><label class="f" for="f_zillow">Zillow agent profile</label><input type="url" id="f_zillow" placeholder="https://www.zillow.com/profile/…"></div>
+          <div class="fld"><label class="f" for="f_realtor">Realtor.com agent profile</label><input type="url" id="f_realtor" placeholder="https://www.realtor.com/realestateagents/…"></div>
+          <div class="fld"><label class="f" for="f_facebook">Facebook business page</label><input type="text" id="f_facebook" placeholder="Page name or link — e.g., gergenrobinsonrealty"></div>
+          <div class="fld"><label class="f" for="f_instagram">Instagram</label><input type="text" id="f_instagram" placeholder="@handle or link"></div>
+          <div class="fld"><label class="f" for="f_linkedin">LinkedIn</label><input type="text" id="f_linkedin" placeholder="Profile name or link"></div>
+          <div class="fld"><label class="f" for="f_youtube">YouTube</label><input type="text" id="f_youtube" placeholder="@channel or link"></div>
+          <div class="fld"><label class="f" for="f_tiktok">TikTok</label><input type="text" id="f_tiktok" placeholder="@handle or link"></div>
+          <div class="fld"><label class="f" for="f_x">X (Twitter)</label><input type="text" id="f_x" placeholder="@handle or link"></div>
+          <div class="fld"><label class="f" for="f_yelp">Yelp</label><input type="text" id="f_yelp" placeholder="Business page name or link"></div>
+          <div class="fld"><label class="f" for="f_other">Other (Redfin, Homes.com, HAR, …)</label><input type="text" id="f_other" placeholder="Any other profile links, comma-separated"></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Which AI will you use?</legend>
+        <div class="grid2">
+          <div class="fld">
+            <label class="f" for="f_engine">Primary AI engine</label>
+            <select id="f_engine">
+              <option value="chatgpt">ChatGPT (turn Search on)</option>
+              <option value="claude">Claude (web search enabled)</option>
+              <option value="perplexity">Perplexity</option>
+              <option value="gemini">Google Gemini</option>
+              <option value="grok">Grok (X / xAI)</option>
+              <option value="meta">Meta AI</option>
+              <option value="other">Another AI with web search</option>
+            </select>
+            <div class="hint" id="engineHint"></div>
+          </div>
+          <div class="fld">
+            <label class="f">Good to know</label>
+            <div class="hint" style="margin-top:0">The prompts themselves are identical no matter which engine you pick — they're written to work in any AI that can search the web. This choice only tailors the setup tips. For a second opinion, run the same prompt in a second engine: each one sees the web a little differently, just like your future clients do.</div>
+          </div>
+        </div>
+      </fieldset>
+
+      <details class="addon" style="background:var(--surface-1);margin-bottom:18px">
+        <summary>Already ran an audit? Update your info with what it found</summary>
+        <div class="inner">
+          <p style="margin:6px 0 8px">The Complete Audit ends with a <strong>===CNX PROFILE===</strong> block listing every profile it verified as yours. Paste that block (or the AI's whole final reply) here and it merges into your form — empty fields get filled, new finds get added to existing ones, and nothing is ever removed. Then click <em>Save my info</em>. (Older audit without the block? Ask your AI: <em>"Output the CNX PROFILE update block listing every profile you verified as mine."</em>)</p>
+          <textarea id="profilePaste" placeholder="Paste the ===CNX PROFILE=== block or the AI's final reply here…" style="min-height:90px"></textarea>
+          <div class="prompt-tools">
+            <button class="btn small primary" type="button" id="btnMergeProfile">Merge into my profile</button>
+            <span class="parse-result" id="mergeInfo"></span>
+          </div>
+        </div>
+      </details>
+      <p><button class="btn primary" id="btnToAudit">Generate my audit prompts →</button>
+      <span class="hint" id="profileError" style="color:var(--st-critical);font-weight:650"></span></p>
+    </form>
+  </section>
+
+  <!-- STEP 2: AUDIT -->
+  <section class="step-panel" id="panel-audit">
+    <p class="lede" style="color:var(--ink-2);font-size:.95rem;max-width:72ch">One prompt runs the whole audit. <strong>Copy the Complete Audit prompt → paste it into your AI (web search on) → say "continue" until it's done.</strong> The AI shows a one-line progress footer as it works, then presents your finished scorecard right in the chat. When it does, move on to step 3 — the recap and coaching prompts continue in that same chat.</p>
+
+    <div class="cat-card open" id="quickWrap">
+      <div class="cat-head" style="cursor:default">
+        <div class="cat-ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 2L4.9 12.5H11L9.6 22l8.4-11.5h-6.2L13 2z"/></svg></div>
+        <div class="cat-title"><h3>Complete Audit — one prompt, all eight areas</h3><div class="sub">Search · Google profile · portals · reviews · social · website · AI visibility · license</div></div>
+      </div>
+      <div class="cat-body">
+        <div class="why"><strong>How it works in the chat:</strong> the AI audits each area in order, ending each reply with a one-line progress footer ("3 of 8 areas complete… say 'continue'"). When it finishes, it presents your full scorecard in the chat. Need to stop partway? Say <em>"save code"</em> and it outputs a compact code — reopen the same chat later, or paste that code into a new chat and it picks up where it left off.</div>
+        <div class="mode-toggle" role="tablist" aria-label="Audit mode">
+          <button id="modeStandard" class="active" type="button">Standard</button>
+          <button id="modeBrowser" type="button">Browser mode</button>
+        </div>
+        <div class="hint" id="modeHint" style="margin:2px 0 10px"></div>
+        <label class="f" id="quickPromptLabel">Copy this prompt into your AI (web search ON)</label>
+        <div class="prompt-box">
+          <textarea readonly id="quickPrompt" spellcheck="false" style="min-height:230px"></textarea>
+          <div class="prompt-tools">
+            <button class="btn small primary" id="btnCopyQuick">⧉ Copy Complete Audit prompt</button>
+            <span class="copied-note" id="quickCopied">Copied — paste it into your AI</span>
+          </div>
+        </div>
+        <p class="hint" style="margin-top:14px">When the scorecard appears in your chat, head to <strong>3 · Recap &amp; Coach</strong> for the next two prompts. <button class="btn small primary" id="btnToCoach" style="margin-left:6px">Go to Recap &amp; Coach →</button></p>
+      </div>
+    </div>
+
+    <h3 style="margin:30px 0 4px">Optional deep dives</h3>
+    <p class="hint" style="max-width:70ch;margin:0 0 14px">Want a closer look at a weak area? Each category below is a focused, more demanding version of the same check. Its result lands in the same scorecard, replacing that category's score.</p>
+    <div class="toolbar-row">
+      <button class="btn small" id="btnExpandAll">Expand all</button>
+      <button class="btn small" id="btnCollapseAll">Collapse all</button>
+    </div>
+    <div id="catList"><!-- category cards injected --></div>
+
+    <details class="addon" style="margin-top:26px;background:var(--surface-1)">
+      <summary>Trouble? Quick fixes for common AI hiccups</summary>
+      <div class="inner">
+        <p><strong>It answered instantly with no sources.</strong> It skipped the web and answered from memory. Say: <em>"Redo this using live web search, and cite the URL for every claim."</em></p>
+        <p><strong>It says it can't browse or search.</strong> Web search is off or not on your plan. In ChatGPT, enable the Search option; in Claude, turn on web search in settings; or run the prompt in Perplexity, which always searches.</p>
+        <p><strong>It stopped after a few areas.</strong> Normal for long audits — just say <em>"continue"</em>. The prompt tells it to pick up exactly where it left off.</p>
+        <p><strong>No progress line / no scorecard at the end.</strong> Say: <em>"Follow the reporting format from my first message — progress footer while working, full scorecard table when done."</em></p>
+        <p><strong>It couldn't open a specific site</strong> (some sites block AI). That's expected — the prompt tells it to say so and evaluate from search results instead. For a closer look, use the browser-mode add-on or try a different engine.</p>
+        <p><strong>The scores feel too generous or too harsh.</strong> Say: <em>"Re-check each score against the scoring rubric in my first message and show your reasoning."</em> The rubric anchors are in the prompt precisely for this.</p>
+        <p><strong>You need to leave mid-audit.</strong> Say <em>"save code"</em> and keep what it outputs — reopen the same chat later, or paste the code into a fresh chat to resume.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- STEP 3: RECAP & COACH -->
+  <section class="step-panel" id="panel-coach">
+    <p class="lede" style="color:var(--ink-2);font-size:.95rem;max-width:72ch">Two prompts, run <strong>in the same chat as your audit</strong>. The Coach turns your AI into an online-presence coach that builds a plan around your priorities — and drafts the scripts, posts, and templates you ask it for. The Recap is optional: run it when you want a keepable, consolidated report, or when returning to an older chat to refresh the AI's memory first. Fresh audit? You can go straight to the Coach.</p>
+
+    <div class="cat-card open">
+      <div class="cat-head" style="cursor:default">
+        <div class="cat-ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 5h16v2H4V5zm0 4h16v2H4V9zm0 4h10v2H4v-2zm0 4h7v2H4v-2z"/></svg></div>
+        <div class="cat-title"><h3>Prompt 1 · Presence Recap</h3><div class="sub">Pull the whole audit into one strong, structured summary</div></div>
+      </div>
+      <div class="cat-body">
+        <div class="why"><strong>Optional — but valuable in two situations.</strong> Coming straight from a finished audit, you can skip ahead to the Coach. Run the Recap when you want the keepable, shareable report — it reorganizes everything by meaning: identity map, strengths to protect, what each weakness costs you, market by market — or when you're <em>returning to an older chat</em>, where it also refreshes the AI's memory of the audit before coaching begins.</div>
+        <label class="f">Copy into the same chat</label>
+        <div class="prompt-box">
+          <textarea readonly id="recapPrompt" spellcheck="false" style="min-height:170px"></textarea>
+          <div class="prompt-tools">
+            <button class="btn small primary" id="btnCopyRecap">⧉ Copy Recap prompt</button>
+            <span class="copied-note" id="recapCopied">Copied — paste it into the audit chat</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-card open">
+      <div class="cat-head" style="cursor:default">
+        <div class="cat-ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a5 5 0 015 5c0 1.7-.8 3.2-2.1 4.1 2.9 1 5.1 3.5 5.1 6.9v2h-4v-2c0-2.2-1.8-4-4-4s-4 1.8-4 4v2H4v-2c0-3.4 2.2-5.9 5.1-6.9A5 5 0 0112 2z"/></svg></div>
+        <div class="cat-title"><h3>Prompt 2 · Coach Me</h3><div class="sub">An interactive coach with a consistent session structure</div></div>
+      </div>
+      <div class="cat-body">
+        <div class="why"><strong>Run this after the recap.</strong> The AI becomes your presence coach: it diagnoses your three highest-leverage areas, asks what you want to improve first, how much time you have, and what you're comfortable doing — then builds a Now / Next / Later plan around your answers. Every coaching reply follows the same format, and it offers a menu of ready-to-use materials (review scripts, Google posts, bio rewrites, content calendars) and asks which you want it to draft.</div>
+        <label class="f">Copy into the same chat, after the recap</label>
+        <div class="prompt-box">
+          <textarea readonly id="coachPrompt" spellcheck="false" style="min-height:170px"></textarea>
+          <div class="prompt-tools">
+            <button class="btn small primary" id="btnCopyCoach">⧉ Copy Coach prompt</button>
+            <span class="copied-note" id="coachCopied">Copied — paste it into the audit chat</span>
+          </div>
+        </div>
+        <p class="hint" style="margin-top:12px"><strong>Keep the chat.</strong> Your coaching chat is your ongoing program — come back to it weekly, tell the coach what got done, and it's instructed to check progress and adjust the plan before adding more. Tip: if your AI supports Projects, put your audit chats, coaching chat, and saved reports in one project folder so everything stays together.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- STEP 4: PROGRESS CHECK -->
+  <section class="step-panel" id="panel-progress">
+    <p class="lede" style="color:var(--ink-2);font-size:.95rem;max-width:72ch">Presence is a moving target — measure it on a rhythm. <strong>Every quarter:</strong> start a <em>fresh chat</em>, re-run the Complete Audit from Step 2 (a clean chat keeps the new audit unbiased by your history), then paste this prompt along with your previous audit's scorecard. Week to week, progress lives in your coaching chat; this step is where you prove it moved the numbers.</p>
+
+    <div class="cat-card open">
+      <div class="cat-head" style="cursor:default">
+        <div class="cat-ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 13h4l3-8 4 14 3-8h2v2h-1l-4 10-4-14-2 6H4v-2z"/></svg></div>
+        <div class="cat-title"><h3>Progress Check — re-audit comparison</h3><div class="sub">Score deltas · cleanup ledger · what worked · next quarter's five</div></div>
+      </div>
+      <div class="cat-body">
+        <div class="why"><strong>What you'll get back:</strong> a per-area table of previous vs. new scores with the reason for every change, the overall movement with the math shown, a cleanup ledger marking each old finding resolved (verified live) or still open, an honest read on which of last quarter's moves actually worked — and your next five priorities, labeled carryover or new.</div>
+        <label class="f">Copy into the NEW chat, after the fresh audit completes — then paste your previous scorecard where marked</label>
+        <div class="prompt-box">
+          <textarea readonly id="progressPrompt" spellcheck="false" style="min-height:170px"></textarea>
+          <div class="prompt-tools">
+            <button class="btn small primary" id="btnCopyProgress">⧉ Copy Progress Check prompt</button>
+            <span class="copied-note" id="progressCopied">Copied — paste it after the fresh audit</span>
+          </div>
+        </div>
+        <p class="hint" style="margin-top:12px"><strong>Keep every scorecard.</strong> Each quarter's audit and comparison becomes your longitudinal record — a season-over-season story of your online presence that no single audit can tell.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="notice">
+    <strong>How your data is handled:</strong> everything you type stays in this browser tab — nothing is sent to any server by this page. Use <em>Save my info</em> to download your profile as a small file you can re-load next time instead of retyping. Your audit results and coaching live in your AI chat — keep that chat to return to them. AI engines can make mistakes and their web access varies; verify anything important, especially license and review details, at the original source. This tool provides marketing insight, not legal or compliance advice.
+  </div>
+</div>
+
+<footer class="site">
+  <div class="wrap">© <span id="yr"></span> Real Estate CNX — <em>How Real Estate Connects</em> · Agent Online Presence &amp; Reputation Audit · Works with ChatGPT, Claude, Perplexity, Gemini, and more · v1.0</div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<input type="file" id="fileInput" accept=".json,application/json" class="visually-hidden">
+
+<script>
+"use strict";
+
+/* ============================================================
+   RealEstateCNX — Agent Online Presence & Reputation Audit
+   Single-file app. No data leaves the browser.
+   ============================================================ */
+
+const $ = (sel, root=document) => root.querySelector(sel);
+const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+/* ---------- state ---------- */
+const state = {
+  profile: {},
+  dirty: false  // unsaved profile changes since last save/load
+};
+
+/* ---------- US states ---------- */
+const US_STATES = ["AZ","WA","AL","AK","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WV","WI","WY"];
+
+const LICENSE_LOOKUPS = {
+  AZ: "the Arizona Department of Real Estate public database at https://services.azre.gov/publicdatabase/",
+  WA: "the Washington State Department of Licensing license lookup at https://professions.dol.wa.gov/s/license-lookup"
+};
+
+/* ================= AI ENGINE LIST =================
+   The audit prompts are engine-agnostic and never change per engine —
+   this list only controls the dropdown labels and the setup tip shown.
+   To add, rename, or retire an engine later (they change fast), edit
+   ONLY this block and the matching <option>s in the #f_engine select. */
+const ENGINES = {
+  chatgpt:    { name: "ChatGPT",    hint: "In ChatGPT, make sure web search is active — that's all the Standard audit needs. On paid plans, Browser mode works two ways: ChatGPT's Chrome extension (installed via the desktop app) drives your own browser using your existing logins, or a Work-tab task runs a separate browser where you sign in yourself when it pauses." },
+  claude:     { name: "Claude",     hint: "In Claude, enable web search in settings if it isn't already on. On paid plans, Browser mode runs well as a Claude Cowork task or through the Claude for Chrome extension — either can open your profiles directly, using the logins already in your browser." },
+  perplexity: { name: "Perplexity", hint: "Perplexity searches the web by default — a great fit for these prompts. In the Comet browser, the optional 'browser mode add-on' lets it open your profiles directly." },
+  gemini:     { name: "Gemini",     hint: "In Gemini, responses use Google Search grounding. Double-check that it actually searched (look for source links) rather than answering from memory." },
+  grok:       { name: "Grok",       hint: "Grok (on X or grok.com) has live web and X search — an interesting extra lens on how you surface in X conversations. Make sure it cites real sources rather than riffing." },
+  meta:       { name: "Meta AI",    hint: "Meta AI can search the web and lives inside Facebook, Instagram, and WhatsApp — a useful check on your social footprint. Capabilities vary by app and region, so confirm it actually searched." },
+  other:      { name: "your AI",    hint: "Any AI with live web search works — the prompts are engine-agnostic. Turn web search on, and run the same prompt in a second engine for a second opinion." }
+};
+const ENGINE_NAMES = Object.fromEntries(Object.entries(ENGINES).map(([k, v]) => [k, v.name]));
+const ENGINE_HINTS = Object.fromEntries(Object.entries(ENGINES).map(([k, v]) => [k, v.hint]));
+
+
+/* ---------- link normalization ----------
+   Accept either a full URL or just a username / page name / @handle
+   and build the canonical public URL from it. */
+const SOCIAL_BASES = {
+  facebook: "https://www.facebook.com/", instagram: "https://www.instagram.com/",
+  linkedin: "https://www.linkedin.com/in/", youtube: "https://www.youtube.com/@",
+  tiktok: "https://www.tiktok.com/@", x: "https://x.com/",
+  yelp: "https://www.yelp.com/biz/", zillow: "https://www.zillow.com/profile/"
+};
+function normalizeLink(key, val) {
+  val = (val || "").trim();
+  if (!val) return "";
+  if (/^https?:\/\//i.test(val)) return val;
+  const base = SOCIAL_BASES[key];
+  const looksLikeUrl = val.includes("/") || /^www\./i.test(val) || /\.(com|net|org|io|co|us|me|tv|info|biz|realtor|realestate|homes)($|\/)/i.test(val);
+  if (val.startsWith("@") && base) return base + val.slice(1);
+  if (looksLikeUrl) return "https://" + val.replace(/^\/+/, "");
+  if (!base) return val;
+  return base + val.replace(/^@/, "");
+}
+/* Fields accept multiple values separated by commas/semicolons — normalize each. */
+function normalizeMulti(key, val) {
+  return (val || "").split(/[;,]+/).map(v => normalizeLink(key, v.trim())).filter(Boolean).join(", ");
+}
+
+/* ---------- profile helpers ---------- */
+function collectProfile() {
+  const v = id => ($( "#"+id )?.value || "").trim();
+  const extraLicenses = $$("#extraLicWrap .xlic-row").map(row => ({
+    state: row.querySelector('[data-x="state"]').value,
+    num: row.querySelector('[data-x="num"]').value.trim(),
+    mls: row.querySelector('[data-x="mls"]').value.trim()
+  })).filter(l => l.state);
+  const markets = $$("#marketsWrap .market-row").map(row => ({
+    market: row.querySelector('[data-m="market"]').value.trim(),
+    brokerage: row.querySelector('[data-m="brokerage"]').value.trim(),
+    zips: row.querySelector('[data-m="zips"]').value.trim(),
+    specialty: row.querySelector('[data-m="specialty"]').value.trim()
+  })).filter(m => m.market || m.brokerage || m.zips || m.specialty);
+  return {
+    name: v("f_name"),
+    markets,
+    /* derived flat fields — used throughout the prompt builders */
+    market: markets.map(m => m.market).filter(Boolean).join(" & "),
+    brokerage: [...new Set(markets.map(m => m.brokerage).filter(Boolean))].join(" / "),
+    zips: markets.map(m => m.zips).filter(Boolean).join("; "),
+    niche: v("f_niche") === "__custom" ? (v("f_nicheCustom") || "residential buyers and sellers") : v("f_niche"),
+    years: v("f_years"), aliases: v("f_aliases"),
+    licstate: v("f_licstate"), licnum: v("f_licnum"), mls: v("f_mls"),
+    extraLicenses, designations: v("f_designations"),
+    phone: v("f_phone"), email: v("f_email"),
+    website: normalizeMulti("website", v("f_website")),
+    gbp: v("f_gbp"),
+    zillow: normalizeMulti("zillow", v("f_zillow")), realtor: normalizeMulti("realtor", v("f_realtor")),
+    facebook: normalizeMulti("facebook", v("f_facebook")), instagram: normalizeMulti("instagram", v("f_instagram")),
+    linkedin: normalizeMulti("linkedin", v("f_linkedin")), youtube: normalizeMulti("youtube", v("f_youtube")),
+    tiktok: normalizeMulti("tiktok", v("f_tiktok")), x: normalizeMulti("x", v("f_x")),
+    yelp: normalizeMulti("yelp", v("f_yelp")), other: v("f_other"),
+    engine: v("f_engine") || "chatgpt"
+  };
+}
+
+function allLicenses(d) {
+  const list = [{ state: d.licstate, num: d.licnum, mls: d.mls }];
+  (d.extraLicenses || []).forEach(l => list.push(l));
+  return list.filter(l => l.state);
+}
+function licenseSummary(d) {
+  return allLicenses(d).map(l =>
+    `${l.state}${l.num ? " #" + l.num : ""}${l.mls ? " (MLS: " + l.mls + ")" : ""}`).join("; ");
+}
+
+function profileLinks(d) {
+  const rows = [
+    ["Website", d.website], ["Google Business Profile", d.gbp], ["Zillow", d.zillow],
+    ["Realtor.com", d.realtor], ["Facebook", d.facebook], ["Instagram", d.instagram],
+    ["LinkedIn", d.linkedin], ["YouTube", d.youtube], ["TikTok", d.tiktok],
+    ["X (Twitter)", d.x], ["Yelp", d.yelp], ["Other", d.other]
+  ].filter(r => r[1]);
+  return rows;
+}
+
+function socialLinks(d) {
+  return [
+    ["Facebook", d.facebook], ["Instagram", d.instagram], ["LinkedIn", d.linkedin],
+    ["YouTube", d.youtube], ["TikTok", d.tiktok], ["X (Twitter)", d.x]
+  ].filter(r => r[1]);
+}
+
+function agentIntro(d) {
+  const links = profileLinks(d);
+  const marketLines = (d.markets && d.markets.length)
+    ? d.markets.map((m, i) => `    • Market ${i + 1}: ${m.market || "(unnamed)"}${m.brokerage ? ` — Brokerage/team here: ${m.brokerage}` : ""}${m.zips ? ` — Key ZIPs/areas: ${m.zips}` : ""}${m.specialty ? ` — Business lines here: ${m.specialty}` : ""}`).join("\n")
+    : `    • ${d.market || "(no market provided — determine it via search)"} — ${d.brokerage || ""}`;
+  return `AGENT PROFILE TO AUDIT
+- Name (as marketed): ${d.name}
+- Markets & brokerages (IMPORTANT: evaluate each market against ITS OWN brokerage, ZIPs, and business lines — they differ):
+${marketLines}
+- Primary niche: ${d.niche}${d.years ? `\n- Years in business (claimed): ${d.years}` : ""}${d.aliases ? `\n- ALSO OPERATES UNDER these names / handles / brands: ${d.aliases}` : ""}
+- License(s): ${licenseSummary(d) || "not provided"}${d.designations ? `\n- Designations claimed: ${d.designations}` : ""}${d.phone ? `\n- Published phone: ${d.phone}` : ""}${d.email ? `\n- Published email: ${d.email}` : ""}
+${links.length ? "- Known online profiles:\n" + links.map(r => `    • ${r[0]}: ${r[1]}`).join("\n") : "- No profile links provided — locate profiles yourself via search."}`;
+}
+
+/* Scoring anchors — keep scores consistent across engines and runs */
+const RUBRICS = {
+  search:  "90 = agent controls nearly all of page one in every market (website, claimed profiles, map pack) with nothing incorrect · 70 = solid presence, minor clutter or one stale result · 40 = under half of page one is theirs, or confusing/outdated results rank · 20 = effectively invisible, or negative/wrong results dominate",
+  gbp:     "90 = claimed profile, 4.8+, 30+ reviews, fresh photos/posts, NAP identical everywhere · 70 = claimed and accurate but thin or slightly stale · 40 = unclaimed profile, duplicates, or notable NAP mismatches · 20 = no findable profile, or badly wrong info",
+  portals: "90 = claimed, current profiles on all major portals with full sales history and recent reviews · 70 = strong on one portal, thin on others · 40 = bare/unclaimed profiles or empty sales history · 20 = absent or misattributed on the portals buyers actually use",
+  reviews: "90 = 50+ reviews across 3+ platforms including transaction-verified, several within 6 months, negatives answered well · 70 = healthy volume but stale or concentrated on one platform · 40 = under 10 total, or unanswered negatives · 20 = essentially no reviews, or the reviews that exist hurt",
+  social:  "90 = 2+ active platforms posting weekly with clear professional identity and consistent info · 70 = active but inconsistent or listing-only content · 40 = dormant 6+ months, or profiles that confuse · 20 = no professional presence, or damaging content",
+  website: "90 = fast personal site, original local content, clean heading structure, RealEstateAgent schema, AI crawlers allowed · 70 = decent site missing schema or depth · 40 = thin template site with generic content · 20 = no website at all",
+  ai:      "90 = appears in AI answers for market-level queries, with accurate info drawn from multiple sources · 70 = AI knows them accurately but doesn't surface them unprompted · 40 = AI finds only scraps or minor errors · 20 = AI knows nothing about them, or what it says is wrong",
+  license: "90 = every license active, licensed name and broker match marketing everywhere, designations verifiable, ads compliant · 70 = active but small mismatches · 40 = a lapsed/inactive license, meaningful mismatches, or unverifiable designations · 20 = license problems a client would walk away from"
+};
+
+const ERRANT_DEF = `ERRANT RESULTS — ALWAYS CHECK
+Throughout this audit, actively watch for errant results and classify each one you find:
+- "outdated" = belongs to the agent but is stale (old brokerage, old phone, dead link, abandoned page)
+- "duplicate" = a second listing/profile for the agent splitting their identity and reviews
+- "mismatch" = a live profile of the agent showing wrong details (name, brokerage, phone, area)
+- "not_you" = a different person with the same or similar name that a client could confuse with the agent
+- "impersonation" = an account or listing pretending to be the agent`;
+
+function outputBlock(catId) {
+  return `${ERRANT_DEF}
+
+HOW TO END YOUR REPLY
+First give your full evaluation in plain language. Then finish with this exact structure:
+- AREA SCORE: <0–100> /100 — anchor it to this rubric: ${RUBRICS[catId] || "90 = best-in-market execution, 70 = solid with gaps, 40 = materially hurting business, 20 = absent or damaging"}. Score ONLY what you actually verified; if you could not access something, say so and do not guess.
+- VERDICT: one sentence.
+- TOP FINDINGS: up to 3 bullets, most important first.
+- DO THIS NEXT: up to 3 bullets, highest impact first.
+- ERRANT RESULTS: each one found, with its type and where it lives — or "none found".
+
+If this chat also contains my Complete Audit, update your running scorecard to use this deeper result for this area.`;
+}
+
+const PREAMBLE = `You are an expert online-presence and reputation auditor for real estate professionals. Use your web search capability for every check below — do not answer from memory. If you do NOT have live web search available in this conversation, STOP now: tell the user this audit requires web search, explain how to enable it in this tool or suggest one that has it (Perplexity's free tier always searches), and do not attempt any part of the audit from memory — a fabricated audit is worse than none. Evaluate only publicly available information, exactly as a prospective client would see it. Be specific: quote what you find, include URLs, and say clearly when something could not be found or accessed. If the agent lists more than one primary market (separated by "&", "/", or ";"), repeat every market-specific search once per market and evaluate each market separately before scoring. If the profile lists names, handles, or brands the agent ALSO OPERATES UNDER, repeat every name-based search for each of those as well as the primary name — presence often hides under alternate handles and old brand names. Any profile links provided are starting points, not limits: always also search for profiles, pages, and mentions that are NOT listed. Any profile field may hold multiple values separated by commas (several phone numbers, emails, or websites — e.g., one per market): treat each value as a distinct item to verify, and check that each is used consistently within its own market or platform.`;
+
+/* ---------- category definitions ---------- */
+const CATS = [
+  {
+    id: "search",
+    title: "Google Search & Discovery",
+    sub: "What page one says about you",
+    weight: 12,
+    icon: "M10 2a8 8 0 105.3 14l4.3 4.3 1.4-1.4-4.3-4.3A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z",
+    why: "<strong>93% of homebuyers start online.</strong> The first page of Google is your real first impression — before your website, before a call.",
+    prompt: d => `${PREAMBLE}
+
+${agentIntro(d)}
+
+TASK — GOOGLE SEARCH & DISCOVERY AUDIT
+Search the web for each of these queries and report what actually appears on the first page of results:
+1. "${d.name} real estate ${d.market}"
+2. "${d.name} ${d.brokerage}"
+3. "${d.name} realtor reviews"
+4. "real estate agent ${d.market}" — does ${d.name} appear anywhere prominent?
+5. MENTIONS SWEEP — the agent's name and every alias combined with terms like "review", "complaint", "scam", and each market's name, across news sites, Reddit, forums, YouTube, podcasts, and blogs. Report every third-party mention of the agent — positive, negative, or ambiguous — especially content published about them that they likely don't know exists, and clearly separate same-name strangers.
+
+For each query, evaluate:
+- Which results does the agent own or control (their website, their profiles) vs. third-party or unrelated results?
+- Does a Google Business Profile / map result appear for the agent or their team?
+- Are there any incorrect, outdated, or confusing results (old brokerages, other people with the same name, dead links)?
+- Is there any negative or embarrassing content visible?
+- Overall: if a stranger searched this agent right now, what impression would page one leave?
+
+${outputBlock("search")}`
+  },
+  {
+    id: "gbp",
+    title: "Google Business Profile & Directories",
+    sub: "Local search, maps & NAP consistency",
+    weight: 15,
+    icon: "M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z",
+    why: "<strong>62% of consumers avoid businesses with inconsistent listings.</strong> Google's map pack rewards review volume, rating, and response speed — and AI engines cross-check your Name, Address & Phone everywhere to decide whether to trust you.",
+    prompt: d => `${PREAMBLE}
+
+${agentIntro(d)}
+
+TASK — GOOGLE BUSINESS PROFILE & LOCAL DIRECTORY AUDIT
+1. Find the agent's Google Business Profile${d.gbp ? ` (they identify it as: ${d.gbp})` : " (search Google Maps for their name and brokerage)"}. Report: does it exist and appear claimed? Star rating and review count? Are photos present and recent? Any recent posts or updates? Correct category (e.g., "Real estate agent")? Hours, phone, and website filled in?
+2. Search for the agent on other local directories: Yelp, Bing Places, Better Business Bureau, Nextdoor (public pages), and any real-estate directories that surface.
+3. NAP CONSISTENCY CHECK: Compare the Name, brokerage/Address, and Phone shown on every listing you found against the profile info above${d.phone || d.email ? "" : " and against their website"}. List every mismatch — old phone numbers, prior brokerages, name variations, duplicate listings.
+4. Note any directory where an obvious profile is missing or unclaimed.
+
+${outputBlock("gbp")}`
+  },
+  {
+    id: "portals",
+    title: "Real Estate Portals",
+    sub: "Zillow, Realtor.com, Redfin, Homes.com",
+    weight: 15,
+    icon: "M12 3l9 8h-3v9h-4v-6H10v6H6v-9H3l9-8z",
+    why: "<strong>Portals are where buyers compare you side-by-side with competitors.</strong> An empty sales history or stale profile reads as inactive — and 71% of renters will skip a listing entirely if the agent's reviews are weak.",
+    prompt: d => `${PREAMBLE}
+
+${agentIntro(d)}
+
+TASK — REAL ESTATE PORTAL PROFILE AUDIT
+Locate and evaluate the agent's profiles on Zillow${d.zillow ? ` (${d.zillow})` : ""}, Realtor.com${d.realtor ? ` (${d.realtor})` : ""}, Redfin, and Homes.com${d.other ? `, plus: ${d.other}` : ""}. For each portal:
+- Does a profile exist, and does it look claimed and actively maintained (professional photo, complete bio, current brokerage)?
+- Sales history: how many sales are shown, how recent, and in which areas? Does it look consistent with ${d.years ? `about ${d.years} years in the business` : "an active full-time agent"}?
+- Active listings shown?
+- Reviews: count, average rating, how recent the newest review is, and whether the agent responds to reviews.
+- Any mismatches with the profile info above (name, brokerage, phone)?
+${d.niche === "luxury and high-end homes" ? `- LUXURY NOTE: This agent works the luxury niche, where 25–50% of transactions can be off-market and portal algorithms undercount true performance. Judge quality of price points and neighborhoods, not just transaction volume — and note whether the profile itself tells that story.` : ""}
+Finish with a comparison: which portal presents this agent best, which worst, and what single change would most improve how they compare against other agents in ${d.market}?
+
+${outputBlock("portals")}`
+  },
+  {
+    id: "reviews",
+    title: "Reviews & Reputation",
+    sub: "Volume, rating, recency, responses",
+    weight: 18,
+    icon: "M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.5L12 16.9 6.1 20.1l1.3-6.5L2.5 9l6.6-.8L12 2z",
+    why: "<strong>A one-star improvement can lift revenue up to 9%.</strong> Volume, recency, and owner responses all feed both Google's ranking and AI engines' trust in you. Reviews concentrated on one site are fragile.",
+    prompt: d => `${PREAMBLE}
+
+${agentIntro(d)}
+
+TASK — REVIEW & REPUTATION AUDIT
+Build a review inventory for this agent across every platform you can find: Google, Zillow, Realtor.com, Facebook, Yelp, and any others that surface. Report:
+1. Per platform: review count, average rating, date of the most recent review.
+2. Totals: overall review volume and blended rating across platforms.
+3. Recency: how many reviews in the last 6 months? A strong profile adds reviews continuously; a stale one stopped years ago.
+4. Responses: does the agent reply to reviews — especially negative ones? Quote an example of how a negative review was handled, if any exist.
+5. Distribution: are reviews spread across platforms or concentrated on one? Note that Realtor.com-style reviews are transaction-verified while Google/Yelp/Facebook are open to anyone — a healthy mix of both is strongest.
+6. Red flags: patterns that look like fake or solicited-in-bulk reviews, unanswered complaints, or mentions of the same problem repeatedly.
+Compare their review footprint to what is typical for a productive agent in ${d.market}, and say plainly whether reviews are currently an asset or a liability.
+
+${outputBlock("reviews")}`
+  },
+  {
+    id: "social",
+    title: "Social Media Presence",
+    sub: "Facebook, Instagram, LinkedIn, video",
+    weight: 12,
+    icon: "M18 8a3 3 0 10-2.83-4H15a3 3 0 00.17 1.03L8.9 8.7a3 3 0 100 6.6l6.27 3.67A3 3 0 1016 17l-6.27-3.66a3.03 3.03 0 000-2.68L16 7a3 3 0 002 1z",
+    why: "<strong>Inactive profiles signal a part-time or abandoned business.</strong> Buyers check socials to see if you're real, current, and credible — and public social content increasingly feeds AI answers about you.",
+    prompt: d => {
+      const socials = socialLinks(d);
+      return `${PREAMBLE}
+
+${agentIntro(d)}
+
+TASK — SOCIAL MEDIA PRESENCE AUDIT (public view)
+${socials.length ? `Review the public view of each profile below — what a non-follower sees without logging in:\n${socials.map(r => `- ${r[0]}: ${r[1]}`).join("\n")}\n\nThen, separately, search` : "Search"} the agent's full name${d.aliases ? ` AND each alternate name/handle/brand listed above (${d.aliases})` : ""} plus their market(s) and brokerage across a WIDE net of platforms — Facebook, Instagram, LinkedIn, YouTube, TikTok, X, Threads, Pinterest, Reddit, Nextdoor, Bluesky, Vimeo, and any other platform that surfaces — and do not limit yourself to that list. Report every public profile you find that appears to be (or impersonate) this agent, including old accounts, duplicate pages, and profiles under prior brokerages.
+
+For each profile found, evaluate:
+1. Activity: date of the most recent post and posting cadence over the last 90 days. Flag anything dormant 6+ months as damaging.
+2. First impression: bio, profile photo, and pinned content — is it instantly clear who they are, where they work, and how to contact them?
+3. Content mix: listings only, or genuinely useful local/market content? Personality and professionalism?
+4. Consistency: does the name, brokerage, phone, and website match the profile info above on every platform?
+5. Engagement signals visible publicly (comments, shares) and whether the agent responds.
+6. Anything a picky client might find off-putting.
+Social platforms often block logged-out access. When a profile will not open, do NOT skip it silently: estimate activity from search-engine-indexed snippets (e.g., site:instagram.com/<handle>), look for the same content cross-posted elsewhere, and end with a MANUAL CHECK LIST naming each profile you could not verify and exactly what the agent should confirm with their own eyes. If the user uploads screenshots of a profile, treat them as primary evidence. Score only what you verified, and state what remains unverified.
+Rank their platforms strongest to weakest and identify the one change that most improves credibility.
+
+${outputBlock("social")}`;
+    }
+  },
+  {
+    id: "website",
+    title: "Website & AI-Readiness (GEO)",
+    sub: "Content, schema, and machine-readability",
+    weight: 10,
+    icon: "M12 2a10 10 0 100 20 10 10 0 000-20zm7.9 9h-3.4a15.6 15.6 0 00-1.2-5.6A8 8 0 0119.9 11zM12 4c.9 1.2 1.9 3.5 2.3 7H9.7C10.1 7.5 11.1 5.2 12 4zM4.1 13h3.4c.2 2 .6 3.9 1.2 5.6A8 8 0 014.1 13zm3.4-2H4.1a8 8 0 014.6-5.6A15.6 15.6 0 007.5 11zm2.2 2h4.6c-.4 3.5-1.4 5.8-2.3 7-.9-1.2-1.9-3.5-2.3-7zm5.6 5.6c.6-1.7 1-3.6 1.2-5.6h3.4a8 8 0 01-4.6 5.6z",
+    why: "<strong>91% of agents are invisible to AI engines</strong> for lack of machine-readable structure. Long-form pages earn ~4× more AI citations than thin ones, and AI-sourced prospects close at 70% within 30 days vs 2.4% from portals.",
+    prompt: d => `${PREAMBLE}
+
+${agentIntro(d)}
+
+TASK — WEBSITE & AI-READINESS (GEO) AUDIT
+${d.website ? `Fetch and review the agent's website: ${d.website}` : `First, search for the agent's personal or team website. If none exists, report that clearly — it is itself a critical finding — then evaluate whichever profile page (portal or brokerage bio page) acts as their de-facto website.`}
+Evaluate as both a human visitor and an AI crawler:
+1. HUMAN: Is it obvious within 5 seconds who the agent is, what market they serve, and how to contact them? Is the site current (recent listings/sold properties, recent content)? Mobile-friendly?
+2. CONTENT DEPTH: Is there substantial original, local content — neighborhood guides, market reports, sold-property archive — or only thin template pages? AI engines cite pages with original local data and long-form depth far more often.
+3. STRUCTURE: Do pages use a clear heading hierarchy and answer the page's core question in the first paragraph (a 40–60 word direct answer up top)?
+4. SCHEMA: If you can view the page source, check for JSON-LD structured data — especially a RealEstateAgent schema with name, phone, address, and areaServed. Report whether it exists and whether its details match the profile info above.
+5. AI ACCESS: If reachable, check ${d.website ? d.website.replace(/\/+$/,"") + "/robots.txt" : "the site's robots.txt"} — does it block AI crawlers such as GPTBot, OAI-SearchBot, or PerplexityBot?
+6. CONSISTENCY: Does the site's name / brokerage / phone match the profile info above exactly?
+If you cannot fetch the site directly, say so and evaluate from search-result snippets and cached info instead.
+
+${outputBlock("website")}`
+  },
+  {
+    id: "ai",
+    title: "AI Engine Visibility",
+    sub: "What ChatGPT & Perplexity say about you",
+    weight: 13,
+    icon: "M12 2a2 2 0 012 2v1.1A5 5 0 0117 10v1h1a2 2 0 012 2v3a2 2 0 01-2 2h-1.1a5 5 0 01-9.8 0H6a2 2 0 01-2-2v-3a2 2 0 012-2h1v-1a5 5 0 013-4.9V4a2 2 0 012-2zm-2.5 9a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm5 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3z",
+    why: "<strong>Buyers using AI to research agents jumped from 17% to 67% in 18 months.</strong> When someone asks an AI for an agent in your market, you are either in the answer or you don't exist.",
+    prompt: d => `${PREAMBLE}
+
+${agentIntro(d)}
+
+TASK — AI ENGINE VISIBILITY AUDIT
+You are testing how AI search engines present this agent. Answer each of these as if a consumer asked you cold, using live web search, and report honestly what you find:
+1. "Who are the best real estate agents in ${d.market}?" — Does ${d.name} appear in your answer or in the sources you'd cite? Which agents DO dominate, and which websites put them there?
+2. "Tell me about ${d.name}, real estate agent in ${d.market}." — What can you find? Is it accurate, current, and consistent with the profile info above? Note anything wrong or outdated, and list which sources (Zillow, their website, news, directories) you drew from — those sources are what every AI sees.
+3. "Should I hire ${d.name} to ${d.niche === "residential buyers and sellers" ? "sell my home" : "help me with " + d.niche} in ${d.market}?" — What would you tell that consumer, based only on public information?
+4. THE GAP: Based on 1–3, explain specifically why this agent does or doesn't surface in AI answers for their market (review volume, directory presence, machine-readable site data, press mentions, Reddit/forum presence, etc.).
+IMPORTANT: for an unbiased read, the agent should ALSO paste questions 1–2 into a brand-new chat with no context. Note this in your findings.
+
+${outputBlock("ai")}`
+  },
+  {
+    id: "license",
+    title: "License & Credentials",
+    sub: "Verification, disciplinary record, designations",
+    weight: 5,
+    icon: "M12 1l9 4v6c0 5.6-3.8 10.7-9 12-5.2-1.3-9-6.4-9-12V5l9-4zm-1.2 13.5l-2.6-2.6-1.4 1.4 4 4 7-7-1.4-1.4-5.6 5.6z",
+    why: "<strong>Trust is verified, not claimed.</strong> Serious clients — and referral networks — check your license status, and mismatched legal names or stale designations undermine everything else.",
+    prompt: d => {
+      const lics = allLicenses(d);
+      const licLines = lics.map((l, i) => {
+        const lookup = LICENSE_LOOKUPS[l.state] || `the official ${l.state} real estate license lookup (search "${l.state} real estate license verification" and use the state government site, or arello.com)`;
+        return `   ${String.fromCharCode(97 + i)}. ${l.state}${l.num ? " license #" + l.num : ""}: verify using ${lookup}.${l.mls ? ` Also check for a public agent/roster profile tied to their ${l.mls} MLS membership.` : ""}`;
+      }).join("\n");
+      return `${PREAMBLE}
+
+${agentIntro(d)}
+
+TASK — LICENSE & CREDENTIALS AUDIT
+1. Verify EVERY license held by the agent:
+${licLines || "   a. Determine which state(s) the agent is licensed in, then verify each via the official state lookup."}
+   For each: report license status (active / inactive / expired), license type, the exact licensed name, and the employing broker of record. If a lookup site cannot be accessed directly, search for cached or third-party license records and clearly note the source.
+2. MATCH CHECK: For each state, does the licensed name match the marketed name "${d.name}"? Does the broker of record match the corresponding brokerage in "${d.brokerage}"? An agent working two states should present each state's brokerage and license clearly — mismatches or muddled cross-state marketing confuse both clients and algorithms.
+3. Any disciplinary actions, complaints, or adverse records that surface publicly, in any state?
+${d.designations ? `4. DESIGNATIONS: The agent claims: ${d.designations}. For each, can it be verified publicly (issuing body directories, NAR designation lookup, program pages)? Flag anything unverifiable.` : `4. DESIGNATIONS: Search whether the agent displays designations or certifications anywhere (ABR, CRS, GRI, RamseyTrusted, etc.) and whether they appear legitimate and current.`}
+5. Check that license identification appears where required on their marketing (website footer, portal profiles) — many states require the license number and brokerage on advertising.
+
+${outputBlock("license")}`;
+    }
+  }
+];
+
+/* ---------- browser-mode add-on ---------- */
+function browserAddon(d, cat) {
+  const links = profileLinks(d).map(r => `- ${r[0]}: ${r[1]}`).join("\n");
+  return `BROWSER MODE ADD-ON (optional — only if your AI can control a browser, e.g., a ChatGPT Work/agent task, Claude for Chrome, or Perplexity's Comet browser):
+
+After your search-based audit, open the relevant pages below directly in the browser, one at a time, and review each as a first-time visitor:
+${links || "- (no links provided — open the top result you found for each platform)"}
+
+On each page note: the 5-second first impression, visible trust signals (reviews, sold homes, credentials), anything broken, outdated, or inconsistent with the other pages, and one specific improvement.
+INTERPRETING ERRORS: a 403/"forbidden" or bot-wall usually means the site blocks automated browsers, NOT that it is down for humans — check whether search engines index the page; if they do, review it from indexed snippets and report "blocks AI browsers/crawlers (an AI-visibility cost), likely fine for human visitors." A 502, timeout, or connection failure on repeated tries likely means the site is genuinely down for everyone — flag that as critical. A live browser session is especially valuable for social profiles, which often block logged-out AI access — the browser sees what a real visitor sees.
+
+ACCESS CHECK FIRST — before reviewing anything:
+1. WEBSITES: open each non-social page listed above and sort into: accessible / blocked for automated browsers / genuinely down.
+2. SOCIAL LOGIN CHECK — check the PLATFORMS, not specific profiles (handles may be wrong or incomplete; don't depend on them): open the HOME page of each major platform in its own tab — facebook.com, instagram.com, linkedin.com, youtube.com, tiktok.com, x.com, plus any other platform implied by the links above. Report which ones I'm currently logged in to, logged out of, or that block you entirely.
+3. Then pause and ask me to click through those tabs, sign in myself wherever I want logged-in verification (NEVER ask for or handle a password), and reply "ready" when done. If you cannot open tabs (e.g., a single-viewport cloud browser), instead tell me in ONE message which platforms need logins or permissions, and wait for my go-ahead — handle all access once, instead of interrupting the audit at every wall.
+4. FINDING MY PROFILES comes later, during the audit itself — use any links provided above first, then each platform's own internal search with my names, handles, and brands (trying constructed URLs like facebook.com/<handle> only as a fallback). Also locate any business line's own pages (e.g., a property management company's website, Facebook page, and Google Business Profile).
+5. If I decline to log in anywhere, continue with the public view and note what stayed unverified.
+6. If your environment cannot support user logins at all (e.g., a cloud browser with no hand-control), say so plainly up front, list the exact screenshots I could upload instead (which profile, which view), and proceed with the public review without further asking.
+
+LOGGED-IN PASS (optional, for social platforms that block public viewing):
+If I am already logged in to a platform in this browser — or if you need me to log in, pause and hand control to me so I can enter my credentials myself; NEVER ask for or type a password — you may VIEW my profiles and pages in that logged-in session to verify what public access couldn't: last-post dates, posting cadence, bio and contact accuracy, pinned content.
+STRICT RULES for any logged-in session: view only. Do NOT post, like, comment, share, message, follow, accept requests, or change any setting. Do NOT interact with forms. Label every finding that came from the logged-in view, and remember the public logged-out view is what prospects actually see — score public visibility, and use logged-in observations only to fill verification gaps.
+
+Fold what you see into your findings and your scorecard.`;
+}
+
+/* ---------- the Complete Audit (one-prompt) builder ---------- */
+function buildQuickPrompt(d) {
+  const lics = allLicenses(d);
+  const licLines = lics.map(l => {
+    const lookup = LICENSE_LOOKUPS[l.state] || `the official ${l.state} state lookup (search "${l.state} real estate license verification"; use the government site or arello.com)`;
+    return `${l.state}${l.num ? " #" + l.num : ""} via ${lookup}${l.mls ? `; also check their public ${l.mls} MLS roster/agent profile` : ""}`;
+  }).join(" | ");
+  return `${PREAMBLE}
+
+${agentIntro(d)}
+
+YOUR ASSIGNMENT — COMPLETE ONLINE PRESENCE & REPUTATION AUDIT
+Work through all EIGHT areas below, in order, in this chat, using live web search for every check. Run the ENTIRE audit in one continuous pass — do NOT stop between areas to ask permission, check in, or offer a choice; the user has already asked for all eight. The only acceptable reason to pause is genuinely running out of reply space, in which case end with the progress footer and resume the moment the user says "continue" — never sacrifice thoroughness to squeeze everything into one reply. While the audit is in progress, do NOT output any JSON — end each reply with only the one-line progress footer described under HOW TO REPORT.
+If any market lists business lines beyond residential sales (for example, a property management company), audit that line's own public presence in its market too — its Google Business Profile, website, reviews, and how it connects back to the agent — and note whether the two brands reinforce each other or create confusion.
+If the user uploads screenshots of any profile or page during this chat (for example, a social profile you could not open), treat them as primary evidence: fold what they show into the relevant area's findings and score.
+
+1. GOOGLE SEARCH & DISCOVERY — Search "${d.name} real estate <market>" for each market, "${d.name} ${d.brokerage}", and "${d.name} realtor reviews". What does page one actually show? Which results does the agent control? Do they appear in the map pack? Anything incorrect, outdated, negative, or belonging to a same-name stranger? Then run a MENTIONS SWEEP beyond the obvious profiles: search the agent's name AND every alias combined with terms like "review", "complaint", "scam", and each market's name — across news sites, Reddit, forums, Nextdoor threads that surface in search, YouTube, podcasts, and blogs. Report every third-party mention of the agent you find, positive, negative, or ambiguous — especially content published ABOUT them that they likely don't know exists — and clearly separate same-name strangers.
+
+2. GOOGLE BUSINESS PROFILE & LOCAL DIRECTORIES — Find their Google Business Profile${d.gbp ? ` (identified as: ${d.gbp})` : ""}: claimed? rating and review count? photos and posts recent? category, hours, phone, website filled in? Then check Yelp, Bing Places, BBB, Nextdoor, and other directories. Run a full NAP consistency check against the profile info above; list every mismatch, duplicate, and unclaimed listing.
+
+3. REAL ESTATE PORTALS — Zillow, Realtor.com, Redfin, Homes.com${d.other ? `, plus: ${d.other}` : ""}: does each profile exist, look claimed and current (photo, bio, brokerage)? Sales history volume and recency? Active listings? Review counts, ratings, newest-review dates, and whether the agent responds? Which portal presents them best and worst?${d.niche === "luxury and high-end homes" ? " (Luxury niche: judge price points and neighborhoods, not raw volume — portals undercount off-market work.)" : ""}
+
+4. REVIEWS & REPUTATION — Build a cross-platform review inventory: per-platform counts, averages, and newest-review dates; momentum over the last 6 months; owner responses, especially to negative reviews (quote one example if found); spread across platforms vs concentration on one; transaction-verified (Realtor.com-style) vs open networks; any fake-looking patterns or repeated complaints. Verdict: are reviews currently an asset or a liability?
+
+5. SOCIAL MEDIA — Review the public, logged-out view of every provided profile. Then search every name, handle, and brand listed above across Facebook, Instagram, LinkedIn, YouTube, TikTok, X, Threads, Pinterest, Reddit, Nextdoor, Bluesky, and beyond. For each profile: last-post date and 90-day cadence (flag 6+ months dormant), 5-second first impression, content mix, cross-platform consistency, and any old, duplicate, or impersonating accounts. Social platforms often block logged-out access — when a profile will not open, do NOT skip it silently: (a) estimate its activity and content from search-engine-indexed snippets (searches like site:instagram.com/<handle> or the handle plus recent topics); (b) look for the same content cross-posted or embedded elsewhere (YouTube, TikTok, the agent's own websites); (c) end this area with a MANUAL CHECK LIST naming every profile you could not verify and exactly what the agent should confirm with their own eyes — last-post date, bio and contact accuracy, pinned content, follower-facing first impression. Score only what you verified, and state plainly what remains unverified.
+
+6. WEBSITE & AI-READINESS — ${d.website ? `Fetch ${d.website}` : "Find their website (none provided — if none exists, that is itself a critical finding)"}: instantly clear who/where/how to contact? Original local content depth (neighborhood guides, market reports) vs thin templates? Clear heading structure with direct first-paragraph answers? JSON-LD RealEstateAgent schema present and matching the profile above? Does robots.txt allow AI crawlers (GPTBot, OAI-SearchBot, PerplexityBot)?
+
+7. AI ENGINE VISIBILITY — Answer as if a consumer asked you cold: "Who are the best real estate agents in <each market>?" (does ${d.name} appear? who dominates and which sources put them there?), "Tell me about ${d.name}" (accuracy? which sources?), and "Should I hire them?". Then explain specifically why they do or don't surface in AI answers. Recommend the agent also try these in a fresh chat for an unbiased read.
+
+8. LICENSE & CREDENTIALS — Verify every license: ${licLines || "determine their license state(s) and verify via each official lookup"}. For each state: status, license type, exact licensed name, and broker of record — and whether these match the marketed name and brokerage. Any disciplinary records? ${d.designations ? `Verify each claimed designation (${d.designations}) with its issuing body.` : "Check whether displayed designations are legitimate and current."} Is license identification present on their marketing where required?
+
+SCORING RUBRIC — anchor every area's score to these definitions, not to gut feel:
+1. Search: ${RUBRICS.search}
+2. Google Business Profile: ${RUBRICS.gbp}
+3. Portals: ${RUBRICS.portals}
+4. Reviews: ${RUBRICS.reviews}
+5. Social: ${RUBRICS.social}
+6. Website: ${RUBRICS.website}
+7. AI Visibility: ${RUBRICS.ai}
+8. License: ${RUBRICS.license}
+
+${ERRANT_DEF}
+
+HOW TO REPORT AS YOU GO
+Give a short plain-language evaluation of each area as you complete it (include the 0–100 score you are assigning). Then end every in-progress reply with ONLY this one-line footer — no JSON, nothing after it:
+
+PROGRESS ▸ <n> of 8 areas complete: ✓ <names of finished areas> · Next: <next area> — say "continue"
+
+WHEN ALL EIGHT AREAS ARE DONE, present the finished scorecard right in the chat, formatted for easy reading:
+- A table with one row per area: Area | Score /100 | Status | Top recommended action. Status labels: 90–100 Excellent, 75–89 Strong, 60–74 Fair, 40–59 Weak, 0–39 Critical.
+- The OVERALL PRESENCE SCORE: a weighted average of the areas completed, using these weights — Search 12%, Google Business Profile 15%, Portals 15%, Reviews 18%, Social 12%, Website 10%, AI Visibility 13%, License 5%. SHOW THE ARITHMETIC — write out each area's score × weight, the sum, and the division, then double-check it before presenting. Do not estimate this number.
+- The five highest-impact actions overall, and a short list of any errant results found.
+- An IDENTITY VERDICT: one short paragraph telling the overall story — how the agent's names, brands, brokerages, and markets read as one entity (or fail to) to a stranger and to an AI engine, and the single biggest theme connecting all the findings.
+Then output a PROFILE UPDATE block so the RealEstateCNX page can absorb what you discovered — every profile URL, page, and handle you VERIFIED belongs to the agent (not same-name strangers). Single line of valid JSON, no code fences, only fields you actually verified, comma-separated for multiples:
+
+===CNX PROFILE===
+{"website":"","gbp":"","zillow":"","realtor":"","facebook":"","instagram":"","linkedin":"","youtube":"","tiktok":"","x":"","yelp":"","other":"","aliases":"<additional names/handles/brands discovered>"}
+===END PROFILE===
+
+Then tell the user: "Your audit is complete. Paste the PROFILE UPDATE block into the RealEstateCNX page (step 1) to enrich your saved info. The page also has more prompts — Recap, Coach, and a quarterly Progress Check — paste them here when you're ready."
+
+SAVE CODE: If at any point the user says "save code", output a compact single-line JSON summary of all completed areas between the markers ===CNX SAVE=== and ===END SAVE=== (category ids: search, gbp, portals, reviews, social, website, ai, license — each with score, summary, findings, actions, errant). RESUMING: if the user pastes such a save code into this chat or a new one, treat it as prior progress — keep its results, re-verify anything that seems stale, and continue the remaining areas with the same progress footers.
+
+Scoring guide: 90–100 excellent, 75–89 strong, 60–74 fair, 40–59 weak, 0–39 critical. Score ONLY what you actually verified — if you could not access something, say so in findings and do not guess.`;
+}
+
+/* ---------- Step 3 prompt builders (run in the same chat as the audit) ---------- */
+function buildProgressPrompt(d) {
+  return `PROGRESS CHECK — RE-AUDIT COMPARISON
+Run this in a FRESH chat, immediately after completing a new Complete Audit of ${d.name} (a fresh chat keeps the new audit unbiased by my history).
+
+Below is the scorecard from my PREVIOUS audit. Compare it against the audit you just completed and report in exactly this structure:
+
+1. SCORE MOVEMENT — a table, one row per area: previous score | new score | change | the specific reason (what actually improved or slipped, citing what you found in the new audit).
+2. OVERALL — previous vs. new overall score, showing the weighted arithmetic for the new number.
+3. CLEANUP LEDGER — go item by item through the previous audit's errant/cleanup findings and mark each: RESOLVED (verify the fix is actually live on the public web before crediting it), STILL OPEN, or note any NEW issues that appeared since.
+4. WHAT WORKED — which of the previous top-five moves were completed, and did each one move the number it was supposed to move?
+5. NEXT FIVE — the top five moves for the coming quarter, labeling each as a carryover or new.
+
+Be honest about noise: score wiggles of roughly ±5 points may be measurement variation between runs, not real change — only call out meaningful movement, in either direction.
+
+MY PREVIOUS SCORECARD / SAVE CODE (pasted below):
+[PASTE YOUR PREVIOUS AUDIT'S FINAL SCORECARD OR SAVE CODE HERE]`;
+}
+
+function buildRecapPrompt(d) {
+  return `CONTINUE IN THIS SAME CHAT — run this only after the Complete Audit above is finished.
+
+Now pull the entire audit of ${d.name} together into one strong, client-ready recap. Present it in EXACTLY this structure and order:
+
+1. HEADLINE — The overall presence score (recompute the weighted average and show the arithmetic briefly so it can be checked) and a two-sentence verdict: how ${d.name} shows up today to a stranger searching, and to an AI engine answering.
+2. SCORECARD — The one-row-per-area table again (Area | Score /100 | Status | Biggest issue), so everything is visible in one place.
+3. THE IDENTITY MAP — Every name, brand, team, brokerage, and business line publicly connected to the agent, how they link together in the eyes of a consumer and an AI, and exactly where the story breaks: conflicting data, orphaned brands, old identities still ranking, and connections that exist in reality but not online.
+4. STRENGTHS TO PROTECT — The three strongest assets you found and why they matter; these must not be neglected while fixing weaknesses.
+5. WHERE BUSINESS IS BEING LOST — The three to five weakest points, each tied to its real-world cost (lost discovery, lost trust, invisibility to AI engines, referral-network exclusion).
+6. THE CLEANUP LIST — Every errant result found (outdated, duplicate, wrong info, same-name confusion, impersonation), worst first, each with where it lives and what to do about it.
+7. MARKET BY MARKET — ${d.market.match(/[&;\/]| and /i) ? `Compare presence across each market (${d.market}): where is the agent stronger, and what does each market's consumer actually see?` : "A short read on how presence lands in " + d.market + "."}
+8. TOP FIVE MOVES — The five highest-impact actions in priority order, each in one line with its expected payoff.
+
+Rules: plain language, specific to what you actually found — quote real findings and real numbers from the audit; do not generalize, soften, or invent. This recap is the foundation for a coaching session that comes next.`;
+}
+
+function buildCoachPrompt(d) {
+  return `CONTINUE IN THIS SAME CHAT — run this any time after the audit is complete (the Recap is optional; if it was run, build on it).
+
+From here on, act as my online presence and reputation COACH. You are an experienced real estate marketing coach: direct, encouraging, specific, and accountable. Everything you advise must be grounded in what this chat's audit and recap actually found about me (${d.name}, ${d.brokerage}, ${d.market}) — quote it when relevant, and never invent statistics.
+
+SESSION STRUCTURE — follow this exactly:
+1. DIAGNOSIS FIRST: Open with the three areas where improvement would move the needle most for me, and what realistic progress in each looks like within 90 days.
+2. THEN ASK ME, one question at a time, waiting for my answer before the next:
+   a. Which area do I most want to improve first — and is there one I'm dreading?
+   b. How many hours per week can I honestly give this, and is there anyone (assistant, team, family) who can own pieces of it?
+   c. What am I comfortable doing: writing posts, being on camera, asking clients for reviews, technical website work?
+3. BUILD MY PLAN around my answers, as NOW / NEXT / LATER (first 2 weeks / first 30 days / first 90 days). Every item gets: the action, why it matters for me specifically, time it takes, and how we'll know it worked.
+4. OFFER THE MATERIALS MENU: after presenting the plan, show me this menu and ask which I want you to draft first — then draft it ready-to-use:
+   - Review-request text and email scripts, timed to closing day
+   - Draft responses to my actual negative reviews (if any were found)
+   - A month of Google Business Profile posts for my market(s)
+   - Bio rewrites for each platform, consistent with my licensing
+   - A weekly content calendar tuned to my market(s) and my weakest platforms
+   - JSON-LD RealEstateAgent schema code for my website
+   - Anything else the audit surfaced that you can draft for me
+
+EVERY COACHING REPLY AFTER THAT uses this exact format, so our sessions stay consistent:
+▸ FOCUS — what we're working on right now and why
+▸ THIS WEEK — a short checklist of specific actions (with time estimates)
+▸ MATERIALS — anything you've drafted for me in this reply, ready to copy and use
+▸ YOUR TURN — the one thing you need from me: an answer, a decision, or what to report back
+
+COACHING RULES: push me when I choose comfort over impact, but adapt to the time and comfort levels I gave you. RE-ANCHOR as we go: whenever the conversation has wandered from the plan (or roughly every ten replies), briefly restate the current plan and my progress against it before continuing — and if you notice you no longer clearly remember the audit's specific findings, SAY SO and ask me to re-paste the recap or save code rather than coaching from vague memory. Keep all advice compliant with real estate advertising rules — license identification, correct brokerage names, no misleading claims${allLicenses(d).length > 1 ? ", and keep my multiple state licenses clearly separated in any marketing you draft" : ""}. When I report a fix that's publicly verifiable (a corrected phone number, a removed page, a new review), verify it with a quick web search before crediting it, so we're tracking reality rather than intentions. When I return to this chat later, first ask what got done from the last plan, celebrate what did, adjust what didn't, and only then add new work.`;
+}
+
+/* ============================================================
+   UI wiring
+   ============================================================ */
+
+/* ---------- toast ---------- */
+let toastTimer;
+function toast(msg) {
+  const t = $("#toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove("show"), 2600);
+}
+
+/* ---------- stepper ---------- */
+function showStep(step) {
+  $$(".step-panel").forEach(p => p.classList.remove("active"));
+  $("#panel-" + step).classList.add("active");
+  $$("#stepper button").forEach(b => b.classList.toggle("active", b.dataset.step === step));
+  window.scrollTo({ top: $("#stepper").offsetTop - 70, behavior: "smooth" });
+}
+$$("#stepper button").forEach(b => b.addEventListener("click", () => {
+  if (b.dataset.step !== "profile" && !validateProfile(true)) return;
+  if (b.dataset.step !== "profile") buildAuditCards();
+  showStep(b.dataset.step);
+}));
+$("#btnStart").addEventListener("click", () => {
+  $("#panel-profile").scrollIntoView({ behavior: "smooth" });
+  $("#f_name").focus();
+});
+
+/* ---------- profile ---------- */
+function stateOptions() {
+  return `<option value="">Select state…</option>` + US_STATES.map((s,i) =>
+    `<option value="${s}">${s}${i===0?" — Arizona":""}${i===1?" — Washington":""}</option>`).join("");
+}
+function fillStates() { $("#f_licstate").innerHTML = stateOptions(); }
+
+/* ---------- market blocks ---------- */
+const MARKET_EGS = [
+  { market: "e.g., Lacey/Olympia, WA", brokerage: "e.g., John L. Scott Talent Group", zips: "e.g., 98327, 98516", specialty: "e.g., Residential sales; Legacy Elite Property Management (property management)" },
+  { market: "e.g., Phoenix–Southeast Valley, AZ", brokerage: "e.g., West USA Realty — Cicero Group", zips: "e.g., 85242", specialty: "e.g., Luxury; new construction" }
+];
+function addMarketRow(data) {
+  const idx = $$("#marketsWrap .market-row").length;
+  const eg = MARKET_EGS[Math.min(idx, MARKET_EGS.length - 1)];
+  const first = idx === 0;
+  const row = document.createElement("div");
+  row.className = "market-row";
+  row.innerHTML = `
+    <div class="mr-head"><strong class="mr-num">Market ${idx + 1}</strong>${first ? "" : '<button class="btn small" type="button" data-action="rm-mkt" title="Remove this market">✕ Remove</button>'}</div>
+    <div class="grid2">
+      <div class="fld"><label class="f">Market (city / metro) ${first ? '<span class="req">*</span>' : ""}</label><input type="text" data-m="market" placeholder="${eg.market}"></div>
+      <div class="fld"><label class="f">Brokerage / team in this market ${first ? '<span class="req">*</span>' : ""}</label><input type="text" data-m="brokerage" placeholder="${eg.brokerage}"></div>
+      <div class="fld"><label class="f">Key ZIPs / neighborhoods <span class="opt">(optional)</span></label><input type="text" data-m="zips" placeholder="${eg.zips}"></div>
+      <div class="fld"><label class="f">Specialties &amp; business lines here <span class="opt">(optional — commas for more than one)</span></label><input type="text" data-m="specialty" placeholder="${eg.specialty}"></div>
+    </div>`;
+  if (data) ["market", "brokerage", "zips", "specialty"].forEach(k => { row.querySelector(`[data-m="${k}"]`).value = data[k] || ""; });
+  $("#marketsWrap").appendChild(row);
+}
+$("#btnAddMarket").addEventListener("click", () => addMarketRow());
+$("#marketsWrap").addEventListener("click", e => {
+  const btn = e.target.closest('[data-action="rm-mkt"]');
+  if (!btn) return;
+  btn.closest(".market-row").remove();
+  $$("#marketsWrap .market-row").forEach((r, i) => r.querySelector(".mr-num").textContent = "Market " + (i + 1));
+});
+
+/* ---------- extra licenses / MLSs ---------- */
+function addLicenseRow(data) {
+  const row = document.createElement("div");
+  row.className = "grid3 xlic-row";
+  row.style.marginTop = "12px";
+  row.innerHTML = `
+    <div class="fld"><label class="f">Additional license state</label><select data-x="state">${stateOptions()}</select></div>
+    <div class="fld"><label class="f">License number <span class="opt">(optional)</span></label><input type="text" data-x="num" placeholder="e.g., 12345"></div>
+    <div class="fld"><label class="f">MLS membership(s) <span class="opt">(optional)</span></label>
+      <div style="display:flex;gap:8px"><input type="text" data-x="mls" placeholder="e.g., ARMLS" style="flex:1">
+      <button class="btn small" type="button" data-action="rm-lic" title="Remove this license">✕</button></div></div>`;
+  if (data) {
+    if (data.state) row.querySelector('[data-x="state"]').value = data.state;
+    row.querySelector('[data-x="num"]').value = data.num || "";
+    row.querySelector('[data-x="mls"]').value = data.mls || "";
+  }
+  $("#extraLicWrap").appendChild(row);
+}
+$("#btnAddLic").addEventListener("click", () => addLicenseRow());
+$("#extraLicWrap").addEventListener("click", e => {
+  const btn = e.target.closest('[data-action="rm-lic"]');
+  if (btn) btn.closest(".xlic-row").remove();
+});
+function validateProfile(showError) {
+  const d = collectProfile();
+  const ok = d.name && d.markets.length && d.markets[0].market && d.markets[0].brokerage;
+  if (!ok && showError) {
+    $("#profileError").textContent = "Please fill in your name, plus your first market's city/metro and brokerage.";
+    setTimeout(() => $("#profileError").textContent = "", 4000);
+  }
+  return ok;
+}
+$("#f_engine").addEventListener("change", () => {
+  $("#engineHint").textContent = ENGINE_HINTS[$("#f_engine").value];
+});
+$("#f_niche").addEventListener("change", () => {
+  const custom = $("#f_niche").value === "__custom";
+  $("#f_nicheCustom").style.display = custom ? "block" : "none";
+  if (custom) $("#f_nicheCustom").focus();
+});
+/* ---------- profile enrichment from audit findings ---------- */
+$("#btnMergeProfile").addEventListener("click", () => {
+  const text = $("#profilePaste").value;
+  const info = $("#mergeInfo");
+  if (!text.trim()) { info.innerHTML = '<span class="parse-warn">Paste the profile block first.</span>'; return; }
+  let jsonStr = null;
+  const m = text.match(/===\s*CNX PROFILE\s*===([\s\S]*?)===\s*END PROFILE\s*===/i);
+  jsonStr = m ? m[1] : (text.match(/\{[\s\S]*?"(website|zillow|facebook|instagram|linkedin|aliases)"[\s\S]*?\}/) || [null])[0];
+  if (!jsonStr) { info.innerHTML = '<span class="parse-warn">No profile block found. Ask your AI to "output the CNX PROFILE update block" and paste its reply.</span>'; return; }
+  jsonStr = jsonStr.replace(/```(json)?/gi, "").trim();
+  const a = jsonStr.indexOf("{"), z = jsonStr.lastIndexOf("}");
+  if (a === -1 || z <= a) { info.innerHTML = '<span class="parse-warn">Couldn\'t read that block — it should contain one JSON object.</span>'; return; }
+  let data;
+  try { data = JSON.parse(jsonStr.slice(a, z + 1)); }
+  catch (e) { info.innerHTML = '<span class="parse-warn">That block isn\'t valid JSON — ask the AI to re-output it exactly as instructed.</span>'; return; }
+  const FIELDS = { website:"f_website", gbp:"f_gbp", zillow:"f_zillow", realtor:"f_realtor", facebook:"f_facebook", instagram:"f_instagram", linkedin:"f_linkedin", youtube:"f_youtube", tiktok:"f_tiktok", x:"f_x", yelp:"f_yelp", other:"f_other", aliases:"f_aliases" };
+  const norm = v => v.trim().replace(/\/+$/, "").replace(/^https?:\/\/(www\.)?/i, "").toLowerCase();
+  let addedCount = 0, touchedFields = 0;
+  Object.entries(FIELDS).forEach(([key, id]) => {
+    const incoming = (typeof data[key] === "string" ? data[key] : Array.isArray(data[key]) ? data[key].join(", ") : "").trim();
+    if (!incoming) return;
+    const el = $("#" + id);
+    const existing = el.value.split(/[;,]+/).map(t => t.trim()).filter(Boolean);
+    const seen = new Set(existing.map(norm));
+    let fieldAdded = 0;
+    incoming.split(/[;,]+/).map(t => t.trim()).filter(Boolean).forEach(v => {
+      if (!seen.has(norm(v))) { existing.push(v); seen.add(norm(v)); fieldAdded++; }
+    });
+    if (fieldAdded) { el.value = existing.join(", "); addedCount += fieldAdded; touchedFields++; }
+  });
+  if (addedCount) {
+    state.dirty = true;
+    info.innerHTML = `<span class="parse-ok">✓ Merged ${addedCount} new item${addedCount > 1 ? "s" : ""} into ${touchedFields} field${touchedFields > 1 ? "s" : ""} — review above, then click "Save my info".</span>`;
+    toast("Profile enriched from your audit.");
+  } else {
+    info.innerHTML = '<span class="parse-ok">✓ Read the block — nothing new to add; your profile already has everything it listed.</span>';
+  }
+});
+
+$("#btnToAudit").addEventListener("click", () => {
+  if (!validateProfile(true)) return;
+  state.profile = collectProfile();
+  buildAuditCards();
+  showStep("audit");
+  toast("Prompts generated for " + ENGINE_NAMES[state.profile.engine] + ".");
+});
+
+/* ---------- audit cards ---------- */
+function escapeHTML(s) {
+  return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+function buildAuditCards() {
+  state.profile = collectProfile();
+  const d = state.profile;
+  const host = $("#catList");
+  const openIds = new Set($$(".cat-card.open", host).map(c => c.dataset.cat));
+  host.innerHTML = CATS.map(cat => {
+    const prompt = cat.prompt(d);
+    const addon = browserAddon(d, cat);
+    return `
+    <div class="cat-card ${openIds.has(cat.id) ? "open" : ""}" data-cat="${cat.id}">
+      <div class="cat-head" role="button" tabindex="0" aria-expanded="${openIds.has(cat.id)}">
+        <div class="cat-ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="${cat.icon}"/></svg></div>
+        <div class="cat-title"><h3>${cat.title}</h3><div class="sub">${cat.sub}</div></div>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="cat-body">
+        <div class="why">${cat.why}</div>
+        <label class="f">Copy this prompt into ${ENGINE_NAMES[d.engine]} (web search ON) — works in the audit chat or a fresh one</label>
+        <div class="prompt-box">
+          <textarea readonly data-role="prompt" spellcheck="false">${escapeHTML(prompt)}</textarea>
+          <div class="prompt-tools">
+            <button class="btn small primary" data-action="copy">⧉ Copy prompt</button>
+            <span class="copied-note" data-role="copied">Copied — paste it into your AI</span>
+          </div>
+        </div>
+        <details class="addon">
+          <summary>Optional: browser mode add-on (if your AI can open web pages itself)</summary>
+          <div class="inner">
+            Some AI tools can drive a real browser — ChatGPT's Work/agent tasks (paid plans), Claude for Chrome (paid plans), or Perplexity's free Comet browser. If yours can, paste this <em>after</em> the main prompt so it also opens your profiles and reviews them like a live visitor.
+            <textarea readonly spellcheck="false">${escapeHTML(addon)}</textarea>
+            <div class="prompt-tools"><button class="btn small" data-action="copy-addon">⧉ Copy add-on</button></div>
+          </div>
+        </details>
+      </div>
+    </div>`;
+  }).join("");
+  renderQuickPrompt();
+  $("#recapPrompt").value = buildRecapPrompt(d);
+  $("#coachPrompt").value = buildCoachPrompt(d);
+  $("#progressPrompt").value = buildProgressPrompt(d);
+}
+
+/* ---------- audit mode toggle (Standard vs Browser mode) ---------- */
+let quickMode = "standard";
+const MODE_HINTS = {
+  standard: "Works in any AI with web search on — free plans included. This is the right choice for most agents.",
+  browser: "For AIs that can drive a browser: ChatGPT's Chrome extension or Work tasks (paid), Claude for Chrome (paid), or Perplexity's free Comet. The prompt starts with an access check that opens your social profiles in tabs so you can confirm you're logged in — strictly view-only, and you always type any password yourself, never the AI."
+};
+function renderQuickPrompt() {
+  const d = state.profile && state.profile.name ? state.profile : collectProfile();
+  const standard = buildQuickPrompt(d);
+  $("#quickPrompt").value = quickMode === "browser"
+    ? standard + "\n\n----------------\n\n" + browserAddon(d)
+    : standard;
+  $("#modeHint").textContent = MODE_HINTS[quickMode];
+  $("#quickPromptLabel").textContent = quickMode === "browser"
+    ? "Copy this prompt into your browser-driving AI — it preps logins first, then audits"
+    : "Copy this prompt into your AI (web search ON)";
+  $("#btnCopyQuick").textContent = quickMode === "browser" ? "⧉ Copy Browser-Mode Audit prompt" : "⧉ Copy Complete Audit prompt";
+  $("#modeStandard").classList.toggle("active", quickMode === "standard");
+  $("#modeBrowser").classList.toggle("active", quickMode === "browser");
+}
+$("#modeStandard").addEventListener("click", () => { quickMode = "standard"; renderQuickPrompt(); });
+$("#modeBrowser").addEventListener("click", () => { quickMode = "browser"; renderQuickPrompt(); });
+
+/* Complete Audit interactions */
+$("#btnCopyQuick").addEventListener("click", () => copyText($("#quickPrompt").value).then(ok => {
+  if (!ok) { copyFallbackSelect($("#quickPrompt")); return; }
+  $("#quickCopied").style.display = "inline";
+  setTimeout(() => $("#quickCopied").style.display = "none", 3000);
+  toast("Complete Audit prompt copied.");
+}));
+$("#btnToCoach").addEventListener("click", () => { buildAuditCards(); showStep("coach"); });
+const wireCopy = (btnId, taId, noteId, label) => $("#" + btnId).addEventListener("click", () => copyText($("#" + taId).value).then(ok => {
+  if (!ok) { copyFallbackSelect($("#" + taId)); return; }
+  if (noteId) { $("#" + noteId).style.display = "inline"; setTimeout(() => $("#" + noteId).style.display = "none", 3000); }
+  toast(label + " copied.");
+}));
+wireCopy("btnCopyRecap", "recapPrompt", "recapCopied", "Recap prompt");
+wireCopy("btnCopyCoach", "coachPrompt", "coachCopied", "Coach prompt");
+wireCopy("btnCopyProgress", "progressPrompt", "progressCopied", "Progress Check prompt");
+
+/* card interactions (event delegation) */
+$("#catList").addEventListener("click", e => {
+  const card = e.target.closest(".cat-card");
+  if (!card) return;
+  const catId = card.dataset.cat;
+
+  const head = e.target.closest(".cat-head");
+  if (head) { card.classList.toggle("open"); head.setAttribute("aria-expanded", card.classList.contains("open")); return; }
+
+  const btn = e.target.closest("button[data-action]");
+  if (!btn) return;
+  const action = btn.dataset.action;
+
+  if (action === "copy" || action === "copy-addon") {
+    const ta = action === "copy" ? card.querySelector('[data-role="prompt"]') : btn.closest(".inner").querySelector("textarea");
+    copyText(ta.value).then(ok => {
+      if (!ok) { copyFallbackSelect(ta); return; }
+      const note = card.querySelector('[data-role="copied"]');
+      if (action === "copy" && note) { note.style.display = "inline"; setTimeout(() => note.style.display = "none", 3000); }
+      toast("Copied to clipboard.");
+    });
+  }
+});
+$("#catList").addEventListener("keydown", e => {
+  if ((e.key === "Enter" || e.key === " ") && e.target.classList.contains("cat-head")) {
+    e.preventDefault(); e.target.click();
+  }
+});
+
+function copyText(text) {
+  // Robust copy: modern API first; if it's missing OR its promise rejects
+  // (blocked in sandboxed/embedded contexts), fall back to execCommand.
+  // Resolves true if the text made it to the clipboard, false otherwise.
+  return new Promise(resolve => {
+    const legacy = () => {
+      try {
+        const ta = document.createElement("textarea");
+        ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+        document.body.appendChild(ta); ta.focus(); ta.select();
+        const ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+        resolve(!!ok);
+      } catch (e) { resolve(false); }
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => resolve(true), legacy);
+    } else legacy();
+  });
+}
+/* When every copy path is blocked, select the source textarea so a manual
+   Ctrl/Cmd+C is one keystroke away. */
+function copyFallbackSelect(ta) {
+  if (!ta) return;
+  ta.focus(); ta.select();
+  ta.scrollIntoView({ block: "center", behavior: "smooth" });
+  toast("Your browser blocked automatic copying — the text is selected, just press Ctrl+C (Cmd+C on Mac).");
+}
+
+/* ---------- save / load ---------- */
+function saveProgress() {
+  state.profile = collectProfile();
+  const payload = { app: "RealEstateCNX-audit", version: 2, savedAt: new Date().toISOString(), profile: state.profile };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  const safeName = (state.profile.name || "agent").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  a.href = URL.createObjectURL(blob);
+  a.download = `realestatecnx-profile-${safeName}-${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  state.dirty = false;
+  toast("Your info is saved. Load this file next visit instead of retyping.");
+}
+
+function loadProgressFile(file) {
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const data = JSON.parse(reader.result);
+      if (!data || data.app !== "RealEstateCNX-audit") throw new Error("wrong file");
+      state.profile = data.profile || {};
+      // populate form
+      const map = { name:"f_name", years:"f_years", aliases:"f_aliases", licstate:"f_licstate", licnum:"f_licnum", mls:"f_mls", designations:"f_designations", phone:"f_phone", email:"f_email", website:"f_website", gbp:"f_gbp", zillow:"f_zillow", realtor:"f_realtor", facebook:"f_facebook", instagram:"f_instagram", linkedin:"f_linkedin", youtube:"f_youtube", tiktok:"f_tiktok", x:"f_x", yelp:"f_yelp", other:"f_other", engine:"f_engine" };
+      Object.entries(map).forEach(([k, id]) => { const el = $("#" + id); if (el && state.profile[k] != null) el.value = state.profile[k]; });
+      /* niche: predefined value selects it; anything else becomes a custom niche */
+      const nicheSel = $("#f_niche"), nicheVal = state.profile.niche || "residential buyers and sellers";
+      if ([...nicheSel.options].some(o => o.value === nicheVal)) {
+        nicheSel.value = nicheVal;
+        $("#f_nicheCustom").style.display = "none";
+      } else {
+        nicheSel.value = "__custom";
+        $("#f_nicheCustom").value = nicheVal;
+        $("#f_nicheCustom").style.display = "block";
+      }
+      $("#extraLicWrap").innerHTML = "";
+      (state.profile.extraLicenses || []).forEach(l => addLicenseRow(l));
+      $("#marketsWrap").innerHTML = "";
+      const ms = (state.profile.markets && state.profile.markets.length)
+        ? state.profile.markets
+        : [{ market: state.profile.market || "", brokerage: state.profile.brokerage || "", zips: state.profile.zips || "", specialty: "" }]; // migrate older info files
+      ms.forEach(m => addMarketRow(m));
+      $("#engineHint").textContent = ENGINE_HINTS[state.profile.engine] || ENGINE_HINTS.chatgpt;
+      buildAuditCards();
+      showStep("audit");
+      state.dirty = false;
+      toast("Info loaded — welcome back" + (state.profile.name ? ", " + state.profile.name.split(" ")[0] : "") + ".");
+    } catch (e) {
+      toast("That doesn't look like a RealEstateCNX audit file.");
+    }
+  };
+  reader.readAsText(file);
+}
+
+$("#btnSaveTop").addEventListener("click", saveProgress);
+$("#btnLoadTop").addEventListener("click", () => $("#fileInput").click());
+$("#fileInput").addEventListener("change", e => { if (e.target.files[0]) loadProgressFile(e.target.files[0]); e.target.value = ""; });
+
+/* ---------- misc buttons ---------- */
+$("#btnExpandAll").addEventListener("click", () => $$("#catList .cat-card").forEach(c => c.classList.add("open")));
+$("#btnCollapseAll").addEventListener("click", () => $$("#catList .cat-card").forEach(c => c.classList.remove("open")));
+
+/* ---------- unsaved-changes warning ---------- */
+$("#profileForm").addEventListener("input", () => { state.dirty = true; });
+$("#catList").addEventListener("input", () => { state.dirty = true; });
+window.addEventListener("beforeunload", e => {
+  if (!state.dirty) return;
+  e.preventDefault();
+  e.returnValue = "You have unsaved audit work. Save your progress file before leaving?";
+  return e.returnValue;
+});
+
+/* ---------- init ---------- */
+fillStates();
+addMarketRow();
+$("#engineHint").textContent = ENGINE_HINTS.chatgpt;
+$("#yr").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

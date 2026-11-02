@@ -1,0 +1,2314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Portrait Prompt Engine — Real Estate</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #AF1500;
+    --primary-dark: #000000;
+    --primary-light: #E6C01F;
+    --accent: #E6C01F;
+    --accent-light: #E6C01F;
+    --mint: #E8E8E8;
+    --taupe: #1A1A1A;
+    --white: #ffffff;
+    --gray-1: #1A1A1A;
+    --gray-2: #3a3a3a;
+    --gray-3: #777777;
+    --gray-4: #CCCCCC;
+    --gray-5: #f5f5f5;
+    --warm-tint: #fff8e8;
+    --warm-mid: #f0dfa0;
+    --radius: 4px;
+    --radius-lg: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #000000;
+    color: var(--gray-1);
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--primary-dark);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(200,29,5,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 32px 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--primary-light);
+    margin-bottom: 12px;
+  }
+
+  .header-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 42px;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 10px;
+  }
+
+  .header-title span { color: var(--primary-light); }
+
+  .header-sub {
+    font-size: 15px;
+    color: rgba(255,255,255,0.55);
+    font-weight: 300;
+    margin-top: 8px;
+  }
+
+  .header-pills {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .pill {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(200,29,5,0.4);
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* ── MAIN ── */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 32px 40px;
+  }
+
+  /* ── INPUT BLOCK ── */
+  .input-block {
+    background: var(--white);
+    border: 1px solid var(--gray-4);
+    border-top: 4px solid var(--primary);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+    margin-bottom: 32px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  }
+
+  .block-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 6px;
+  }
+
+  .block-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--primary-dark);
+    margin-bottom: 4px;
+  }
+
+  .block-desc {
+    font-size: 13.5px;
+    color: var(--gray-2);
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+
+  .fields-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .field-group.full { grid-column: 1 / -1; }
+
+  label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--primary-dark);
+  }
+
+  input[type="text"],
+  select,
+  textarea {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--gray-4);
+    border-radius: var(--radius);
+    background: var(--mint);
+    color: var(--gray-1);
+    transition: border-color 0.2s, background 0.2s;
+    outline: none;
+    width: 100%;
+  }
+
+  input[type="text"]:focus,
+  select:focus,
+  textarea:focus {
+    border-color: var(--primary);
+    background: var(--white);
+  }
+
+  select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23555' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 70px;
+  }
+
+  .field-hint {
+    font-size: 11px;
+    color: var(--gray-3);
+    line-height: 1.4;
+  }
+
+  /* Section dividers */
+  .section-divider {
+    grid-column: 1 / -1;
+    margin-top: 8px;
+    padding-top: 20px;
+    border-top: 1px solid var(--warm-mid);
+  }
+
+  .section-divider-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--primary-dark);
+    margin-bottom: 4px;
+  }
+
+  .section-divider-desc {
+    font-size: 12px;
+    color: var(--gray-3);
+    margin-bottom: 16px;
+  }
+
+  /* Scenario selector cards */
+  .scenario-grid {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .scenario-card {
+    border: 2px solid var(--gray-4);
+    border-radius: var(--radius-lg);
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .scenario-card:hover { border-color: var(--primary); }
+
+  .scenario-card.selected {
+    border-color: var(--primary);
+    background: var(--warm-tint);
+  }
+
+  .scenario-card.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary);
+  }
+
+  .scenario-card-icon {
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
+
+  .scenario-card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 15px;
+    color: var(--primary-dark);
+    margin-bottom: 4px;
+  }
+
+  .scenario-card-desc {
+    font-size: 11px;
+    color: var(--gray-3);
+    line-height: 1.45;
+  }
+
+  .scenario-detail {
+    display: none;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--warm-mid);
+  }
+
+  .scenario-card.selected .scenario-detail {
+    display: block;
+    animation: fadeUp 0.2s ease forwards;
+  }
+
+  .shot-type-row {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+
+  .shot-type-btn {
+    flex: 1;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-align: center;
+    padding: 6px 4px 5px;
+    border: 1.5px solid var(--gray-4);
+    border-radius: var(--radius);
+    background: var(--white);
+    color: var(--gray-3);
+    cursor: pointer;
+    transition: all 0.15s;
+    line-height: 1.3;
+  }
+
+  .shot-type-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
+  .shot-type-btn.active {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: var(--white);
+  }
+
+  .shot-type-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .shot-type-sub {
+    display: block;
+    font-weight: 400;
+    font-size: 9px;
+    margin-top: 1px;
+    opacity: 0.8;
+  }
+
+  .scenario-detail input {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    padding: 7px 10px;
+    border: 1.5px solid var(--warm-mid);
+    border-radius: var(--radius);
+    background: var(--white);
+    color: var(--gray-1);
+    outline: none;
+    width: 100%;
+    transition: border-color 0.2s;
+  }
+
+  .scenario-detail input:focus {
+    border-color: var(--primary);
+  }
+
+  .scenario-detail-hint {
+    font-size: 10px;
+    color: var(--gray-3);
+    line-height: 1.4;
+    margin-top: 4px;
+  }
+
+  /* Style preference chips */
+  .pref-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .pref-chip {
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1.5px solid var(--gray-4);
+    background: var(--white);
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--gray-2);
+    user-select: none;
+  }
+
+  .pref-chip:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
+  .pref-chip.selected {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--white);
+  }
+
+  /* Callout box */
+  .callout-box {
+    grid-column: 1 / -1;
+    font-size: 12.5px;
+    color: var(--primary-dark);
+    background: var(--warm-tint);
+    border: 1px solid var(--warm-mid);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    line-height: 1.7;
+  }
+
+  .callout-box strong { font-weight: 600; }
+
+  /* Source type cards */
+  .source-cards {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .source-card {
+    border: 2px solid var(--gray-4);
+    border-radius: var(--radius-lg);
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    text-align: center;
+  }
+
+  .source-card:hover { border-color: var(--primary); }
+
+  .source-card.selected {
+    border-color: var(--primary);
+    background: var(--warm-tint);
+  }
+
+  .source-card.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary);
+  }
+
+  .source-card-icon { font-size: 24px; margin-bottom: 6px; }
+
+  .source-card-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-bottom: 3px;
+  }
+
+  .source-card-desc {
+    font-size: 11px;
+    color: var(--gray-3);
+    line-height: 1.4;
+  }
+
+  /* Custom scenario entries */
+  .custom-scenarios {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .custom-scenario-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .custom-scenario-row input { flex: 1; }
+
+  .btn-remove-custom {
+    font-size: 18px;
+    color: var(--gray-3);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: var(--radius);
+    transition: color 0.15s;
+  }
+
+  .btn-remove-custom:hover { color: var(--primary); }
+
+  .btn-add-custom {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--primary);
+    background: none;
+    border: 1.5px dashed var(--primary);
+    border-radius: var(--radius);
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.15s;
+    align-self: flex-start;
+  }
+
+  .btn-add-custom:hover {
+    background: var(--warm-tint);
+  }
+
+  /* Generate button */
+  .generate-wrap {
+    margin-top: 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .btn-generate {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .btn-generate:hover { background: var(--primary-dark); }
+  .btn-generate:active { transform: scale(0.98); }
+
+  .btn-reset {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--gray-3);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 0;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .btn-reset:hover { color: var(--gray-1); }
+
+  /* ── OUTPUTS ── */
+  #output-section {
+    display: none;
+    animation: fadeUp 0.4s ease forwards;
+  }
+
+  #output-section.visible { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .output-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--warm-mid);
+  }
+
+  .output-header-left h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--primary-dark);
+  }
+
+  .output-header-left p {
+    font-size: 13px;
+    color: var(--gray-2);
+    margin-top: 3px;
+  }
+
+  .btn-edit {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 9px 18px;
+    background: transparent;
+    color: var(--primary);
+    border: 1.5px solid var(--primary);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-edit:hover {
+    background: var(--primary);
+    color: var(--white);
+  }
+
+  /* Context bar */
+  .context-bar {
+    background: var(--primary-dark);
+    border-radius: var(--radius-lg);
+    padding: 16px 24px;
+    margin-bottom: 28px;
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .context-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .context-key {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--primary-light);
+  }
+
+  .context-val {
+    font-size: 13px;
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  /* Prompt cards */
+  .prompt-card {
+    background: var(--white);
+    border: 1px solid var(--gray-4);
+    border-radius: var(--radius-lg);
+    margin-bottom: 24px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  .prompt-card-header {
+    background: var(--primary);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .prompt-card-header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .step-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--primary-dark);
+    background: var(--primary-light);
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .prompt-card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--white);
+  }
+
+  .prompt-card-subtitle {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 2px;
+  }
+
+  .btn-copy {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    background: transparent;
+    color: rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .btn-copy:hover {
+    background: rgba(255,255,255,0.1);
+    color: var(--white);
+    border-color: rgba(255,255,255,0.6);
+  }
+
+  .btn-copy.copied {
+    background: rgba(200,29,5,0.35);
+    color: #E6C01F;
+    border-color: rgba(200,29,5,0.5);
+  }
+
+  .prompt-card-instructions {
+    background: var(--warm-tint);
+    padding: 12px 24px;
+    font-size: 12.5px;
+    color: var(--primary-dark);
+    border-bottom: 1px solid var(--warm-mid);
+    line-height: 1.5;
+  }
+
+  .prompt-card-instructions strong { font-weight: 600; }
+
+  .prompt-body {
+    padding: 24px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: var(--gray-1);
+    white-space: pre-wrap;
+    background: var(--gray-5);
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    user-select: all;
+  }
+
+  .after-step {
+    margin: -8px 0 24px;
+    padding: 12px 20px;
+    background: var(--mint);
+    border-left: 3px solid var(--primary);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 12.5px;
+    color: var(--gray-2);
+    line-height: 1.5;
+  }
+
+  .after-step strong { color: var(--primary-dark); font-weight: 600; }
+
+  /* Prompt count badge */
+  .prompt-count-badge {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--primary);
+    background: var(--warm-tint);
+    border: 1px solid var(--warm-mid);
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  /* Validation */
+  #validation-warning {
+    display: none;
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    padding: 10px 14px;
+    background: var(--warm-tint);
+    border: 1px solid var(--primary);
+    border-radius: var(--radius);
+  }
+
+  /* Footer */
+  .footer {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px 24px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--gray-3);
+    line-height: 1.6;
+  }
+
+  .footer strong { color: var(--primary); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .header-title { font-size: 28px; line-height: 1.15; }
+    .header-sub { font-size: 13px; }
+    .header-pills { gap: 6px; }
+    .pill { font-size: 10px; padding: 4px 10px; }
+    header .header-inner { padding: 28px 16px 24px; }
+
+    main { padding: 20px 12px 24px; }
+    .input-block { padding: 20px 16px; }
+    .footer { padding: 0 16px 16px; }
+    .fields-grid { grid-template-columns: 1fr; }
+    .field-group.full { grid-column: 1; }
+    .scenario-grid { grid-template-columns: 1fr; }
+    .source-cards { grid-template-columns: 1fr; }
+    .generate-wrap { flex-direction: column; align-items: stretch; }
+    .btn-generate { width: 100%; text-align: center; padding: 16px 20px; }
+    .context-bar { gap: 12px; padding: 12px 16px; flex-wrap: wrap; }
+    .context-val { font-size: 12px; }
+    .output-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .btn-edit { width: 100%; text-align: center; }
+    .prompt-card-header { flex-direction: column; align-items: flex-start; gap: 10px; padding: 14px 16px; }
+    .prompt-card-header-left { flex-wrap: wrap; gap: 8px; }
+    .prompt-card-title { font-size: 16px; }
+    .btn-copy { width: 100%; text-align: center; padding: 10px; }
+    .prompt-card-instructions { padding: 10px 16px; }
+    .prompt-body { padding: 16px; font-size: 12.5px; }
+    .after-step { padding: 10px 14px; font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-eyebrow">Real Estate CNX &middot; AI Tools</div>
+    <h1 class="header-title">AI Portrait <span>Prompt Engine</span></h1>
+    <p class="header-sub">Fill in your details, pick your scenarios &mdash; get ready-to-paste prompts that generate professional portraits, headshots, and creative images in any AI tool</p>
+    <div class="header-pills">
+      <div class="pill">Professional Headshots</div>
+      <div class="pill">Environmental Portraits</div>
+      <div class="pill">Lifestyle &amp; Social</div>
+      <div class="pill">Creative &amp; Stylized</div>
+      <div class="pill">Trending Styles</div>
+      <div class="pill">Custom Scenarios</div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- INPUT BLOCK -->
+  <div class="input-block" id="input-block">
+    <div class="block-label">Setup</div>
+    <div class="block-title">Build Your Portrait Prompts</div>
+    <p class="block-desc">Tell us about yourself, select your scenarios, and we'll generate AI-ready prompts you can paste into ChatGPT, Gemini, Midjourney, or any image generation tool. From polished headshots to creative portraits to stylized art — it all starts here.</p>
+
+    <div class="fields-grid">
+
+      <!-- Section 1: About You -->
+      <div class="section-divider" style="margin-top:0; padding-top:0; border-top:none;">
+        <div class="section-divider-title">About You</div>
+        <div class="section-divider-desc">Basic info that gets woven into every prompt for a personalized result.</div>
+      </div>
+
+      <div class="field-group">
+        <label for="agent-name">Your Name</label>
+        <input type="text" id="agent-name" placeholder="e.g. Jane Smith">
+      </div>
+
+      <div class="field-group">
+        <label for="agent-title">Title / Role</label>
+        <input type="text" id="agent-title" placeholder="e.g. Broker, Realtor, Team Lead">
+      </div>
+
+      <div class="field-group">
+        <label for="brokerage">Brokerage / Team</label>
+        <input type="text" id="brokerage" placeholder="e.g. John L. Scott Talent Group, Cicero Group / WestUSA Realty">
+      </div>
+
+      <div class="field-group">
+        <label for="market-area">Market Area</label>
+        <input type="text" id="market-area" placeholder="e.g. Phoenix Metro, Thurston County WA">
+      </div>
+
+      <!-- Section 2: Your Photo -->
+      <div class="section-divider">
+        <div class="section-divider-title">Your Reference Photo</div>
+        <div class="section-divider-desc">What kind of image will you upload alongside the prompt? This helps the AI know how to handle your source material.</div>
+      </div>
+
+      <div class="source-cards">
+        <div class="source-card selected" id="source-selfie" onclick="selectSource('selfie')">
+          <div class="source-card-icon">🤳</div>
+          <div class="source-card-title">Single Selfie</div>
+          <div class="source-card-desc">A casual self-portrait — the AI will enhance and reframe it</div>
+        </div>
+        <div class="source-card" id="source-headshot" onclick="selectSource('headshot')">
+          <div class="source-card-icon">📸</div>
+          <div class="source-card-title">Existing Headshot</div>
+          <div class="source-card-desc">A professional or semi-pro photo you want reimagined</div>
+        </div>
+        <div class="source-card" id="source-multiple" onclick="selectSource('multiple')">
+          <div class="source-card-icon">🖼️</div>
+          <div class="source-card-title">Multiple Photos</div>
+          <div class="source-card-desc">2+ images for better likeness capture and accuracy</div>
+        </div>
+      </div>
+
+      <div class="callout-box" id="tips-selfie">
+        <strong>📷 Tips for Best Results — Single Selfie</strong><br><br>
+        Use a well-lit, front-facing photo. Natural daylight near a window works best — avoid harsh overhead lighting or heavy shadows. Keep your face centered, unobstructed, and in sharp focus. Skip sunglasses, hats, or heavy filters. A neutral background is ideal, but the AI will replace it regardless.<br><br>
+        <strong>For All Reference Photos:</strong> Higher resolution is always better. Minimum 512×512px, ideally 1024×1024 or larger. Make sure your face takes up at least 30–40% of the frame. Remove any watermarks. The AI will handle everything else — background, lighting, wardrobe, and composition — you just need a clear reference of <em>you</em>.
+      </div>
+
+      <div class="callout-box" id="tips-headshot" style="display:none;">
+        <strong>📷 Tips for Best Results — Existing Headshot</strong><br><br>
+        The higher the resolution, the better. A clean, evenly-lit photo gives the AI the most to work with. If your headshot has a busy background, that's fine — the AI will replace it. Avoid heavily retouched or stylized images, since the AI needs to read your real features. RAW or lightly edited photos produce the most accurate results.<br><br>
+        <strong>For All Reference Photos:</strong> Higher resolution is always better. Minimum 512×512px, ideally 1024×1024 or larger. Make sure your face takes up at least 30–40% of the frame. Remove any watermarks. The AI will handle everything else — background, lighting, wardrobe, and composition — you just need a clear reference of <em>you</em>.
+      </div>
+
+      <div class="callout-box" id="tips-multiple" style="display:none;">
+        <strong>📷 Tips for Best Results — Multiple Photos</strong><br><br>
+        This gives the best likeness results. Include 3–5 images showing your face from slightly different angles — front, slight left, slight right. Mix lighting conditions if possible. Consistent photos from the same day work great, but variety helps the AI understand your features in 3D. Avoid group photos where your face is small or partially hidden.<br><br>
+        <strong>For All Reference Photos:</strong> Higher resolution is always better. Minimum 512×512px, ideally 1024×1024 or larger. Make sure your face takes up at least 30–40% of the frame. Remove any watermarks. The AI will handle everything else — background, lighting, wardrobe, and composition — you just need a clear reference of <em>you</em>.
+      </div>
+
+      <div class="field-group full">
+        <label for="appearance-notes">Appearance Notes</label>
+        <textarea id="appearance-notes" placeholder="Anything specific you want the AI to preserve or adjust — glasses, facial hair, hair color/style, preferred side angle, etc. Example: 'I wear dark-rimmed glasses and have a short beard. Keep both. My hair is usually styled to the right.'"></textarea>
+        <div class="field-hint">Helps the AI maintain your likeness accurately across different scenarios.</div>
+      </div>
+
+      <!-- Section 3: Headshot Scenarios -->
+      <div class="section-divider">
+        <div class="section-divider-title">Portrait Scenarios</div>
+        <div class="section-divider-desc">Select at least 3 scenarios. Each generates its own prompt — from professional headshots to environmental portraits to trending art styles. Add custom scenarios below.</div>
+      </div>
+
+      <div class="scenario-grid" id="scenario-grid">
+        <div class="scenario-card" data-scenario="professional-studio" onclick="toggleScenario(this)">
+          <div class="scenario-card-icon">🏢</div>
+          <div class="scenario-card-title">Professional Studio</div>
+          <div class="scenario-card-desc">Clean backdrop, studio lighting, polished corporate feel — website hero, brokerage profile</div>
+          <div class="scenario-detail" onclick="event.stopPropagation()">
+            <div class="shot-type-row">
+              <button type="button" class="shot-type-btn active" onclick="setShotType(this, 'headshot')" data-shot="headshot"><span class="shot-type-label">Headshot</span><span class="shot-type-sub">Face focus · tight crop</span></button>
+              <button type="button" class="shot-type-btn" onclick="setShotType(this, 'portrait')" data-shot="portrait"><span class="shot-type-label">Portrait</span><span class="shot-type-sub">Half/full body · person focus</span></button>
+              <button type="button" class="shot-type-btn" onclick="setShotType(this, 'scene')" data-shot="scene"><span class="shot-type-label">Scene</span><span class="shot-type-sub">Wide · environment + person</span></button>
+            </div>
+            <input type="text" id="detail-professional-studio" placeholder="e.g. Dark moody backdrop, bright white clean, branded background, modern glass office">
+            <div class="scenario-detail-hint">Describe the backdrop or studio vibe. Leave blank for a classic clean look.</div>
+          </div>
+        </div>
+        <div class="scenario-card" data-scenario="outdoor-lifestyle" onclick="toggleScenario(this)">
+          <div class="scenario-card-icon">🌿</div>
+          <div class="scenario-card-title">Outdoor Lifestyle</div>
+          <div class="scenario-card-desc">Natural light, greenery or urban setting, warm and approachable — social media, about page</div>
+          <div class="scenario-detail" onclick="event.stopPropagation()">
+            <div class="shot-type-row">
+              <button type="button" class="shot-type-btn" onclick="setShotType(this, 'headshot')" data-shot="headshot"><span class="shot-type-label">Headshot</span><span class="shot-type-sub">Face focus · tight crop</span></button>
+              <button type="button" class="shot-type-btn active" onclick="setShotType(this, 'portrait')" data-shot="portrait"><span class="shot-type-label">Portrait</span><span class="shot-type-sub">Half/full body · person focus</span></button>
+              <button type="button" class="shot-type-btn" onclick="setShotType(this, 'scene')" data-shot="scene"><span class="shot-type-label">Scene</span><span class="shot-type-sub">Wide · environment + person</span></button>
+            </div>
+            <input type="text" id="detail-outdoor-lifestyle" placeholder="e.g. Pacific NW forest trail, desert sunset with saguaros, lakefront dock, snowy mountain path">
+            <div class="scenario-detail-hint">Describe the setting, region, season, or weather. Leave blank for a generic green park.</div>
+          </div>
+        </div>
+        <div class="scenario-card" data-scenario="at-property" onclick="toggleScenario(this)">
+          <div class="scenario-card-icon">🏡</div>
+          <div class="scenario-card-title">At a Property</div>
+          <div class="scenario-card-desc">Front door, kitchen island, or curb appeal backdrop — listing presentations, mailers</div>
+          <div class="scenario-detail" onclick="event.stopPropagation()">
+            <div class="shot-type-row">
+              <button type="button" class="shot-type-btn" onclick="setShotType(this, 'headshot')" data-shot="headshot"><span class="shot-type-label">Headshot</span><span class="shot-type-sub">Face focus · tight crop</span></button>
+              <button type="button" class="shot-type-btn active" onclick="setShotType(this, 'portrait')" data-shot="portrait"><span class="shot-type-label">Portrait</span><span class="shot-type-sub">Half/full body · person focus</span></button>
+              <button type="button" class="shot-type-btn" onclick="setShotType(this, 'scene')" data-shot="scene"><span class="shot-type-label">Scene</span><span class="shot-type-sub">Wide · environment + person</span></button>
+            </div>
+            <input type="text" id="detail-at-property" placeholder="e.g. Modern farmhouse porch, luxury waterfront home, cozy craftsman bungalow">
+            <div class="scenario-detail-hint">Describe the property style. Leave blank for a generic attractive home entrance.</div>
+          </div>
+        </div>
+        <div class="scenario-card" data-scenario="community" onclick="toggleScenario(this)">
+          <div class="scenario-card-icon">🏘️</div>
+          <div class="scenario-card-title">Community / Neighborhood</div>
+          <div class="scenario-card-desc">Local landmark, downtown street, farmers market — community newsletters, local branding</div>
+          <div class="scenario-detail" onclick="event.stopPropagation()">
+            <div class="shot-type-row">
+              <button type="button" class="shot-type-btn" onclick="setShotType(this, 'headshot')" data-shot="headshot"><span class="shot-type-label">Headshot</span><span class="shot-type-sub">Face focus · tight crop</span></button>
+              <button type="button" class="shot-type-btn" onclick="setShotType(this, 'portrait')" data-shot="portrait"><span class="shot-type-label">Portrait</span><span class="shot-type-sub">Half/full body · person focus</span></button>
+              <button type="button" class="shot-type-btn active" onclick="setShotType(this, 'scene')" data-shot="scene"><span class="shot-type-label">Scene</span><span class="shot-type-sub">Wide · environment + person</span></button>
+            </div>
+            <input type="text" id="detail-community" placeholder="e.g. Downtown Olympia, Scottsdale Old Town, Pike Place Market, farmers market">
+            <div class="scenario-detail-hint">Name a specific area, landmark, or vibe. Leave blank for a charming downtown.</div>
+          </div>
+        </div>
+        <div class="scenario-card" data-scenario="linkedin-corporate" onclick="toggleScenario(this)">
+          <div class="scenario-card-icon">💼</div>
+          <div class="scenario-card-title">LinkedIn Corporate</div>
+          <div class="scenario-card-desc">Neutral background, professional attire, confident pose — LinkedIn, email signature, business cards</div>
+          <div class="scenario-detail" onclick="event.stopPropagation()">
+            <div class="shot-type-row">
+              <button type="button" class="shot-type-btn active" onclick="setShotType(this, 'headshot')" data-shot="headshot"><span class="shot-type-label">Headshot</span><span class="shot-type-sub">Face focus · tight crop</span></button>
+              <button type="button" class="shot-type-btn" onclick="setShotType(this, 'portrait')" data-shot="portrait"><span class="shot-type-label">Portrait</span><span class="shot-type-sub">Half/full body · person focus</span></button>
+              <button type="button" class="shot-type-btn" onclick="setShotType(this, 'scene')" data-shot="scene"><span class="shot-type-label">Scene</span><span class="shot-type-sub">Wide · environment + person</span></button>
+            </div>
+            <input type="text" id="detail-linkedin-corporate" placeholder="e.g. Warm neutral gradient, blurred modern office, dark executive backdrop">
+            <div class="scenario-detail-hint">Describe the background style. Leave blank for a standard neutral backdrop.</div>
+          </div>
+        </div>
+        <div class="scenario-card" data-scenario="social-casual" onclick="toggleScenario(this)">
+          <div class="scenario-card-icon">📱</div>
+          <div class="scenario-card-title">Social Media Casual</div>
+          <div class="scenario-card-desc">Relaxed, approachable, candid energy — Instagram, Facebook, Reels thumbnails</div>
+          <div class="scenario-detail" onclick="event.stopPropagation()">
+            <div class="shot-type-row">
+              <button type="button" class="shot-type-btn" onclick="setShotType(this, 'headshot')" data-shot="headshot"><span class="shot-type-label">Headshot</span><span class="shot-type-sub">Face focus · tight crop</span></button>
+              <button type="button" class="shot-type-btn active" onclick="setShotType(this, 'portrait')" data-shot="portrait"><span class="shot-type-label">Portrait</span><span class="shot-type-sub">Half/full body · person focus</span></button>
+              <button type="button" class="shot-type-btn" onclick="setShotType(this, 'scene')" data-shot="scene"><span class="shot-type-label">Scene</span><span class="shot-type-sub">Wide · environment + person</span></button>
+            </div>
+            <input type="text" id="detail-social-casual" placeholder="e.g. Trendy coffee shop, colorful mural wall, sunny rooftop patio, cozy home office">
+            <div class="scenario-detail-hint">Describe the casual setting. Leave blank for a bright, inviting environment.</div>
+          </div>
+        </div>
+        <div class="scenario-card" data-scenario="speaker-authority" onclick="toggleScenario(this)">
+          <div class="scenario-card-icon">🎤</div>
+          <div class="scenario-card-title">Speaker / Authority</div>
+          <div class="scenario-card-desc">Stage, podium, or conference vibe — podcast covers, event bios, press kits</div>
+          <div class="scenario-detail" onclick="event.stopPropagation()">
+            <div class="shot-type-row">
+              <button type="button" class="shot-type-btn" onclick="setShotType(this, 'headshot')" data-shot="headshot"><span class="shot-type-label">Headshot</span><span class="shot-type-sub">Face focus · tight crop</span></button>
+              <button type="button" class="shot-type-btn active" onclick="setShotType(this, 'portrait')" data-shot="portrait"><span class="shot-type-label">Portrait</span><span class="shot-type-sub">Half/full body · person focus</span></button>
+              <button type="button" class="shot-type-btn" onclick="setShotType(this, 'scene')" data-shot="scene"><span class="shot-type-label">Scene</span><span class="shot-type-sub">Wide · environment + person</span></button>
+            </div>
+            <input type="text" id="detail-speaker-authority" placeholder="e.g. Real estate conference keynote, podcast studio with mic, TEDx-style stage">
+            <div class="scenario-detail-hint">Describe the speaking context. Leave blank for a general stage setting.</div>
+          </div>
+        </div>
+        <div class="scenario-card" data-scenario="seasonal" onclick="toggleScenario(this)">
+          <div class="scenario-card-icon">🎄</div>
+          <div class="scenario-card-title">Seasonal / Holiday</div>
+          <div class="scenario-card-desc">Festive or themed styling — holiday mailers, seasonal social posts, event invites</div>
+          <div class="scenario-detail" onclick="event.stopPropagation()">
+            <div class="shot-type-row">
+              <button type="button" class="shot-type-btn" onclick="setShotType(this, 'headshot')" data-shot="headshot"><span class="shot-type-label">Headshot</span><span class="shot-type-sub">Face focus · tight crop</span></button>
+              <button type="button" class="shot-type-btn active" onclick="setShotType(this, 'portrait')" data-shot="portrait"><span class="shot-type-label">Portrait</span><span class="shot-type-sub">Half/full body · person focus</span></button>
+              <button type="button" class="shot-type-btn" onclick="setShotType(this, 'scene')" data-shot="scene"><span class="shot-type-label">Scene</span><span class="shot-type-sub">Wide · environment + person</span></button>
+            </div>
+            <input type="text" id="detail-seasonal" placeholder="e.g. Cozy winter with snow and string lights, fall leaves, spring cherry blossoms, Fourth of July">
+            <div class="scenario-detail-hint">Describe the season, holiday, or theme. Leave blank for a general festive setting.</div>
+          </div>
+        </div>
+        <div class="scenario-card" data-scenario="team-consistent" onclick="toggleScenario(this)">
+          <div class="scenario-card-icon">👥</div>
+          <div class="scenario-card-title">Team Consistent</div>
+          <div class="scenario-card-desc">Uniform style across team members — team pages, brokerage rosters, group marketing</div>
+          <div class="scenario-detail" onclick="event.stopPropagation()">
+            <div class="shot-type-row">
+              <button type="button" class="shot-type-btn active" onclick="setShotType(this, 'headshot')" data-shot="headshot"><span class="shot-type-label">Headshot</span><span class="shot-type-sub">Face focus · tight crop</span></button>
+              <button type="button" class="shot-type-btn" onclick="setShotType(this, 'portrait')" data-shot="portrait"><span class="shot-type-label">Portrait</span><span class="shot-type-sub">Half/full body · person focus</span></button>
+              <button type="button" class="shot-type-btn" onclick="setShotType(this, 'scene')" data-shot="scene"><span class="shot-type-label">Scene</span><span class="shot-type-sub">Wide · environment + person</span></button>
+            </div>
+            <input type="text" id="detail-team-consistent" placeholder="e.g. All on navy background, branded backdrop with logo, matching gray studio setup">
+            <div class="scenario-detail-hint">Describe the uniform look your team should share. Leave blank for a solid-color backdrop.</div>
+          </div>
+        </div>
+        <div class="scenario-card" data-scenario="trending-style" onclick="toggleScenario(this)">
+          <div class="scenario-card-icon">🔥</div>
+          <div class="scenario-card-title">Trending Style</div>
+          <div class="scenario-card-desc">AI identifies what's trending right now — action figures, anime, cartoon styles, digital art — and offers options</div>
+          <div class="scenario-detail" onclick="event.stopPropagation()">
+            <input type="text" id="detail-trending-style" placeholder="e.g. Action figure box, Studio Ghibli, Simpsons style, Pixar character, comic book cover">
+            <div class="scenario-detail-hint">Know which trend you want? Enter it and the AI will skip straight to generating. Leave blank to see what's trending.</div>
+          </div>
+        </div>
+        <div class="scenario-card" data-scenario="surprise-me" onclick="toggleScenario(this)">
+          <div class="scenario-card-icon">🎲</div>
+          <div class="scenario-card-title">Surprise Me</div>
+          <div class="scenario-card-desc">Completely randomized — fun, fantastical, absurd, daring, or wildly creative. Just for fun, no rules.</div>
+        </div>
+      </div>
+
+      <!-- Custom Scenarios -->
+      <div class="field-group full">
+        <label>Custom Scenarios</label>
+        <div class="field-hint" style="margin-bottom:8px;">Describe your own scenario — it'll generate a prompt just like the presets above.</div>
+        <div class="custom-scenarios" id="custom-scenarios">
+          <div class="custom-scenario-row">
+            <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
+              <div class="shot-type-row">
+                <button type="button" class="shot-type-btn active" onclick="setShotType(this, 'headshot')" data-shot="headshot"><span class="shot-type-label">Headshot</span><span class="shot-type-sub">Face focus · tight crop</span></button>
+                <button type="button" class="shot-type-btn" onclick="setShotType(this, 'portrait')" data-shot="portrait"><span class="shot-type-label">Portrait</span><span class="shot-type-sub">Half/full body · person focus</span></button>
+                <button type="button" class="shot-type-btn" onclick="setShotType(this, 'scene')" data-shot="scene"><span class="shot-type-label">Scene</span><span class="shot-type-sub">Wide · environment + person</span></button>
+              </div>
+              <input type="text" class="custom-scenario-input" placeholder="e.g. At a coffee shop, casual business meeting vibe">
+            </div>
+            <button class="btn-remove-custom" onclick="removeCustom(this)" title="Remove">&times;</button>
+          </div>
+        </div>
+        <button class="btn-add-custom" onclick="addCustomScenario()">+ Add Another Custom Scenario</button>
+      </div>
+
+      <!-- Section 4: AI Platform -->
+      <div class="section-divider">
+        <div class="section-divider-title">AI Platform</div>
+        <div class="section-divider-desc">Which type of AI tool will you use? This changes how the prompts are written.</div>
+      </div>
+
+      <div class="source-cards" style="grid-template-columns:1fr 1fr;">
+        <div class="source-card selected" id="platform-conversational" onclick="selectPlatformInput('conversational')">
+          <div class="source-card-icon">💬</div>
+          <div class="source-card-title">Conversational</div>
+          <div class="source-card-desc">ChatGPT, Gemini, Claude — upload your photo and paste a natural-language prompt. The AI evaluates your image and generates your portrait.</div>
+        </div>
+        <div class="source-card" id="platform-technical" onclick="selectPlatformInput('technical')">
+          <div class="source-card-icon">⚙️</div>
+          <div class="source-card-title">Technical</div>
+          <div class="source-card-desc">Midjourney, Flux, Leonardo AI — keyword-driven prompts with photography parameters. Includes platform-specific tips and settings.</div>
+        </div>
+      </div>
+
+      <!-- Section 5: Style Preferences -->
+      <div class="section-divider">
+        <div class="section-divider-title">Style Preferences</div>
+        <div class="section-divider-desc">These apply across all scenarios. Select one per row — the AI will adapt the specifics to each scenario.</div>
+      </div>
+
+      <div class="field-group full">
+        <label>Lighting</label>
+        <div class="pref-chips" id="lighting-chips">
+          <span class="pref-chip" onclick="selectPref(this, 'lighting')">Natural Light</span>
+          <span class="pref-chip" onclick="selectPref(this, 'lighting')">Studio / Softbox</span>
+          <span class="pref-chip" onclick="selectPref(this, 'lighting')">Golden Hour</span>
+          <span class="pref-chip" onclick="selectPref(this, 'lighting')">Dramatic / Moody</span>
+          <span class="pref-chip" onclick="selectPref(this, 'lighting')">Bright &amp; Airy</span>
+        </div>
+      </div>
+
+      <div class="field-group full">
+        <label>Color Tone</label>
+        <div class="pref-chips" id="tone-chips">
+          <span class="pref-chip" onclick="selectPref(this, 'tone')">Warm</span>
+          <span class="pref-chip" onclick="selectPref(this, 'tone')">Cool</span>
+          <span class="pref-chip" onclick="selectPref(this, 'tone')">Neutral</span>
+          <span class="pref-chip" onclick="selectPref(this, 'tone')">Brand-Matched</span>
+          <span class="pref-chip" onclick="selectPref(this, 'tone')">Rich / Saturated</span>
+        </div>
+      </div>
+
+      <div class="field-group full">
+        <label>Expression / Mood</label>
+        <div class="pref-chips" id="expression-chips">
+          <span class="pref-chip" onclick="selectPref(this, 'expression')">Confident</span>
+          <span class="pref-chip" onclick="selectPref(this, 'expression')">Friendly / Approachable</span>
+          <span class="pref-chip" onclick="selectPref(this, 'expression')">Serious / Authoritative</span>
+          <span class="pref-chip" onclick="selectPref(this, 'expression')">Warm / Genuine Smile</span>
+          <span class="pref-chip" onclick="selectPref(this, 'expression')">Relaxed / Natural</span>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="wardrobe-toggle">Include Wardrobe Suggestions?</label>
+        <select id="wardrobe-toggle">
+          <option value="yes">Yes — suggest clothing for each scenario</option>
+          <option value="no">No — I'll choose my own outfit descriptions</option>
+        </select>
+        <div class="field-hint">If yes, the AI prompt will include attire guidance that fits each scenario.</div>
+      </div>
+
+      <div class="field-group">
+        <label for="gender-presentation">Gender Presentation</label>
+        <select id="gender-presentation">
+          <option value="">Select for wardrobe suggestions</option>
+          <option value="masculine">Masculine</option>
+          <option value="feminine">Feminine</option>
+          <option value="neutral">Gender Neutral</option>
+        </select>
+        <div class="field-hint">Only used for wardrobe suggestions — helps the AI recommend appropriate attire.</div>
+      </div>
+
+      <div class="field-group full" id="brand-colors-group" style="display:none;">
+        <label for="brand-colors">Brand Colors</label>
+        <input type="text" id="brand-colors" placeholder="e.g. Navy #1a1a2e, Gold #c8a951">
+        <div class="field-hint">Enter your brand hex codes so the AI matches them in your portrait's color grading.</div>
+      </div>
+
+      <div class="field-group full">
+        <label for="additional-notes">Additional Notes</label>
+        <textarea id="additional-notes" placeholder="Any other preferences — background you want to avoid, props to include, poses to avoid, specific AI tool tips..."></textarea>
+        <div class="field-hint">Optional — anything else the AI should know when generating your portraits.</div>
+      </div>
+
+    </div>
+
+    <div id="validation-warning"></div>
+    <div class="generate-wrap">
+      <button class="btn-generate" onclick="generatePrompts()">Generate My Prompts →</button>
+      <button class="btn-reset" onclick="resetForm()">Clear all</button>
+    </div>
+  </div>
+
+  <!-- OUTPUT SECTION -->
+  <div id="output-section">
+
+    <div class="output-header">
+      <div class="output-header-left">
+        <h2>Your Portrait Prompts Are Ready</h2>
+        <p>Upload your reference photo(s) alongside each prompt &mdash; one scenario at a time</p>
+        <span class="prompt-count-badge" id="prompt-count-badge"></span>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn-edit" onclick="editInputs()">← Edit Inputs</button>
+        <button class="btn-edit" onclick="copyAllPrompts()" id="btn-copy-all" style="background:var(--primary);color:var(--white);border-color:var(--primary);">Copy All Prompts</button>
+      </div>
+    </div>
+
+    <div class="context-bar" id="context-bar"></div>
+
+    <div style="font-size:12px;color:var(--gray-3);background:var(--gray-5);border:1px solid var(--gray-4);border-radius:var(--radius);padding:10px 16px;margin-bottom:24px;line-height:1.6;">
+      <strong style="color:var(--gray-2);">How to use:</strong> Upload your reference photo(s) to your AI tool, then paste the prompt in the same message. Each prompt is standalone — run them in separate sessions or one at a time. <strong style="color:var(--gray-2);">Tip:</strong> If the first result isn't perfect, ask the AI to adjust rather than re-running the whole prompt. <strong style="color:var(--gray-2);">Copy not working?</strong> Download this file and open it directly in your browser — copy buttons work best outside of preview mode.
+    </div>
+
+    <!-- Prompt cards container -->
+    <div id="prompt-cards-container"></div>
+
+  </div>
+
+</main>
+
+<div class="footer">
+  <strong>AI Portrait Prompt Engine</strong> &middot; Real Estate CNX &middot; How Real Estate Connects<br>
+  Reference Photo → Scenario → Prompt → Professional Portrait
+</div>
+
+<script>
+
+  // ── State ──
+  let selectedSource = 'selfie';
+  let selectedScenarios = [];
+  let prefs = { lighting: '', tone: '', expression: '' };
+  let currentPlatform = 'conversational';
+
+  // ── Source Selection ──
+  function selectSource(source) {
+    selectedSource = source;
+    document.querySelectorAll('.source-card').forEach(c => c.classList.remove('selected'));
+    document.getElementById('source-' + source).classList.add('selected');
+    // Toggle tips
+    document.getElementById('tips-selfie').style.display = source === 'selfie' ? 'block' : 'none';
+    document.getElementById('tips-headshot').style.display = source === 'headshot' ? 'block' : 'none';
+    document.getElementById('tips-multiple').style.display = source === 'multiple' ? 'block' : 'none';
+  }
+
+  // ── Platform Selection (input form) ──
+  function selectPlatformInput(platform) {
+    currentPlatform = platform;
+    document.getElementById('platform-conversational').classList.toggle('selected', platform === 'conversational');
+    document.getElementById('platform-technical').classList.toggle('selected', platform === 'technical');
+  }
+
+  // ── Scenario Selection ──
+  function toggleScenario(el) {
+    const key = el.getAttribute('data-scenario');
+    if (el.classList.contains('selected')) {
+      el.classList.remove('selected');
+      selectedScenarios = selectedScenarios.filter(s => s !== key);
+    } else {
+      el.classList.add('selected');
+      selectedScenarios.push(key);
+    }
+  }
+
+  // ── Shot Type Selection ──
+  function setShotType(btn, type) {
+    const row = btn.parentElement;
+    row.querySelectorAll('.shot-type-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function getShotType(scenarioKey) {
+    const card = document.querySelector(`.scenario-card[data-scenario="${scenarioKey}"]`);
+    if (!card) return 'headshot';
+    const active = card.querySelector('.shot-type-btn.active');
+    return active ? active.getAttribute('data-shot') : 'headshot';
+  }
+
+  // ── Preference Chips ──
+  function selectPref(el, group) {
+    const container = el.parentElement;
+    container.querySelectorAll('.pref-chip').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    prefs[group] = el.textContent.trim();
+    // Show/hide brand colors field
+    if (group === 'tone') {
+      const brandGroup = document.getElementById('brand-colors-group');
+      if (brandGroup) {
+        brandGroup.style.display = prefs.tone === 'Brand-Matched' ? 'flex' : 'none';
+        if (prefs.tone !== 'Brand-Matched') {
+          document.getElementById('brand-colors').value = '';
+        }
+      }
+    }
+  }
+
+  // ── Custom Scenarios ──
+  function addCustomScenario() {
+    const container = document.getElementById('custom-scenarios');
+    const row = document.createElement('div');
+    row.className = 'custom-scenario-row';
+    row.innerHTML = `<div style="flex:1;display:flex;flex-direction:column;gap:6px;">
+              <div class="shot-type-row">
+                <button type="button" class="shot-type-btn active" onclick="setShotType(this, 'headshot')" data-shot="headshot"><span class="shot-type-label">Headshot</span><span class="shot-type-sub">Face focus · tight crop</span></button>
+                <button type="button" class="shot-type-btn" onclick="setShotType(this, 'portrait')" data-shot="portrait"><span class="shot-type-label">Portrait</span><span class="shot-type-sub">Half/full body · person focus</span></button>
+                <button type="button" class="shot-type-btn" onclick="setShotType(this, 'scene')" data-shot="scene"><span class="shot-type-label">Scene</span><span class="shot-type-sub">Wide · environment + person</span></button>
+              </div>
+              <input type="text" class="custom-scenario-input" placeholder="e.g. In a home office, working at a standing desk">
+            </div><button class="btn-remove-custom" onclick="removeCustom(this)" title="Remove">&times;</button>`;
+    container.appendChild(row);
+  }
+
+  function removeCustom(btn) {
+    const container = document.getElementById('custom-scenarios');
+    const row = btn.closest('.custom-scenario-row');
+    if (container.children.length > 1) {
+      row.remove();
+    } else {
+      row.querySelector('.custom-scenario-input').value = '';
+      // Reset shot type to headshot
+      row.querySelectorAll('.shot-type-btn').forEach(b => b.classList.remove('active'));
+      row.querySelector('.shot-type-btn[data-shot="headshot"]').classList.add('active');
+    }
+  }
+
+  // ── Helpers ──
+  function getVal(id) { return document.getElementById(id)?.value?.trim() || ''; }
+
+  // ── Scenario Metadata ──
+  const scenarioMeta = {
+    'professional-studio': {
+      title: 'Professional Studio',
+      icon: '🏢',
+      subtitle: 'Clean backdrop · Studio lighting · Corporate polish',
+      use: 'website hero, brokerage profile, MLS photo',
+      setting: 'a professional photography studio with a clean, solid-color backdrop (light gray, white, or dark navy). Studio lighting with soft key light and subtle fill to eliminate harsh shadows.',
+      settingTech: 'studio backdrop, solid gray background, Rembrandt lighting, softbox key light, fill light, catch lights in eyes',
+      wardrobe: { masculine: 'a tailored navy or charcoal suit with a crisp white or light blue dress shirt, no tie or a subtle silk tie', feminine: 'a structured blazer in navy, black, or jewel tone over a clean blouse, minimal jewelry', neutral: 'a well-fitted blazer in a dark neutral over a clean crew-neck or collared shirt' }
+    },
+    'outdoor-lifestyle': {
+      title: 'Outdoor Lifestyle',
+      icon: '🌿',
+      subtitle: 'Natural light · Greenery · Warm and approachable',
+      use: 'social media, about page, personal branding',
+      setting: 'outdoors in a lush, green park or tree-lined street with soft natural light filtering through leaves. Background is gently blurred with warm, organic tones. Golden hour or open shade lighting.',
+      settingTech: 'outdoor park setting, bokeh foliage background, natural golden hour light, shallow depth of field, lens flare',
+      wardrobe: { masculine: 'a smart-casual button-up shirt (sleeves optionally rolled) in a warm tone, no jacket', feminine: 'a relaxed but polished blouse or light cardigan in earthy or pastel tones', neutral: 'a clean henley or casual button-up in a muted earth tone' }
+    },
+    'at-property': {
+      title: 'At a Property',
+      icon: '🏡',
+      subtitle: 'Real estate context · Curb appeal · Listing-ready',
+      use: 'listing presentations, direct mail, property marketing',
+      setting: 'standing at the front entrance of a beautiful, well-maintained home with attractive curb appeal — manicured landscaping, a welcoming front door, and warm architectural details. Natural daylight, slightly angled to show the property.',
+      settingTech: 'residential property entrance, craftsman home exterior, manicured lawn, warm daylight, architectural context, real estate marketing photo',
+      wardrobe: { masculine: 'business casual — a sport coat or blazer with an open-collar shirt, dark chinos', feminine: 'a polished dress or blazer-and-slacks combination in a professional but approachable color', neutral: 'a structured jacket with clean-cut pants and a simple top' }
+    },
+    'community': {
+      title: 'Community / Neighborhood',
+      icon: '🏘️',
+      subtitle: 'Local feel · Downtown · Neighborhood pride',
+      use: 'community newsletters, local marketing, neighborhood expertise',
+      setting: 'on a charming downtown street or in front of a recognizable local landmark — a historic building, a popular coffee shop, or a vibrant neighborhood sign. The setting should feel local, walkable, and lived-in.',
+      settingTech: 'downtown street scene, local storefronts, neighborhood character, natural light, environmental portrait, urban context',
+      wardrobe: { masculine: 'smart casual — a fitted quarter-zip or polo with clean dark jeans or chinos', feminine: 'a casual-professional blouse or knit top with well-fitted pants, approachable and local-feeling', neutral: 'a casual blazer or structured sweater with clean pants' }
+    },
+    'linkedin-corporate': {
+      title: 'LinkedIn Corporate',
+      icon: '💼',
+      subtitle: 'Neutral backdrop · Professional · Confident',
+      use: 'LinkedIn, email signature, business cards, professional directories',
+      setting: 'a clean, slightly out-of-focus office environment or a simple neutral gradient background. Soft, even lighting that flatters the face without harsh shadows. The look should be polished and professional — the kind of photo you\'d see on a Fortune 500 executive\'s LinkedIn.',
+      settingTech: 'neutral gradient background, corporate headshot, even studio lighting, professional portrait, shallow DOF, clean and polished',
+      wardrobe: { masculine: 'a dark, well-tailored suit and tie or a crisp blazer with a dress shirt — polished executive look', feminine: 'a structured blazer or professional dress in a solid, confident color — navy, black, or burgundy', neutral: 'a dark blazer with a clean, high-quality shirt or turtleneck' }
+    },
+    'social-casual': {
+      title: 'Social Media Casual',
+      icon: '📱',
+      subtitle: 'Relaxed · Approachable · Candid energy',
+      use: 'Instagram, Facebook, Reels thumbnails, personal brand',
+      setting: 'a bright, casual environment — a stylish coffee shop, a sunlit living room, or a colorful mural wall. The vibe is relaxed and authentic, like a candid moment captured naturally. Warm, inviting light.',
+      settingTech: 'casual lifestyle setting, coffee shop background, bright natural light, candid feel, warm color grade, Instagram aesthetic',
+      wardrobe: { masculine: 'a clean t-shirt or casual button-up, optionally layered with a light jacket — effortlessly put-together', feminine: 'a casual-chic top, denim jacket, or relaxed blouse — styled but not overdone', neutral: 'a clean, well-fitted casual top or light layer — approachable and modern' }
+    },
+    'speaker-authority': {
+      title: 'Speaker / Authority',
+      icon: '🎤',
+      subtitle: 'Stage presence · Confidence · Expert positioning',
+      use: 'podcast covers, event bios, press kits, speaking pages',
+      setting: 'on a stage, at a podium, or in front of a large screen or event backdrop. Dramatic lighting with a spotlight effect — darker background, strong key light on the face. The mood should convey authority, expertise, and stage presence.',
+      settingTech: 'stage setting, dramatic spotlight, dark background, podium, conference environment, authoritative portrait, rim lighting',
+      wardrobe: { masculine: 'a sharp dark suit or blazer with a commanding presence — power dressing for the stage', feminine: 'a bold, structured outfit — a statement blazer or sleek dress in a strong color', neutral: 'a dark, well-tailored blazer or suit with clean lines — confident stage presence' }
+    },
+    'seasonal': {
+      title: 'Seasonal / Holiday',
+      icon: '🎄',
+      subtitle: 'Festive · Themed · Seasonal marketing',
+      use: 'holiday cards, seasonal social posts, event invites',
+      setting: 'a tasteful holiday or seasonal setting — think warm string lights, a decorated doorway, autumn leaves, spring blossoms, or a cozy winter scene. Festive but not costume-y. The environment should feel elevated and on-brand, not like a mall Santa photo.',
+      settingTech: 'festive holiday setting, warm string lights bokeh, seasonal decor, cozy atmosphere, warm color palette, editorial holiday portrait',
+      wardrobe: { masculine: 'a smart sweater or blazer with subtle seasonal color — burgundy, forest green, or rich navy', feminine: 'a festive but elegant top or dress in seasonal tones — red, emerald, gold accents, or winter white', neutral: 'a cozy-but-polished knit or blazer in a seasonal color palette' }
+    },
+    'team-consistent': {
+      title: 'Team Consistent',
+      icon: '👥',
+      subtitle: 'Uniform style · Cohesive · Team branding',
+      use: 'team pages, brokerage rosters, group marketing materials',
+      setting: 'a consistent, repeatable backdrop — solid color, branded background, or a uniform office/studio setting. The key is that every team member\'s photo should look like it belongs in the same set. Even, flat lighting with no dramatic shadows.',
+      settingTech: 'consistent solid backdrop, flat even lighting, uniform framing, team headshot series, cohesive color treatment, branded background',
+      wardrobe: { masculine: 'team-consistent attire — matching blazer color or dress code as specified by the team', feminine: 'team-consistent attire — matching blazer color or dress code as specified by the team', neutral: 'team-consistent attire — matching blazer color or dress code as specified by the team' }
+    },
+    'trending-style': {
+      title: 'Trending Style',
+      icon: '🔥',
+      subtitle: 'Current viral styles · AI picks the trend · Fun & shareable',
+      use: 'social media engagement, conversation starters, fun personal branding, viral content',
+      setting: 'TRENDING',
+      settingTech: 'TRENDING',
+      wardrobe: null
+    },
+    'surprise-me': {
+      title: 'Surprise Me',
+      icon: '🎲',
+      subtitle: 'Wildcard · Random · Pure creative chaos',
+      use: 'social media fun, conversation starters, creative expression, just for laughs',
+      setting: 'SURPRISE',
+      settingTech: 'SURPRISE',
+      wardrobe: null
+    }
+  };
+
+  // ── Build Prompts ──
+  function buildConversationalPrompt(scenarioKey, scenarioData, isCustom, customDesc, customShotType) {
+    const name = getVal('agent-name');
+    const title = getVal('agent-title');
+    const brokerage = getVal('brokerage');
+    const market = getVal('market-area');
+    const appearance = getVal('appearance-notes');
+    const wardrobe = getVal('wardrobe-toggle');
+    const gender = getVal('gender-presentation');
+    const brandColors = getVal('brand-colors');
+    const notes = getVal('additional-notes');
+
+    const sourceLabels = {
+      selfie: 'a single selfie',
+      headshot: 'an existing headshot',
+      multiple: 'multiple reference photos'
+    };
+
+    let prompt = `I'm uploading ${sourceLabels[selectedSource]} of myself. I need you to generate a professional AI portrait based on this reference image${selectedSource === 'multiple' ? 's' : ''}.
+
+IMPORTANT: Preserve my exact facial features, likeness, and identity from the reference photo${selectedSource === 'multiple' ? 's' : ''}. The result should look unmistakably like me — not a generic person.`;
+
+    // ── Source-specific evaluation block ──
+    if (selectedSource === 'selfie') {
+      prompt += `
+
+═══════════════════════════════════════
+STEP 1 — EVALUATE MY REFERENCE PHOTO
+═══════════════════════════════════════
+(If you already evaluated my photo in a previous prompt during this session, skip to Step 2.)
+
+Before generating anything, assess this selfie for quality as a reference image. I know it's a casual photo — that's fine. But check for these potential issues:
+  • Is my face clearly visible, well-lit, and in focus?
+  • Is the lighting harsh, uneven, or creating strong shadows on my face?
+  • Is the angle too extreme (too high, too low, only showing one side)?
+  • Is anything obstructing my face (phone, hand, sunglasses, hat)?
+  • Is the image resolution high enough for a quality result?
+  • Are there reflections, mirrors, or background elements that might confuse the likeness?
+
+If the selfie is strong enough: Confirm what you see and proceed to Step 2.
+
+If there are issues: Tell me specifically what's limiting the result and suggest what I could upload instead — for example:
+  • "A front-facing photo with more even lighting would improve the result"
+  • "An additional photo from a slightly different angle would help me capture your features more accurately"
+  • "The shadow on the left side of your face is making it harder to read — a photo in softer light would help"
+  • "Consider removing your sunglasses for the reference so I can see your full face"
+
+This is a suggestion, not a requirement. If I say "go ahead anyway," proceed with what you have and do your best.
+
+═══════════════════════════════════════
+STEP 2 — GENERATE THE PORTRAIT
+═══════════════════════════════════════
+Once you're confident in the reference material (or I've told you to proceed), generate the portrait using the details below. Since this is a selfie, you'll need to professionalize the image — clean up any casual or informal elements (awkward angle, uneven lighting, cluttered background) while preserving my actual facial features exactly as they are.`;
+    } else if (selectedSource === 'headshot') {
+      prompt += `
+
+═══════════════════════════════════════
+STEP 1 — EVALUATE MY REFERENCE PHOTO
+═══════════════════════════════════════
+(If you already evaluated my photo in a previous prompt during this session, skip to Step 2.)
+
+Before generating anything, quickly assess this headshot as reference material. Since it's already a professional or semi-professional photo, the bar is mainly about clarity:
+  • Is the resolution high enough for a quality transformation?
+  • Is the image heavily filtered, retouched, or stylized in a way that obscures my real features?
+  • Can you clearly read my facial structure, skin tone, and key features?
+
+If the headshot is strong: Confirm and proceed to Step 2.
+
+If there are issues: Let me know what might limit the result — for example:
+  • "This image appears heavily filtered — a more natural version would produce a more accurate likeness"
+  • "The resolution is quite low — a higher-res version would give a sharper result"
+  • "The heavy retouching makes it harder to read your natural features — a lightly edited version would help"
+
+This is a suggestion, not a requirement. If I say "go ahead anyway," proceed with what you have and do your best.
+
+═══════════════════════════════════════
+STEP 2 — GENERATE THE PORTRAIT
+═══════════════════════════════════════
+Once you're confident in the reference material (or I've told you to proceed), generate the portrait using the details below. Since this is already a professional image, use it as a strong likeness anchor — focus on transforming the setting, context, and styling while keeping the quality baseline high. Don't degrade what's already working.`;
+    } else if (selectedSource === 'multiple') {
+      prompt += `
+
+═══════════════════════════════════════
+STEP 1 — EVALUATE MY REFERENCE PHOTOS
+═══════════════════════════════════════
+(If you already evaluated my photos in a previous prompt during this session, skip to Step 2.)
+
+Before generating anything, review all of the uploaded photos together. Multiple references should give you a stronger understanding of my face — but check for these:
+  • Do the photos show my face from enough different angles (front, slight left, slight right)?
+  • Is at least one photo well-lit with clear detail on my features?
+  • Are there any inconsistencies between photos I should clarify — different hairstyle, glasses in some but not others, facial hair changes?
+  • Are any of the photos too small, blurry, or poorly lit to be useful?
+
+If the set is strong: Confirm what you see across the images and proceed to Step 2.
+
+If you need clarification or more material: Let me know — for example:
+  • "All your photos are from the same angle — one from a slightly different angle would help me model your features more accurately"
+  • "I see glasses in two photos but not in the third — which look should I use for the headshot?"
+  • "One of the images is too low resolution to use — the other two are great, but an additional clear photo would strengthen the result"
+  • "A photo in more natural lighting would complement the indoor shots"
+
+This is a suggestion, not a requirement. If I say "go ahead anyway," proceed with what you have and do your best.
+
+═══════════════════════════════════════
+STEP 2 — GENERATE THE PORTRAIT
+═══════════════════════════════════════
+Once you're confident in the reference material (or I've told you to proceed), generate the portrait using the details below. Study all uploaded images together to build the most accurate understanding of my face before generating. Use the combined reference to ensure the result looks like me from any angle, not just matching one specific photo.`;
+    }
+
+    if (appearance) {
+      prompt += `
+
+APPEARANCE DETAILS TO PRESERVE:
+${appearance}`;
+    }
+
+    prompt += `
+
+WHO I AM:`;
+    if (name) prompt += `\n  • Name: ${name}`;
+    if (title) prompt += `\n  • Role: ${title}`;
+    if (brokerage) prompt += `\n  • Brokerage: ${brokerage}`;
+    if (market) prompt += `\n  • Market: ${market}`;
+
+    prompt += `
+
+SCENARIO: ${isCustom ? customDesc : scenarioData.title}`;
+
+    // ── Trending Style gets its own unique prompt flow ──
+    if (!isCustom && scenarioKey === 'trending-style') {
+      const trendDetail = document.getElementById('detail-trending-style');
+      const specificTrend = trendDetail ? trendDetail.value.trim() : '';
+
+      if (specificTrend) {
+        // User knows what they want — skip the research step
+        prompt += `
+
+WHAT I NEED:
+I want you to create a stylized portrait of me in the following trending AI image style:
+
+REQUESTED STYLE: ${specificTrend}
+
+Generate this immediately — no need to present options. Create the image using my reference photo as the likeness base. The result should be unmistakably ME rendered in this style.
+
+IMPORTANT GUIDELINES:
+  • Preserve my facial features, proportions, and distinguishing characteristics even in a heavily stylized format
+  • My face and likeness should be clearly recognizable
+  • Keep it professional enough that a real estate agent could actually use it — fun and eye-catching, but not silly or off-brand
+  • If the style involves packaging or props (like an action figure box), incorporate real estate elements naturally — keys, a "SOLD" sign, a house, a name tag with my info
+  • Make it social-media-ready — high quality, good composition, shareable`;
+
+      } else {
+        // No specific trend — do the research-and-present flow
+        prompt += `
+
+WHAT I NEED:
+I want you to create a stylized portrait of me using a currently trending AI image style. Before generating, I need you to:
+
+1) RESEARCH CURRENT TRENDS: Identify 4–6 AI image styles that are currently popular or trending on social media right now. These might include styles like:
+   • Action figure / toy box packaging
+   • Studio Ghibli or anime-style portraits
+   • Cartoon / Simpsons / Family Guy style
+   • Pixar / 3D animated character
+   • Line art or editorial illustration
+   • Oil painting or Renaissance portrait
+   • Comic book / graphic novel style
+   • Claymation / stop-motion style
+   • Retro pixel art or vintage poster
+   • Or whatever is genuinely trending right now — don't limit yourself to this list
+
+2) PRESENT OPTIONS: Show me the trending styles you found with:
+   • The style name
+   • A brief description of the look
+   • Why it's trending (what platform, what sparked it)
+   • How it would work as a real estate professional's profile image
+
+3) WAIT FOR MY CHOICE: Let me pick which style I want before generating. I may also ask you to combine elements from multiple styles.
+
+4) GENERATE: Once I choose, create the image using my reference photo as the likeness base. The result should be unmistakably ME — in the chosen art style. Preserve my facial features, proportions, and distinguishing characteristics even in a stylized format.
+
+IMPORTANT GUIDELINES:
+  • Keep it professional enough that a real estate agent could actually use it — fun and eye-catching, but not silly or off-brand
+  • My face and likeness should be clearly recognizable even in a heavily stylized format
+  • If the style involves packaging or props (like an action figure box), incorporate real estate elements naturally — keys, a "SOLD" sign, a house, a name tag with my info
+  • Make it social-media-ready — high quality, good composition, shareable`;
+      }
+
+      if (name || brokerage) {
+        prompt += `\n\nPERSONALIZATION DETAILS FOR THE STYLE:`;
+        if (name) prompt += `\n  • Name to include: ${name}`;
+        if (title) prompt += `\n  • Title: ${title}`;
+        if (brokerage) prompt += `\n  • Brokerage: ${brokerage}`;
+        if (market) prompt += `\n  • Market: ${market}`;
+      }
+
+      prompt += `\n\nINTENDED USE: ${scenarioData.use}`;
+
+      if (notes) {
+        prompt += `\n\nADDITIONAL NOTES:\n${notes}`;
+      }
+
+      return prompt;
+    }
+
+    // ── Surprise Me gets a randomized wildcard prompt ──
+    if (!isCustom && scenarioKey === 'surprise-me') {
+      prompt += `
+
+WHAT I NEED:
+I want you to create something completely unexpected. This is a WILDCARD — surprise me with a creative, fun, or absurd portrait that I'd never think to ask for. No rules, no briefs, no client expectations. Just pure creative chaos.
+
+HERE'S HOW THIS WORKS:
+
+1) COME UP WITH SOMETHING WILD: Think of a setting, an art style, and an unexpected twist. You can pick from the examples below, remix them, combine them, or ignore them entirely and come up with something completely original. These lists are just here to spark ideas — you are NOT limited to them. The more unexpected, the better.
+
+   SETTING IDEAS (use these, remix them, or invent your own):
+   • Riding a dragon over a fantasy kingdom
+   • Standing on the surface of Mars with Earth in the sky
+   • Inside a giant snow globe being shaken
+   • Underwater in a coral reef city conducting a board meeting
+   • On top of a giant stack of houses like a real estate king/queen
+   • In a noir detective office, black and white, venetian blinds shadow
+   • At a medieval jousting tournament in full armor
+   • On a movie poster as the lead in a blockbuster action film
+   • Sitting on the Iron Throne but it's made of house keys
+   • In a Wes Anderson-style perfectly symmetrical diorama
+   • As a LEGO minifigure in a LEGO real estate office
+   • On a cereal box as the mascot
+   • Wrestling a bear (tastefully)
+   • Or literally anything else you can think of — go off-list
+
+   ART STYLE IDEAS (use these, blend them, or pick something totally different):
+   • Hyperrealistic photograph
+   • Oil painting (Dutch Golden Age)
+   • Banksy-style street art
+   • Japanese woodblock print (ukiyo-e)
+   • Claymation / stop-motion
+   • Cyberpunk neon noir
+   • Tim Burton gothic whimsy
+   • Stained glass window
+   • Pop art (Warhol / Lichtenstein)
+   • Studio Ghibli
+   • Pencil sketch on napkin
+   • Or any art style that exists — historical, modern, invented, mashup
+
+   WILDCARD TWIST IDEAS (optional — add one, skip it, or make up your own):
+   • Everything is slightly miniature
+   • There's an inexplicable amount of confetti
+   • A random animal is photobombing
+   • It looks like it was found in a time capsule from the future
+   • There's a subtle but clear "SOLD" sign somewhere
+   • It's raining something unexpected (not water)
+   • The color palette is entirely wrong for the scene but somehow works
+   • Or any other weird, funny, surreal detail you want to throw in
+
+2) JUST GENERATE IT: Don't ask me to choose. Don't show me options. Pick your combination — or invent something that doesn't fit any category — and create it. Surprise means surprise.
+
+3) AFTER YOU GENERATE: Tell me what you came up with and why. If I love it, I might ask for variations. If I want another roll, I'll say "surprise me again" and you go in a completely different direction.
+
+THE ONLY RULE: My face and features should be clearly recognizable as ME, no matter how wild the rest of it gets.`;
+
+      if (notes) {
+        prompt += `\n\nADDITIONAL NOTES:\n${notes}`;
+      }
+
+      return prompt;
+    }
+
+    if (isCustom) {
+      prompt += `\n\nSETTING:\nPlace me in the following scene: ${customDesc}. Make it look natural and realistic, as if I were actually photographed in this environment.`;
+    } else {
+      // Check for user-provided context detail
+      const detailInput = document.getElementById('detail-' + scenarioKey);
+      const detail = detailInput ? detailInput.value.trim() : '';
+      if (detail) {
+        prompt += `\n\nSETTING:\n${scenarioData.setting}\n\nSPECIFIC CONTEXT: ${detail} — incorporate this into the scene. Use it to make the setting feel specific and authentic rather than generic.`;
+      } else {
+        prompt += `\n\nSETTING:\n${scenarioData.setting}`;
+      }
+    }
+
+    // Shot type
+    const shotType = isCustom ? (customShotType || 'headshot') : getShotType(scenarioKey);
+    const shotTypeDesc = {
+      headshot: 'HEADSHOT — Tight crop focused on my face. Minimal environment visible. The background should be blurred or simple. This is all about my expression and features.',
+      portrait: 'PORTRAIT — Half to full body framing. Show my posture and wardrobe. The environment supports the image but my presence is the clear focus.',
+      scene: 'SCENE — Wide, environmental framing. I am placed within the setting — the environment and I share the frame equally. This should feel editorial or lifestyle, telling a story about where I am and what I do.'
+    };
+
+    prompt += `\n\nSHOT TYPE:\n${shotTypeDesc[shotType]}`;
+
+    // Style prefs
+    const hasStylePrefs = prefs.lighting || prefs.tone || prefs.expression;
+    if (hasStylePrefs) {
+      prompt += '\n\nSTYLE DIRECTION:';
+      if (prefs.lighting) prompt += `\n  • Lighting: ${prefs.lighting}`;
+      if (prefs.tone) prompt += `\n  • Color tone: ${prefs.tone}${prefs.tone === 'Brand-Matched' && brandColors ? ` (brand colors: ${brandColors})` : ''}`;
+      if (prefs.expression) prompt += `\n  • Expression: ${prefs.expression}`;
+    } else {
+      prompt += `\n\nSTYLE DIRECTION:\n  No specific style preferences set — use your best professional judgment for lighting, color tone, and expression based on the scenario and shot type above.`;
+    }
+
+    // Wardrobe
+    if (wardrobe === 'yes' && !isCustom && scenarioData.wardrobe) {
+      const genderKey = gender || 'neutral';
+      const wardrobeDesc = scenarioData.wardrobe[genderKey] || scenarioData.wardrobe['neutral'];
+      prompt += `\n\nWARDROBE:\nDress me in ${wardrobeDesc}.`;
+    } else if (wardrobe === 'yes' && isCustom) {
+      prompt += `\n\nWARDROBE:\nSuggest appropriate professional attire that fits this scenario naturally.`;
+    }
+
+    if (!isCustom) {
+      prompt += `\n\nINTENDED USE: ${scenarioData.use}`;
+    }
+
+    // Aspect ratio based on shot type
+    const aspectRatios = {
+      headshot: '4:5 portrait orientation (ideal for profile photos, LinkedIn, business cards)',
+      portrait: '3:4 portrait orientation (ideal for team pages, about sections, marketing materials)',
+      scene: '16:9 landscape orientation (ideal for website banners, social media covers, editorial features)'
+    };
+
+    prompt += `
+
+ASPECT RATIO: ${aspectRatios[shotType] || aspectRatios['portrait']}
+
+QUALITY REQUIREMENTS:
+  • Photorealistic — this should look like an actual photograph, not an illustration or painting
+  • Professional-grade quality — sharp focus on the face, appropriate depth of field
+  • Natural skin texture and realistic lighting on the face
+  • The final image should be suitable for professional marketing materials
+
+Generate this as a high-quality, photorealistic image.`;
+
+    if (notes) {
+      prompt += `\n\nADDITIONAL NOTES:\n${notes}`;
+    }
+
+    return prompt;
+  }
+
+  function buildTechnicalPrompt(scenarioKey, scenarioData, isCustom, customDesc, customShotType) {
+    const name = getVal('agent-name');
+    const appearance = getVal('appearance-notes');
+    const gender = getVal('gender-presentation');
+    const wardrobe = getVal('wardrobe-toggle');
+    const brandColors = getVal('brand-colors');
+    const notes = getVal('additional-notes');
+
+    // ── Trending Style — different output for technical mode ──
+    if (!isCustom && scenarioKey === 'trending-style') {
+      const trendDetail = document.getElementById('detail-trending-style');
+      const specificTrend = trendDetail ? trendDetail.value.trim() : '';
+
+      let prompt;
+
+      if (specificTrend) {
+        // User specified a style — generate a targeted keyword prompt
+        prompt = `portrait of ${name || 'a real estate professional'} in ${specificTrend} style, maintaining facial likeness, professional real estate context, high quality, detailed, stylized portrait --ar 3:4 --style raw`;
+
+        if (appearance) prompt += `\n\n[Reference note: ${appearance}]`;
+        if (notes) prompt += `\n\n[Additional: ${notes}]`;
+
+        prompt += `\n\n---\nTIP: This is a starting point — adjust the style keywords to dial in the exact look. Use /describe on your reference photo in Midjourney first for better likeness, then add those keywords to the front of this prompt.`;
+      } else {
+        // No specific style — show the menu of options
+        prompt = `NOTE: The "Trending Style" scenario works best in conversational AI tools (ChatGPT, Gemini) where the AI can research current trends, present options, and let you choose before generating.
+
+For Midjourney / Flux / Leonardo, here are keyword-style prompts for the most popular stylized portrait trends. Pick one and paste it with your reference image:
+
+── ACTION FIGURE / TOY BOX ──
+portrait of a real estate professional as an action figure in sealed toy packaging, plastic blister pack, action figure box art, character name "${name || '[Your Name]'}" on box, accessories include house keys and SOLD sign, professional attire, toy photography, product shot, studio lighting --ar 3:4 --style raw
+
+── STUDIO GHIBLI / ANIME ──
+portrait in studio ghibli anime style, real estate professional character, warm watercolor tones, soft lighting, gentle expression, detailed background with houses and neighborhood, hayao miyazaki inspired, anime portrait --ar 3:4 --niji 6
+
+── PIXAR / 3D ANIMATED ──
+3D rendered Pixar-style character portrait, real estate professional, stylized features, big expressive eyes, warm smile, holding house keys, clean colorful background, Disney Pixar movie character, octane render, soft lighting --ar 3:4 --style raw
+
+── COMIC BOOK / GRAPHIC NOVEL ──
+comic book style portrait, real estate professional superhero pose, bold ink lines, halftone dots, dynamic composition, speech bubble with "${name || '[Your Name]'}", vibrant comic colors, graphic novel illustration, Marvel comic art style --ar 3:4 --style raw
+
+── OIL PAINTING / RENAISSANCE ──
+renaissance oil painting portrait, real estate professional in classical pose, dramatic chiaroscuro lighting, ornate gold frame, rich warm palette, old master painting style, Rembrandt lighting, classical portraiture --ar 3:4 --style raw
+
+── RETRO VINTAGE POSTER ──
+vintage retro poster illustration, real estate professional portrait, mid-century modern style, bold flat colors, screen print texture, real estate themed graphics, 1960s advertising art, grain texture overlay --ar 3:4 --style raw`;
+
+        if (appearance) prompt += `\n\n[Reference note: ${appearance}]`;
+        if (notes) prompt += `\n\n[Additional: ${notes}]`;
+
+        prompt += `\n\n---\nTIP: Use /describe on your reference photo in Midjourney first to capture likeness keywords, then add them to whichever style prompt you choose above.`;
+      }
+
+      return prompt;
+    }
+
+    // ── Surprise Me — randomized technical prompts ──
+    if (!isCustom && scenarioKey === 'surprise-me') {
+      // Build a set of random wildcard prompts
+      const wildcards = [
+        `portrait of ${name || 'a real estate professional'} riding a dragon over a fantasy city made of tiny houses, epic cinematic lighting, fantasy art, detailed matte painting, 8k --ar 3:4 --style raw`,
+        `${name || 'real estate professional'} as a vintage 1950s cereal box mascot, "SOLD-O's" cereal, retro advertising illustration, bright primary colors, halftone print texture, product packaging art --ar 3:4 --style raw`,
+        `${name || 'real estate professional'} portrait in the style of a stained glass window, cathedral lighting, jewel tones, lead line details, sacred geometry, radiant backlight, ornate border --ar 3:4 --style raw`,
+        `${name || 'real estate professional'} as a bobblehead figurine on an office desk, miniature scale, tilt-shift photography, oversized head, tiny suit, desk accessories, product photography --ar 3:4 --style raw`,
+        `movie poster style, ${name || 'real estate professional'} as the lead character in an action blockbuster called "CLOSING TIME", dramatic lighting, cinematic composition, bold typography, lens flare --ar 2:3 --style raw`,
+        `${name || 'real estate professional'} portrait in ukiyo-e Japanese woodblock print style, traditional composition, flat color planes, wave patterns, cherry blossoms, kanji text elements --ar 3:4 --niji 6`,
+        `${name || 'real estate professional'} inside a giant snow globe being shaken, glitter particles, miniature house in background, magical lighting, whimsical, hyper detailed, studio photography --ar 3:4 --style raw`,
+        `portrait of ${name || 'a real estate professional'} sitting on a throne made entirely of house keys, dramatic baroque lighting, rich velvet robes over business attire, oil painting style, ornate gold frame --ar 3:4 --style raw`,
+        `${name || 'real estate professional'} as a LEGO minifigure in a LEGO real estate office, plastic texture, brick-built desk, tiny SOLD sign, product photography, bright even lighting, toy catalog --ar 3:4 --style raw`,
+        `${name || 'real estate professional'} in a Wes Anderson perfectly symmetrical diorama, pastel color palette, centered composition, quirky props, vintage furniture, whimsical, 35mm film grain --ar 3:4 --style raw`,
+        `vaporwave aesthetic portrait, ${name || 'real estate professional'} surrounded by Greek columns and palm trees, neon pink and cyan, glitch effects, retro CRT screen, sunset gradient, 80s nostalgia --ar 3:4 --style raw`,
+        `${name || 'real estate professional'} trading card, holographic foil border, stats panel showing "Homes Sold: 999" and "Negotiation: 100", card game illustration, collectible card art --ar 2:3 --style raw`
+      ];
+
+      // Pick 3 random ones
+      const shuffled = wildcards.sort(() => Math.random() - 0.5);
+      const picks = shuffled.slice(0, 3);
+
+      let prompt = `🎲 SURPRISE ME — RANDOM WILDCARD PROMPTS
+
+Here are 3 randomly selected wildcard prompts. Pick whichever one makes you laugh, intrigues you, or just feels right. Paste it into your AI image tool with your reference photo.
+
+── WILDCARD #1 ──
+${picks[0]}
+
+── WILDCARD #2 ──
+${picks[1]}
+
+── WILDCARD #3 ──
+${picks[2]}
+
+Want different options? Re-generate your prompts and you'll get a new random set.`;
+
+      if (appearance) prompt += `\n\n[Reference note: ${appearance}]`;
+      if (notes) prompt += `\n\n[Additional: ${notes}]`;
+
+      prompt += `\n\n---\nTIP: These are meant to be fun — don't overthink it. Use /describe on your reference photo in Midjourney first for better likeness, then combine those keywords with whichever wildcard you choose.`;
+
+      return prompt;
+    }
+
+    let settingDesc = isCustom ? customDesc : scenarioData.settingTech;
+
+    // Check for user-provided context detail
+    if (!isCustom) {
+      const detailInput = document.getElementById('detail-' + scenarioKey);
+      const detail = detailInput ? detailInput.value.trim() : '';
+      if (detail) {
+        settingDesc = `${settingDesc}, ${detail}`;
+      }
+    }
+
+    // Build keyword-style prompt — shot type drives the base framing
+    const shotType = isCustom ? (customShotType || 'headshot') : getShotType(scenarioKey);
+    const shotTypeKeywords = {
+      headshot: 'professional headshot, tight crop, face and neck, shallow depth of field, blurred background',
+      portrait: 'professional portrait, half body to full body, person as focus, environmental context secondary',
+      scene: 'environmental portrait, wide framing, full scene, person within setting, editorial lifestyle composition'
+    };
+
+    let prompt = shotTypeKeywords[shotType] || 'professional portrait';
+    if (gender) prompt += `, ${gender} presenting real estate professional`;
+    else prompt += `, real estate professional`;
+
+    // Setting
+    prompt += `, ${settingDesc}`;
+
+    // Style prefs as keywords
+    if (prefs.lighting) {
+      const lightingMap = {
+        'Natural Light': 'natural light, soft diffused sunlight',
+        'Studio / Softbox': 'studio lighting, softbox, professional flash',
+        'Golden Hour': 'golden hour light, warm sun backlight, magic hour',
+        'Dramatic / Moody': 'dramatic lighting, chiaroscuro, strong shadows, moody',
+        'Bright & Airy': 'bright airy lighting, high key, soft even illumination'
+      };
+      prompt += `, ${lightingMap[prefs.lighting] || prefs.lighting}`;
+    }
+
+    if (prefs.tone) {
+      const toneMap = {
+        'Warm': 'warm color temperature, warm tones',
+        'Cool': 'cool color temperature, cool blue tones',
+        'Neutral': 'neutral color balance, true-to-life colors',
+        'Brand-Matched': brandColors ? `color-graded to ${brandColors}` : 'brand-consistent color grading',
+        'Rich / Saturated': 'rich saturated colors, vibrant color grade'
+      };
+      prompt += `, ${toneMap[prefs.tone] || prefs.tone}`;
+    }
+
+    if (prefs.expression) {
+      const expMap = {
+        'Confident': 'confident expression, direct eye contact, assured',
+        'Friendly / Approachable': 'friendly smile, approachable expression, warm eyes',
+        'Serious / Authoritative': 'serious commanding expression, authoritative gaze',
+        'Warm / Genuine Smile': 'genuine warm smile, natural happy expression',
+        'Relaxed / Natural': 'relaxed natural expression, easy candid look'
+      };
+      prompt += `, ${expMap[prefs.expression] || prefs.expression}`;
+    }
+
+    // Wardrobe
+    if (wardrobe === 'yes' && !isCustom && scenarioData.wardrobe) {
+      const genderKey = gender || 'neutral';
+      const wardrobeDesc = scenarioData.wardrobe[genderKey] || scenarioData.wardrobe['neutral'];
+      prompt += `, wearing ${wardrobeDesc}`;
+    }
+
+    // Quality keywords with shot-type-aware aspect ratio
+    const techAR = { headshot: '4:5', portrait: '3:4', scene: '16:9' };
+    const arVal = techAR[shotType] || '3:4';
+    prompt += `, photorealistic, 8k, sharp focus, professional photography, DSLR quality, 85mm lens, f/2.0 aperture`;
+
+    // Appearance notes
+    if (appearance) {
+      prompt += `\n\n[Reference note: ${appearance}]`;
+    }
+
+    if (notes) {
+      prompt += `\n\n[Additional: ${notes}]`;
+    }
+
+    // Platform-specific tips
+    let sourceNote = '';
+    if (selectedSource === 'selfie') {
+      sourceNote = `\n\nREFERENCE PHOTO NOTE:\nYou're working from a single selfie. Before running this prompt, check your source image:\n  • Is your face clearly visible, well-lit, and centered? If not, take a new one near a window with even light.\n  • Avoid sunglasses, hats, or anything covering your face.\n  • Front-facing or slight angle works best. Extreme angles hurt likeness.\n  • If results aren't accurate, try uploading an additional photo from a different angle.\n`;
+    } else if (selectedSource === 'headshot') {
+      sourceNote = `\n\nREFERENCE PHOTO NOTE:\nYou're working from an existing headshot. Quick checks before running:\n  • Make sure the image isn't heavily filtered or retouched — the AI needs your real features.\n  • Higher resolution = better results. Aim for 1024×1024 or larger.\n  • If the result looks "off," try a second reference photo with different lighting.\n`;
+    } else if (selectedSource === 'multiple') {
+      sourceNote = `\n\nREFERENCE PHOTO NOTE:\nYou're uploading multiple references — this gives the best results. Quick checks:\n  • Include at least one clear, front-facing photo.\n  • Vary the angles if possible (front, slight left, slight right).\n  • If you have glasses in some but not others, decide which look you want first.\n  • Remove any blurry or very small images — they can confuse the likeness more than help.\n`;
+    }
+    prompt += sourceNote;
+
+    prompt += `---\nPLATFORM TIPS:\n• Midjourney: Add --ar ${arVal} --style raw --v 6.1 at the end. Use /describe on your reference photo first to capture likeness keywords.\n• Flux: Use the img2img or face-reference feature with your uploaded photo. Set aspect ratio to ${arVal}.\n• Leonardo AI: Use the PhotoReal mode and upload your face as a reference image. Set canvas to ${arVal}.`;
+
+    return prompt;
+  }
+
+  // ── Generate ──
+  function generatePrompts() {
+    const name = getVal('agent-name');
+
+    // Gather custom scenarios
+    const customInputs = document.querySelectorAll('.custom-scenario-input');
+    const customScenarios = [];
+    customInputs.forEach(input => {
+      const val = input.value.trim();
+      if (val) customScenarios.push(val);
+    });
+
+    const totalScenarios = selectedScenarios.length + customScenarios.length;
+
+    // Validation
+    if (!name) {
+      const w = document.getElementById('validation-warning');
+      w.textContent = 'Please enter your name — it helps the AI personalize your portrait prompts.';
+      w.style.display = 'block';
+      w.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    if (totalScenarios < 3) {
+      const w = document.getElementById('validation-warning');
+      w.textContent = `Please select at least 3 scenarios. You currently have ${totalScenarios}. Select more preset scenarios or add custom ones.`;
+      w.style.display = 'block';
+      w.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    document.getElementById('validation-warning').style.display = 'none';
+
+    // Build context bar
+    const contextBar = document.getElementById('context-bar');
+    contextBar.innerHTML = '';
+    const items = [{ key: 'Agent', val: name }];
+    if (getVal('brokerage')) items.push({ key: 'Brokerage', val: getVal('brokerage') });
+    if (getVal('market-area')) items.push({ key: 'Market', val: getVal('market-area') });
+
+    const sourceLabels = { selfie: 'Single Selfie', headshot: 'Existing Headshot', multiple: 'Multiple Photos' };
+    items.push({ key: 'Source', val: sourceLabels[selectedSource] });
+    items.push({ key: 'Scenarios', val: totalScenarios.toString() });
+    items.push({ key: 'Mode', val: currentPlatform === 'conversational' ? 'Conversational' : 'Technical' });
+
+    items.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'context-item';
+      div.innerHTML = `<span class="context-key">${item.key}</span><span class="context-val">${item.val}</span>`;
+      contextBar.appendChild(div);
+    });
+
+    // Build prompt cards
+    renderPromptCards();
+
+    // Badge
+    document.getElementById('prompt-count-badge').textContent = totalScenarios + ' prompts ready';
+
+    // Show output
+    document.getElementById('input-block').style.display = 'none';
+    const out = document.getElementById('output-section');
+    out.classList.add('visible');
+    out.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function renderPromptCards() {
+    const container = document.getElementById('prompt-cards-container');
+    container.innerHTML = '';
+
+    let promptNum = 1;
+
+    // Preset scenarios
+    selectedScenarios.forEach(key => {
+      const meta = scenarioMeta[key];
+      if (!meta) return;
+
+      const promptText = currentPlatform === 'conversational'
+        ? buildConversationalPrompt(key, meta, false, '')
+        : buildTechnicalPrompt(key, meta, false, '');
+
+      const id = 'prompt-' + key;
+      const isTrending = key === 'trending-style';
+      const isSurprise = key === 'surprise-me';
+
+      let instructionText, afterText;
+
+      if (isTrending) {
+        const trendDetail = document.getElementById('detail-trending-style');
+        const hasTrendSpec = trendDetail && trendDetail.value.trim();
+        instructionText = currentPlatform === 'conversational'
+          ? (hasTrendSpec
+            ? `<strong>Upload your reference photo${selectedSource === 'multiple' ? 's' : ''}</strong> alongside this prompt. The AI will generate your headshot directly in the style you specified.`
+            : `<strong>Upload your reference photo${selectedSource === 'multiple' ? 's' : ''}</strong> alongside this prompt. The AI will research current trending styles and present options before generating — you pick the one you want.`)
+          : (hasTrendSpec
+            ? `<strong>Upload your reference photo${selectedSource === 'multiple' ? 's' : ''}</strong> alongside this prompt. Tailored to your requested style — adjust keywords as needed.`
+            : `<strong>Upload your reference photo${selectedSource === 'multiple' ? 's' : ''}</strong> alongside whichever style prompt you choose below. This card includes multiple trending style prompts — pick your favorite.`);
+        afterText = `<strong>After generating:</strong> Trending styles are meant to be fun and shareable — post them on social media for engagement. If the style doesn't look right, ask the AI to "push the style further" or "make it more realistic." These work great as conversation starters and show personality alongside your professional portraits.`;
+      } else if (isSurprise) {
+        instructionText = currentPlatform === 'conversational'
+          ? `<strong>Upload your reference photo${selectedSource === 'multiple' ? 's' : ''}</strong> alongside this prompt. The AI will randomly generate something unexpected — just go with it and have fun.`
+          : `<strong>Upload your reference photo${selectedSource === 'multiple' ? 's' : ''}</strong> alongside whichever wildcard prompt catches your eye. Re-generate for a new random set.`;
+        afterText = `<strong>After generating:</strong> If you love it, post it. If you want another roll of the dice, tell the AI "surprise me again" (conversational) or re-generate your prompts for a new random set (technical). These are pure fun — no wrong answers.`;
+      } else {
+        const sceneShotType = getShotType(key);
+        instructionText = `<strong>Upload your reference photo${selectedSource === 'multiple' ? 's' : ''}</strong> alongside this prompt. Best for: ${meta.use}.`;
+        if (sceneShotType === 'headshot') {
+          afterText = `<strong>After generating:</strong> If the likeness isn't right, ask the AI to "match my facial features more closely" or "make the face look more like the reference photo." For headshots, small details matter — check that eye color, skin tone, and facial structure are accurate.`;
+        } else if (sceneShotType === 'portrait') {
+          afterText = `<strong>After generating:</strong> If the likeness isn't right, ask the AI to adjust facial features. For portraits, also check that the body proportions, posture, and wardrobe look natural — ask for specific changes like "make the pose more relaxed" or "adjust the blazer fit."`;
+        } else {
+          afterText = `<strong>After generating:</strong> For scene shots, the environment matters as much as the person. If the setting doesn't match what you described, ask for specific changes like "make the background more urban" or "add more depth to the scene." If you're too small in frame, ask the AI to "make me more prominent in the composition."`;
+        }
+      }
+
+      // Shot type label for subtitle
+      const presetShotType = (isTrending || isSurprise) ? '' : getShotType(key);
+      const presetShotLabel = { headshot: ' · Headshot', portrait: ' · Portrait', scene: ' · Scene' };
+      const shotSuffix = presetShotType ? (presetShotLabel[presetShotType] || '') : '';
+
+      const cardHTML = `
+        <div class="prompt-card">
+          <div class="prompt-card-header">
+            <div class="prompt-card-header-left">
+              <span class="step-badge">${meta.icon} Prompt ${promptNum}</span>
+              <div>
+                <div class="prompt-card-title">${meta.title}</div>
+                <div class="prompt-card-subtitle">${meta.subtitle}${shotSuffix}</div>
+              </div>
+            </div>
+            <button class="btn-copy" onclick="copyPrompt('${id}', this)">Copy Prompt</button>
+          </div>
+          <div class="prompt-card-instructions">
+            ${instructionText}
+          </div>
+          <div class="prompt-body" id="${id}"></div>
+        </div>
+        <div class="after-step">${afterText}</div>
+      `;
+      container.insertAdjacentHTML('beforeend', cardHTML);
+
+      const bodyEl = document.getElementById(id);
+      bodyEl.setAttribute('data-plain', promptText);
+      bodyEl.textContent = promptText;
+      promptNum++;
+    });
+
+    // Custom scenarios
+    const customRows = document.querySelectorAll('.custom-scenario-row');
+    customRows.forEach((row, i) => {
+      const input = row.querySelector('.custom-scenario-input');
+      const val = input ? input.value.trim() : '';
+      if (!val) return;
+
+      // Read shot type from this row
+      const activeBtn = row.querySelector('.shot-type-btn.active');
+      const customShotType = activeBtn ? activeBtn.getAttribute('data-shot') : 'headshot';
+
+      const promptText = currentPlatform === 'conversational'
+        ? buildConversationalPrompt(null, null, true, val, customShotType)
+        : buildTechnicalPrompt(null, null, true, val, customShotType);
+
+      const shotTypeLabels = { headshot: 'Headshot', portrait: 'Portrait', scene: 'Scene' };
+      const shotLabel = shotTypeLabels[customShotType] || 'Headshot';
+
+      let customAfterText;
+      if (customShotType === 'headshot') {
+        customAfterText = `<strong>After generating:</strong> Custom scenarios may need more iteration. If the likeness isn't right, ask the AI to "match my facial features more closely." For headshots, check that eye color, skin tone, and facial structure are accurate.`;
+      } else if (customShotType === 'scene') {
+        customAfterText = `<strong>After generating:</strong> Custom scenes may need more iteration. If the setting doesn't match what you envisioned, describe the environment in more detail. If you're too small in frame, ask the AI to "make me more prominent in the composition."`;
+      } else {
+        customAfterText = `<strong>After generating:</strong> Custom scenarios may need more iteration. If the likeness or pose isn't right, describe the specific change you want. Try providing a reference image of the environment if the scene doesn't match your vision.`;
+      }
+
+      const id = 'prompt-custom-' + i;
+      const cardHTML = `
+        <div class="prompt-card">
+          <div class="prompt-card-header">
+            <div class="prompt-card-header-left">
+              <span class="step-badge">✨ Prompt ${promptNum}</span>
+              <div>
+                <div class="prompt-card-title">Custom: ${val.length > 40 ? val.substring(0, 40) + '…' : val}</div>
+                <div class="prompt-card-subtitle">Custom scenario · ${shotLabel} · User-defined setting</div>
+              </div>
+            </div>
+            <button class="btn-copy" onclick="copyPrompt('${id}', this)">Copy Prompt</button>
+          </div>
+          <div class="prompt-card-instructions">
+            <strong>Upload your reference photo${selectedSource === 'multiple' ? 's' : ''}</strong> alongside this prompt. Custom scenario — review the output carefully and iterate.
+          </div>
+          <div class="prompt-body" id="${id}"></div>
+        </div>
+        <div class="after-step">${customAfterText}</div>
+      `;
+      container.insertAdjacentHTML('beforeend', cardHTML);
+
+      const bodyEl = document.getElementById(id);
+      bodyEl.setAttribute('data-plain', promptText);
+      bodyEl.textContent = promptText;
+      promptNum++;
+    });
+  }
+
+  // ── Clipboard helper with multiple fallbacks ──
+  function copyToClipboard(text, fallbackEl) {
+    // Try 1: Modern clipboard API
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).then(() => true);
+    }
+
+    // Try 2: execCommand fallback
+    try {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.cssText = 'position:fixed;left:-9999px;top:-9999px;opacity:0;';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(textarea);
+      if (ok) return Promise.resolve(true);
+    } catch(e) {}
+
+    // Try 3: Select the text in the prompt body so user can Ctrl+C / Cmd+C
+    if (fallbackEl) {
+      const range = document.createRange();
+      range.selectNodeContents(fallbackEl);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      return Promise.resolve('selected');
+    }
+
+    return Promise.resolve(false);
+  }
+
+  // ── Copy ──
+  function copyPrompt(id, btn) {
+    const el = document.getElementById(id);
+    const text = el.getAttribute('data-plain') || el.textContent;
+    copyToClipboard(text, el).then((result) => {
+      if (result === 'selected') {
+        btn.textContent = 'Selected — Ctrl+C to copy';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'Copy Prompt';
+          btn.classList.remove('copied');
+        }, 4000);
+      } else if (result) {
+        btn.textContent = 'Copied ✓';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'Copy Prompt';
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+    });
+  }
+
+  function copyAllPrompts() {
+    const bodies = document.querySelectorAll('.prompt-body');
+    const allText = [];
+    bodies.forEach((el) => {
+      const title = el.closest('.prompt-card').querySelector('.prompt-card-title').textContent;
+      allText.push(`═══════════════════════════════════════\n${title.toUpperCase()}\n═══════════════════════════════════════\n\n${el.getAttribute('data-plain') || el.textContent}`);
+    });
+
+    copyToClipboard(allText.join('\n\n\n'), null).then((result) => {
+      const btn = document.getElementById('btn-copy-all');
+      if (result === true) {
+        btn.textContent = 'All Copied ✓';
+        setTimeout(() => { btn.textContent = 'Copy All Prompts'; }, 2000);
+      } else {
+        btn.textContent = 'Select prompts individually';
+        setTimeout(() => { btn.textContent = 'Copy All Prompts'; }, 3000);
+      }
+    });
+  }
+
+  // ── Edit / Reset ──
+  function editInputs() {
+    document.getElementById('input-block').style.display = 'block';
+    document.getElementById('output-section').classList.remove('visible');
+    document.getElementById('input-block').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function resetForm() {
+    document.querySelectorAll('input[type="text"], textarea').forEach(el => el.value = '');
+    document.querySelectorAll('select').forEach(el => el.selectedIndex = 0);
+
+    selectedSource = 'selfie';
+    document.querySelectorAll('.source-card').forEach(c => c.classList.remove('selected'));
+    document.getElementById('source-selfie').classList.add('selected');
+
+    selectedScenarios = [];
+    document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('selected'));
+    document.querySelectorAll('.scenario-detail input').forEach(i => i.value = '');
+
+    prefs = { lighting: '', tone: '', expression: '' };
+    document.querySelectorAll('.pref-chip').forEach(c => c.classList.remove('selected'));
+
+    // Hide brand colors field
+    const brandGroup = document.getElementById('brand-colors-group');
+    if (brandGroup) brandGroup.style.display = 'none';
+
+    // Reset all shot type buttons to their scenario-appropriate defaults
+    const shotDefaults = {
+      'professional-studio': 'headshot',
+      'outdoor-lifestyle': 'portrait',
+      'at-property': 'portrait',
+      'community': 'scene',
+      'linkedin-corporate': 'headshot',
+      'social-casual': 'portrait',
+      'speaker-authority': 'portrait',
+      'seasonal': 'portrait',
+      'team-consistent': 'headshot'
+    };
+    document.querySelectorAll('.scenario-card[data-scenario]').forEach(card => {
+      const scenario = card.getAttribute('data-scenario');
+      const defaultShot = shotDefaults[scenario] || 'headshot';
+      const row = card.querySelector('.shot-type-row');
+      if (row) {
+        row.querySelectorAll('.shot-type-btn').forEach(b => b.classList.remove('active'));
+        const defaultBtn = row.querySelector(`[data-shot="${defaultShot}"]`);
+        if (defaultBtn) defaultBtn.classList.add('active');
+      }
+    });
+
+    // Reset tips to selfie
+    document.getElementById('tips-selfie').style.display = 'block';
+    document.getElementById('tips-headshot').style.display = 'none';
+    document.getElementById('tips-multiple').style.display = 'none';
+
+    currentPlatform = 'conversational';
+    document.getElementById('platform-conversational').classList.add('selected');
+    document.getElementById('platform-technical').classList.remove('selected');
+
+    const customContainer = document.getElementById('custom-scenarios');
+    customContainer.innerHTML = '<div class="custom-scenario-row"><div style="flex:1;display:flex;flex-direction:column;gap:6px;"><div class="shot-type-row"><button type="button" class="shot-type-btn active" onclick="setShotType(this, \'headshot\')" data-shot="headshot"><span class="shot-type-label">Headshot</span><span class="shot-type-sub">Face focus · tight crop</span></button><button type="button" class="shot-type-btn" onclick="setShotType(this, \'portrait\')" data-shot="portrait"><span class="shot-type-label">Portrait</span><span class="shot-type-sub">Half/full body · person focus</span></button><button type="button" class="shot-type-btn" onclick="setShotType(this, \'scene\')" data-shot="scene"><span class="shot-type-label">Scene</span><span class="shot-type-sub">Wide · environment + person</span></button></div><input type="text" class="custom-scenario-input" placeholder="e.g. At a coffee shop, casual business meeting vibe"></div><button class="btn-remove-custom" onclick="removeCustom(this)" title="Remove">&times;</button></div>';
+
+    document.getElementById('validation-warning').style.display = 'none';
+    document.getElementById('output-section').classList.remove('visible');
+    document.getElementById('input-block').style.display = 'block';
+  }
+
+</script>
+</body>
+</html>

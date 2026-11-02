@@ -1,0 +1,2316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand Guide Prompt Engine — Real Estate</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #AF1500;
+    --primary-dark: #000000;
+    --primary-light: #E6C01F;
+    --accent: #E6C01F;
+    --accent-light: #E6C01F;
+    --mint: #E8E8E8;
+    --taupe: #1A1A1A;
+    --white: #ffffff;
+    --gray-1: #1A1A1A;
+    --gray-2: #3a3a3a;
+    --gray-3: #777777;
+    --gray-4: #CCCCCC;
+    --gray-5: #f5f5f5;
+    --warm-tint: #fff8e8;
+    --warm-mid: #f0dfa0;
+    --radius: 4px;
+    --radius-lg: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #000000;
+    color: var(--gray-1);
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--primary-dark);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(200,29,5,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 32px 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--primary-light);
+    margin-bottom: 12px;
+  }
+
+  .header-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 42px;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 10px;
+  }
+
+  .header-title span { color: var(--primary-light); }
+
+  .header-sub {
+    font-size: 15px;
+    color: rgba(255,255,255,0.55);
+    font-weight: 300;
+    margin-top: 8px;
+  }
+
+  .header-pills {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .pill {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(200,29,5,0.4);
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* ── MAIN ── */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 32px 40px;
+  }
+
+  /* ── INPUT BLOCK ── */
+  .input-block {
+    background: var(--white);
+    border: 1px solid var(--gray-4);
+    border-top: 4px solid var(--primary);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+    margin-bottom: 32px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  }
+
+  .block-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 6px;
+  }
+
+  .block-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--primary-dark);
+    margin-bottom: 4px;
+  }
+
+  .block-desc {
+    font-size: 13.5px;
+    color: var(--gray-2);
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+
+  .fields-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .field-group.full { grid-column: 1 / -1; }
+
+  label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--primary-dark);
+  }
+
+  input[type="text"],
+  select,
+  textarea {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--gray-4);
+    border-radius: var(--radius);
+    background: var(--mint);
+    color: var(--gray-1);
+    transition: border-color 0.2s, background 0.2s;
+    outline: none;
+    width: 100%;
+  }
+
+  input[type="text"]:focus,
+  select:focus,
+  textarea:focus {
+    border-color: var(--primary);
+    background: var(--white);
+  }
+
+  select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23555' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 70px;
+  }
+
+  .field-hint {
+    font-size: 11px;
+    color: var(--gray-3);
+    line-height: 1.4;
+  }
+
+  /* Section dividers */
+  .section-divider {
+    grid-column: 1 / -1;
+    margin-top: 8px;
+    padding-top: 20px;
+    border-top: 1px solid var(--warm-mid);
+  }
+
+  .section-divider-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--primary-dark);
+    margin-bottom: 4px;
+  }
+
+  .section-divider-desc {
+    font-size: 12px;
+    color: var(--gray-3);
+    margin-bottom: 16px;
+  }
+
+  /* Scope selector cards */
+  .scope-cards {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .scope-card {
+    border: 2px solid var(--gray-4);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .scope-card:hover { border-color: var(--primary); }
+
+  .scope-card.selected {
+    border-color: var(--primary);
+    background: var(--warm-tint);
+  }
+
+  .scope-card.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary);
+  }
+
+  .scope-card-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 4px;
+  }
+
+  .scope-card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    color: var(--primary-dark);
+    margin-bottom: 6px;
+  }
+
+  .scope-card-desc {
+    font-size: 11.5px;
+    color: var(--gray-3);
+    line-height: 1.5;
+  }
+
+  .scope-card-sections {
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--gray-2);
+    line-height: 1.7;
+  }
+
+  /* Callout box */
+  .callout-box {
+    grid-column: 1 / -1;
+    font-size: 12.5px;
+    color: var(--primary-dark);
+    background: var(--warm-tint);
+    border: 1px solid var(--warm-mid);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    line-height: 1.7;
+  }
+
+  .callout-box strong { font-weight: 600; }
+
+  /* Color picker row */
+  .color-picker-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .color-picker-row input[type="color"] {
+    width: 40px;
+    height: 36px;
+    padding: 2px;
+    border: 1.5px solid var(--gray-4);
+    border-radius: var(--radius);
+    cursor: pointer;
+    background: none;
+  }
+
+  .color-picker-row input[type="text"] { flex: 1; }
+
+  /* Brand traits chips */
+  .trait-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .trait-chip {
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1.5px solid var(--gray-4);
+    background: var(--white);
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--gray-2);
+    user-select: none;
+  }
+
+  .trait-chip:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
+  .trait-chip.selected {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--white);
+  }
+
+  .brand-helper-q:hover {
+    background: var(--white);
+    border-color: var(--primary) !important;
+  }
+
+  #channel-checks label:hover {
+    border-color: var(--primary) !important;
+  }
+
+  #channel-checks label:has(input:checked) {
+    border-color: var(--primary);
+    background: var(--warm-tint);
+  }
+
+  #update-checks label:hover {
+    border-color: var(--primary) !important;
+  }
+
+  #update-checks label:has(input:checked) {
+    border-color: var(--primary);
+    background: var(--warm-tint);
+  }
+
+  /* Generate button */
+  .generate-wrap {
+    margin-top: 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .btn-generate {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .btn-generate:hover { background: var(--primary-dark); }
+  .btn-generate:active { transform: scale(0.98); }
+
+  .btn-reset {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--gray-3);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 0;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .btn-reset:hover { color: var(--gray-1); }
+
+  /* ── OUTPUTS ── */
+  #output-section {
+    display: none;
+    animation: fadeUp 0.4s ease forwards;
+  }
+
+  #output-section.visible { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .output-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--warm-mid);
+  }
+
+  .output-header-left h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--primary-dark);
+  }
+
+  .output-header-left p {
+    font-size: 13px;
+    color: var(--gray-2);
+    margin-top: 3px;
+  }
+
+  .btn-edit {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 9px 18px;
+    background: transparent;
+    color: var(--primary);
+    border: 1.5px solid var(--primary);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-edit:hover {
+    background: var(--primary);
+    color: var(--white);
+  }
+
+  /* Context bar */
+  .context-bar {
+    background: var(--primary-dark);
+    border-radius: var(--radius-lg);
+    padding: 16px 24px;
+    margin-bottom: 28px;
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .context-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .context-key {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--primary-light);
+  }
+
+  .context-val {
+    font-size: 13px;
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  /* Prompt cards */
+  .prompt-card {
+    background: var(--white);
+    border: 1px solid var(--gray-4);
+    border-radius: var(--radius-lg);
+    margin-bottom: 24px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  .prompt-card-header {
+    background: var(--primary);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .prompt-card-header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .step-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--primary-dark);
+    background: var(--primary-light);
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .prompt-card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--white);
+  }
+
+  .prompt-card-subtitle {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 2px;
+  }
+
+  .btn-copy {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    background: transparent;
+    color: rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .btn-copy:hover {
+    background: rgba(255,255,255,0.1);
+    color: var(--white);
+    border-color: rgba(255,255,255,0.6);
+  }
+
+  .btn-copy.copied {
+    background: rgba(200,29,5,0.35);
+    color: #E6C01F;
+    border-color: rgba(200,29,5,0.5);
+  }
+
+  .prompt-card-instructions {
+    background: var(--warm-tint);
+    padding: 12px 24px;
+    font-size: 12.5px;
+    color: var(--primary-dark);
+    border-bottom: 1px solid var(--warm-mid);
+    line-height: 1.5;
+  }
+
+  .prompt-card-instructions strong { font-weight: 600; }
+
+  .prompt-body {
+    padding: 24px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: var(--gray-1);
+    white-space: pre-wrap;
+    background: var(--gray-5);
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    user-select: all;
+  }
+
+  .after-step {
+    margin: -8px 0 24px;
+    padding: 12px 20px;
+    background: var(--mint);
+    border-left: 3px solid var(--primary);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 12.5px;
+    color: var(--gray-2);
+    line-height: 1.5;
+  }
+
+  .after-step strong { color: var(--primary-dark); font-weight: 600; }
+
+  /* Phase labels */
+  .phase-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin: 36px 0 12px;
+    padding-left: 2px;
+  }
+
+  .phase-note {
+    font-size: 13px;
+    color: var(--gray-2);
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  /* Prompt count badge */
+  .prompt-count-badge {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--primary);
+    background: var(--warm-tint);
+    border: 1px solid var(--warm-mid);
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  /* Footer */
+  .footer {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px 24px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--gray-3);
+    line-height: 1.6;
+  }
+
+  .footer strong { color: var(--primary); }
+
+  /* Validation */
+  #validation-warning {
+    display: none;
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    padding: 10px 14px;
+    background: var(--warm-tint);
+    border: 1px solid var(--primary);
+    border-radius: var(--radius);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .header-title { font-size: 28px; line-height: 1.15; }
+    .header-sub { font-size: 13px; }
+    .header-pills { gap: 6px; }
+    .pill { font-size: 10px; padding: 4px 10px; }
+    header .header-inner { padding: 28px 16px 24px; }
+
+    main { padding: 20px 12px 24px; }
+    .input-block { padding: 20px 16px; }
+    .footer { padding: 0 16px 16px; }
+    .fields-grid { grid-template-columns: 1fr; }
+    .field-group.full { grid-column: 1; }
+    .scope-cards { grid-template-columns: 1fr; }
+    .color-picker-row { flex-direction: column; gap: 6px; }
+    .generate-wrap { flex-direction: column; align-items: stretch; }
+    .btn-generate { width: 100%; text-align: center; padding: 16px 20px; }
+    .context-bar { gap: 12px; padding: 12px 16px; flex-wrap: wrap; }
+    .context-val { font-size: 12px; }
+    .output-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .btn-edit { width: 100%; text-align: center; }
+    .prompt-card-header { flex-direction: column; align-items: flex-start; gap: 10px; padding: 14px 16px; }
+    .prompt-card-header-left { flex-wrap: wrap; gap: 8px; }
+    .prompt-card-title { font-size: 16px; }
+    .btn-copy { width: 100%; text-align: center; padding: 10px; }
+    .prompt-card-instructions { padding: 10px 16px; }
+    .prompt-body { padding: 16px; font-size: 12.5px; }
+    .after-step { padding: 10px 14px; font-size: 12px; }
+    .phase-label { font-size: 10px; margin: 24px 0 8px; }
+    .phase-note { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-eyebrow">Real Estate CNX &middot; Brand Tools</div>
+    <h1 class="header-title">Brand Guide <span>Prompt Engine</span></h1>
+    <p class="header-sub">Fill in your brand details once &mdash; get ready-to-paste prompts that build your complete brand guide in any AI assistant</p>
+    <div class="header-pills">
+      <div class="pill">Color Palette</div>
+      <div class="pill">Typography</div>
+      <div class="pill">Voice &amp; Messaging</div>
+      <div class="pill">Logo Usage</div>
+      <div class="pill">Visual Style</div>
+      <div class="pill">Applications</div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- INPUT BLOCK -->
+  <div class="input-block" id="input-block">
+    <div class="block-label">Setup</div>
+    <div class="block-title">Build Your Brand Guide</div>
+    <p class="block-desc">Answer the questions below about your brand, then generate prompts you can paste into any AI assistant to create a professional brand guide tailored to your business.</p>
+
+    <div class="fields-grid">
+
+      <!-- Mode Selection -->
+      <div class="section-divider" style="margin-top:0; padding-top:0; border-top:none;">
+        <div class="section-divider-title">What Are You Working On?</div>
+        <div class="section-divider-desc">Are you building a brand guide from scratch, or updating one you already have?</div>
+      </div>
+
+      <div class="scope-cards" style="grid-template-columns:1fr 1fr;">
+        <div class="scope-card selected" id="mode-new" onclick="selectMode('new')">
+          <div class="scope-card-label">New</div>
+          <div class="scope-card-title">Build From Scratch</div>
+          <div class="scope-card-desc">Create a brand guide from the ground up — the AI will help define your identity, colors, fonts, voice, and more.</div>
+        </div>
+        <div class="scope-card" id="mode-update" onclick="selectMode('update')">
+          <div class="scope-card-label">Update</div>
+          <div class="scope-card-title">Refresh an Existing Guide</div>
+          <div class="scope-card-desc">Upload your current brand guide and tell the AI what to update — new colors, expanded sections, tighter rules, or a full modernization.</div>
+        </div>
+      </div>
+
+      <!-- Update Options (hidden by default) -->
+      <div id="update-options" style="display:none; grid-column:1/-1;">
+        <div class="callout-box" style="margin-bottom:16px;">
+          <strong>How this works:</strong> Upload your existing brand guide (PDF or images) to your AI assistant alongside the first prompt. The AI will analyze it, then apply only the updates you specify below — everything else stays as-is.
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <label style="margin-bottom:8px;display:block;">What do you want to update? (select all that apply)</label>
+          <div id="update-checks" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;padding:7px 10px;border:1.5px solid var(--gray-4);border-radius:var(--radius);transition:all 0.15s;">
+              <input type="checkbox" class="update-check" value="colors" style="width:15px;height:15px;accent-color:var(--primary);cursor:pointer;"> Update or add colors
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;padding:7px 10px;border:1.5px solid var(--gray-4);border-radius:var(--radius);transition:all 0.15s;">
+              <input type="checkbox" class="update-check" value="typography" style="width:15px;height:15px;accent-color:var(--primary);cursor:pointer;"> Update or add fonts
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;padding:7px 10px;border:1.5px solid var(--gray-4);border-radius:var(--radius);transition:all 0.15s;">
+              <input type="checkbox" class="update-check" value="logo" style="width:15px;height:15px;accent-color:var(--primary);cursor:pointer;"> New or updated logo usage rules
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;padding:7px 10px;border:1.5px solid var(--gray-4);border-radius:var(--radius);transition:all 0.15s;">
+              <input type="checkbox" class="update-check" value="voice" style="width:15px;height:15px;accent-color:var(--primary);cursor:pointer;"> Update voice &amp; messaging
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;padding:7px 10px;border:1.5px solid var(--gray-4);border-radius:var(--radius);transition:all 0.15s;">
+              <input type="checkbox" class="update-check" value="imagery" style="width:15px;height:15px;accent-color:var(--primary);cursor:pointer;"> Update imagery &amp; graphic style
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;padding:7px 10px;border:1.5px solid var(--gray-4);border-radius:var(--radius);transition:all 0.15s;">
+              <input type="checkbox" class="update-check" value="applications" style="width:15px;height:15px;accent-color:var(--primary);cursor:pointer;"> Add or update application templates
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;padding:7px 10px;border:1.5px solid var(--gray-4);border-radius:var(--radius);transition:all 0.15s;">
+              <input type="checkbox" class="update-check" value="expand" style="width:15px;height:15px;accent-color:var(--primary);cursor:pointer;"> Expand — add sections my guide is missing
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;padding:7px 10px;border:1.5px solid var(--gray-4);border-radius:var(--radius);transition:all 0.15s;">
+              <input type="checkbox" class="update-check" value="condense" style="width:15px;height:15px;accent-color:var(--primary);cursor:pointer;"> Condense — tighten or simplify my guide
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;padding:7px 10px;border:1.5px solid var(--gray-4);border-radius:var(--radius);transition:all 0.15s;">
+              <input type="checkbox" class="update-check" value="modernize" style="width:15px;height:15px;accent-color:var(--primary);cursor:pointer;"> Full modernization — refresh the entire look
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;padding:7px 10px;border:1.5px solid var(--gray-4);border-radius:var(--radius);transition:all 0.15s;">
+              <input type="checkbox" class="update-check" value="rules" style="width:15px;height:15px;accent-color:var(--primary);cursor:pointer;"> Add or tighten brand rules
+            </label>
+          </div>
+        </div>
+
+        <div class="field-group full" style="margin-top:4px;">
+          <label for="update-notes">What's Changing &amp; Why?</label>
+          <textarea id="update-notes" placeholder="Describe what you want updated and any context — e.g. 'I just got a new logo and want to update the color palette to match. The old guide used navy and gold but my new logo is more modern with charcoal and teal. I also want to add a voice & messaging section that I never had before.'" style="min-height:110px;"></textarea>
+          <div class="field-hint">The more specific you are, the better the AI can preserve what's working and only change what needs to change.</div>
+        </div>
+      </div>
+
+      <!-- Scope Selection (only for new mode) -->
+      <div id="scope-section" style="grid-column:1/-1;">
+        <div class="section-divider">
+          <div class="section-divider-title">Guide Scope</div>
+          <div class="section-divider-desc">How comprehensive should your brand guide be? You can always start minimal and expand later.</div>
+        </div>
+      </div>
+
+      <div class="scope-cards" id="scope-cards-new">
+        <div class="scope-card" id="scope-minimal" onclick="selectScope('minimal')">
+          <div class="scope-card-label">Minimal</div>
+          <div class="scope-card-title">Quick Start</div>
+          <div class="scope-card-desc">Colors, fonts, and basic usage rules. Perfect if you just need consistency fast.</div>
+          <div class="scope-card-sections">→ Color Palette<br>→ Typography<br>→ Quick Rules</div>
+        </div>
+        <div class="scope-card selected" id="scope-standard" onclick="selectScope('standard')">
+          <div class="scope-card-label">Standard</div>
+          <div class="scope-card-title">Full Brand Guide</div>
+          <div class="scope-card-desc">Everything in Minimal plus voice, messaging, logo system, and imagery direction.</div>
+          <div class="scope-card-sections">→ Brand Foundations<br>→ Color Palette<br>→ Typography<br>→ Logo System<br>→ Voice &amp; Messaging<br>→ Quick Rules</div>
+        </div>
+        <div class="scope-card" id="scope-expanded" onclick="selectScope('expanded')">
+          <div class="scope-card-label">Expanded</div>
+          <div class="scope-card-title">Complete Playbook</div>
+          <div class="scope-card-desc">Everything in Standard plus visual style, applications, and content templates.</div>
+          <div class="scope-card-sections">→ Brand Foundations<br>→ Color Palette<br>→ Typography<br>→ Logo System<br>→ Voice &amp; Messaging<br>→ Imagery &amp; Graphics<br>→ Applications<br>→ Quick Rules</div>
+        </div>
+      </div>
+
+      <!-- Pre-Session Prep -->
+      <div style="grid-column:1/-1; padding-bottom:20px; border-bottom:1px solid var(--warm-mid); margin-bottom:4px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--primary-dark);margin-bottom:4px;">Before You Start</div>
+        <div style="font-size:12px;color:var(--gray-3);margin-bottom:10px;">Gather these files before your AI session. You'll upload them alongside your first prompt.</div>
+        <div id="prep-new" style="font-size:12.5px;color:var(--primary-dark);background:var(--warm-tint);border:1px solid var(--warm-mid);border-radius:var(--radius);padding:14px 18px;line-height:1.8;">
+          <strong>Have these ready to upload:</strong><br>
+          <span style="color:var(--primary);font-weight:600;">→</span> <strong>Logo file</strong> — PNG or SVG preferred. If you don't have one yet, that's OK — the AI will work without it.<br>
+          <span style="color:var(--primary);font-weight:600;">→</span> <strong>Professional headshot</strong> — The AI will reference it for application mockups and branded templates.<br>
+          <span style="color:var(--primary);font-weight:600;">→</span> <strong>Any existing brand materials</strong> — Business cards, flyers, social posts, or anything that represents your current look. The AI will extract visual cues from these.<br>
+          <span id="prep-expanded-items" style="display:none;">
+            <span style="color:var(--primary);font-weight:600;">→</span> <strong>Brand inspiration screenshots</strong> — Saved images of brands, layouts, or designs you admire. Helps the AI match your visual taste.<br>
+          </span>
+          <br>
+          <span style="font-size:11.5px;color:var(--gray-3);">
+            <strong>Important:</strong> Upload these files directly to your AI assistant at the start of your session, alongside Prompt 1. The prompts will instruct the AI to analyze and reference them throughout the guide creation process.
+            Most AI assistants (ChatGPT, Claude, Gemini) accept image and PDF uploads — just drag and drop or use the attachment button.
+          </span>
+        </div>
+        <div id="prep-update" style="display:none;font-size:12.5px;color:var(--primary-dark);background:var(--warm-tint);border:1px solid var(--warm-mid);border-radius:var(--radius);padding:14px 18px;line-height:1.8;">
+          <strong>Have these ready to upload:</strong><br>
+          <span style="color:var(--primary);font-weight:600;">→</span> <strong>Your current brand guide</strong> — PDF or images of every page. This is the most important file — the AI needs to see what exists before it can update it.<br>
+          <span style="color:var(--primary);font-weight:600;">→</span> <strong>Updated logo</strong> — If your logo has changed, upload the new version so the AI can extract updated colors and style.<br>
+          <span style="color:var(--primary);font-weight:600;">→</span> <strong>Professional headshot</strong> — Current photo for any application mockups.<br>
+          <span style="color:var(--primary);font-weight:600;">→</span> <strong>New brand materials</strong> — Anything that represents where you're heading (new business cards, updated social posts, inspiration screenshots).<br>
+          <br>
+          <span style="font-size:11.5px;color:var(--gray-3);">
+            <strong>Important:</strong> Upload your existing brand guide alongside Prompt 1 — the AI will analyze it before proposing any changes. It will show you a "before → after" comparison and ask for your approval before generating the updated guide.
+          </span>
+        </div>
+      </div>
+
+      <!-- Brand Identity — always visible -->
+      <div class="section-divider">
+        <div class="section-divider-title" id="identity-title">Brand Identity</div>
+        <div class="section-divider-desc" id="identity-desc">Tell us about your business so the AI can build a brand guide that fits who you are.</div>
+      </div>
+
+      <div class="field-group">
+        <label for="agent-name">Your Name</label>
+        <input type="text" id="agent-name" placeholder="e.g. Jane Smith">
+        <div class="field-hint update-hint" style="display:none;">Optional when updating — the AI will pull this from your existing guide.</div>
+      </div>
+
+      <div class="field-group">
+        <label for="business-name">Brand Guide Name</label>
+        <input type="text" id="business-name" placeholder="e.g. Real Estate CNX">
+        <div class="field-hint update-hint" style="display:none;">Optional when updating — only fill in if your brand name has changed.</div>
+      </div>
+
+      <div class="field-group">
+        <label for="brokerage">Team Name / Brokerage</label>
+        <input type="text" id="brokerage" placeholder="e.g. John L. Scott Talent Group, Cicero Group / WestUSA Realty">
+        <div class="field-hint update-hint" style="display:none;">Optional when updating — only fill in if your team or brokerage has changed.</div>
+      </div>
+
+      <div class="field-group" data-scope="standard expanded">
+        <label for="market-area">Market Area</label>
+        <input type="text" id="market-area" placeholder="e.g. Phoenix Metro, Thurston County WA">
+      </div>
+
+      <div class="field-group full" data-scope="standard expanded">
+        <label for="tagline">Tagline / Slogan</label>
+        <input type="text" id="tagline" placeholder="e.g. Your Home, Your Story &mdash; leave blank if you want the AI to suggest options">
+        <div class="field-hint">If you already have one, enter it. If not, the AI will generate tagline options for you.</div>
+      </div>
+
+      <div class="field-group full" data-scope="standard expanded">
+        <label for="brand-description">What Makes Your Brand Unique?</label>
+        <textarea id="brand-description" onfocus="showBrandHelper()" placeholder="Describe your brand in a few sentences — what do you stand for? What sets you apart? Who do you serve?" style="min-height:100px;"></textarea>
+        <div class="field-hint">The more detail you give, the more personalized your brand guide will be. Not sure what to write? Click below for help.</div>
+        <div id="brand-helper" style="display:none; margin-top:8px; background:var(--warm-tint); border:1px solid var(--warm-mid); border-radius:var(--radius-lg); padding:14px 18px;">
+          <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--primary-dark);margin-bottom:10px;">Not sure where to start? Answer a few of these &darr;</div>
+          <div style="font-size:12.5px;color:var(--gray-2);margin-bottom:10px;line-height:1.5;">Click any question to add it to the box above, then type your answer after it. Answer as many as you like.</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <span class="brand-helper-q" onclick="addBrandQ(this)" style="cursor:pointer;font-size:12.5px;color:var(--primary-dark);padding:6px 10px;border-radius:var(--radius);border:1px solid transparent;transition:background 0.15s, border-color 0.15s;display:flex;align-items:flex-start;gap:8px;"><span style="color:var(--primary);font-size:11px;margin-top:1px;">→</span> What type of clients do I work with most?</span>
+            <span class="brand-helper-q" onclick="addBrandQ(this)" style="cursor:pointer;font-size:12.5px;color:var(--primary-dark);padding:6px 10px;border-radius:var(--radius);border:1px solid transparent;transition:background 0.15s, border-color 0.15s;display:flex;align-items:flex-start;gap:8px;"><span style="color:var(--primary);font-size:11px;margin-top:1px;">→</span> What do clients say about working with me?</span>
+            <span class="brand-helper-q" onclick="addBrandQ(this)" style="cursor:pointer;font-size:12.5px;color:var(--primary-dark);padding:6px 10px;border-radius:var(--radius);border:1px solid transparent;transition:background 0.15s, border-color 0.15s;display:flex;align-items:flex-start;gap:8px;"><span style="color:var(--primary);font-size:11px;margin-top:1px;">→</span> What makes my approach different from other agents?</span>
+            <span class="brand-helper-q" onclick="addBrandQ(this)" style="cursor:pointer;font-size:12.5px;color:var(--primary-dark);padding:6px 10px;border-radius:var(--radius);border:1px solid transparent;transition:background 0.15s, border-color 0.15s;display:flex;align-items:flex-start;gap:8px;"><span style="color:var(--primary);font-size:11px;margin-top:1px;">→</span> How do I want people to feel when they see my brand?</span>
+            <span class="brand-helper-q" onclick="addBrandQ(this)" style="cursor:pointer;font-size:12.5px;color:var(--primary-dark);padding:6px 10px;border-radius:var(--radius);border:1px solid transparent;transition:background 0.15s, border-color 0.15s;display:flex;align-items:flex-start;gap:8px;"><span style="color:var(--primary);font-size:11px;margin-top:1px;">→</span> What neighborhoods or areas am I known for?</span>
+            <span class="brand-helper-q" onclick="addBrandQ(this)" style="cursor:pointer;font-size:12.5px;color:var(--primary-dark);padding:6px 10px;border-radius:var(--radius);border:1px solid transparent;transition:background 0.15s, border-color 0.15s;display:flex;align-items:flex-start;gap:8px;"><span style="color:var(--primary);font-size:11px;margin-top:1px;">→</span> If I could describe my brand in 3 words, what would they be?</span>
+            <span class="brand-helper-q" onclick="addBrandQ(this)" style="cursor:pointer;font-size:12.5px;color:var(--primary-dark);padding:6px 10px;border-radius:var(--radius);border:1px solid transparent;transition:background 0.15s, border-color 0.15s;display:flex;align-items:flex-start;gap:8px;"><span style="color:var(--primary);font-size:11px;margin-top:1px;">→</span> Is there a brand I admire (in or outside real estate) that I'd want mine to feel like?</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group full" data-scope="standard expanded">
+        <label>Brand Personality (select all that apply)</label>
+        <div class="trait-chips" id="trait-chips">
+          <span class="trait-chip" onclick="toggleTrait(this)">Bold</span>
+          <span class="trait-chip" onclick="toggleTrait(this)">Modern</span>
+          <span class="trait-chip" onclick="toggleTrait(this)">Warm</span>
+          <span class="trait-chip" onclick="toggleTrait(this)">Professional</span>
+          <span class="trait-chip" onclick="toggleTrait(this)">Approachable</span>
+          <span class="trait-chip" onclick="toggleTrait(this)">Luxury</span>
+          <span class="trait-chip" onclick="toggleTrait(this)">Community-Focused</span>
+          <span class="trait-chip" onclick="toggleTrait(this)">Trustworthy</span>
+          <span class="trait-chip" onclick="toggleTrait(this)">Energetic</span>
+          <span class="trait-chip" onclick="toggleTrait(this)">Minimal / Clean</span>
+          <span class="trait-chip" onclick="toggleTrait(this)">Data-Driven</span>
+          <span class="trait-chip" onclick="toggleTrait(this)">Educational</span>
+          <span class="trait-chip" onclick="toggleTrait(this)">Boutique</span>
+          <span class="trait-chip" onclick="toggleTrait(this)">Innovative</span>
+        </div>
+        <div class="field-hint" style="margin-top:6px;">These traits help the AI define your brand voice, color direction, and typography feel.</div>
+      </div>
+
+      <div class="field-group" data-scope="standard expanded">
+        <label for="primary-audience">Primary Audience</label>
+        <select id="primary-audience">
+          <option value="">Select your primary audience</option>
+          <option value="First-time homebuyers">First-time homebuyers</option>
+          <option value="Move-up buyers">Move-up buyers</option>
+          <option value="Luxury buyers and sellers">Luxury buyers and sellers</option>
+          <option value="Investors">Investors</option>
+          <option value="Sellers">Sellers / Listing clients</option>
+          <option value="Mixed — buyers and sellers">Mixed — buyers and sellers</option>
+          <option value="Relocation clients">Relocation clients</option>
+          <option value="Military / VA buyers">Military / VA buyers</option>
+          <option value="New construction buyers">New construction buyers</option>
+        </select>
+      </div>
+
+      <div class="field-group" data-scope="standard expanded">
+        <label for="brokerage-constraints">Brokerage Brand Constraints</label>
+        <select id="brokerage-constraints">
+          <option value="">Does your brokerage restrict your branding?</option>
+          <option value="No restrictions — I have full creative freedom">No restrictions — full creative freedom</option>
+          <option value="Must include brokerage logo alongside my own">Must include brokerage logo</option>
+          <option value="Must use brokerage colors and fonts">Must use brokerage colors &amp; fonts</option>
+          <option value="Must use brokerage colors but can add my own">Must use brokerage colors, can add my own</option>
+          <option value="Some co-branding rules — details in notes">Some co-branding rules (add details in notes)</option>
+          <option value="Not sure — need to check">Not sure — need to check</option>
+        </select>
+        <div class="field-hint">Some brokerages require specific colors, fonts, or logo placements. This helps the AI work within those rules.</div>
+      </div>
+
+      <div class="field-group full" data-scope="expanded">
+        <label>Content Channels (select all that apply)</label>
+        <div class="field-hint" style="margin-bottom:8px;">Where does your brand show up? This tells the AI which application templates to prioritize.</div>
+        <div id="channel-checks" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;padding:7px 10px;border:1.5px solid var(--gray-4);border-radius:var(--radius);transition:all 0.15s;">
+            <input type="checkbox" class="channel-check" value="Instagram" style="width:15px;height:15px;accent-color:var(--primary);cursor:pointer;"> Instagram
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;padding:7px 10px;border:1.5px solid var(--gray-4);border-radius:var(--radius);transition:all 0.15s;">
+            <input type="checkbox" class="channel-check" value="Facebook" style="width:15px;height:15px;accent-color:var(--primary);cursor:pointer;"> Facebook
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;padding:7px 10px;border:1.5px solid var(--gray-4);border-radius:var(--radius);transition:all 0.15s;">
+            <input type="checkbox" class="channel-check" value="Short-Form Video (Reels / TikTok / Shorts)" style="width:15px;height:15px;accent-color:var(--primary);cursor:pointer;"> Short-Form Video <span style="font-size:11px;color:var(--gray-3);">(Reels / TikTok / Shorts)</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;padding:7px 10px;border:1.5px solid var(--gray-4);border-radius:var(--radius);transition:all 0.15s;">
+            <input type="checkbox" class="channel-check" value="YouTube (long-form)" style="width:15px;height:15px;accent-color:var(--primary);cursor:pointer;"> YouTube <span style="font-size:11px;color:var(--gray-3);">(long-form)</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;padding:7px 10px;border:1.5px solid var(--gray-4);border-radius:var(--radius);transition:all 0.15s;">
+            <input type="checkbox" class="channel-check" value="LinkedIn" style="width:15px;height:15px;accent-color:var(--primary);cursor:pointer;"> LinkedIn
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;padding:7px 10px;border:1.5px solid var(--gray-4);border-radius:var(--radius);transition:all 0.15s;">
+            <input type="checkbox" class="channel-check" value="Website / Blog" style="width:15px;height:15px;accent-color:var(--primary);cursor:pointer;"> Website / Blog
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;padding:7px 10px;border:1.5px solid var(--gray-4);border-radius:var(--radius);transition:all 0.15s;">
+            <input type="checkbox" class="channel-check" value="Email / Newsletter" style="width:15px;height:15px;accent-color:var(--primary);cursor:pointer;"> Email / Newsletter
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;padding:7px 10px;border:1.5px solid var(--gray-4);border-radius:var(--radius);transition:all 0.15s;">
+            <input type="checkbox" class="channel-check" value="Print / Direct Mail" style="width:15px;height:15px;accent-color:var(--primary);cursor:pointer;"> Print / Direct Mail
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;padding:7px 10px;border:1.5px solid var(--gray-4);border-radius:var(--radius);transition:all 0.15s;">
+            <input type="checkbox" class="channel-check" value="Google Business Profile" style="width:15px;height:15px;accent-color:var(--primary);cursor:pointer;"> Google Business Profile
+          </label>
+        </div>
+      </div>
+
+      <div class="field-group full" data-scope="standard expanded">
+        <label for="brands-admire">Brands or Agents You Admire</label>
+        <textarea id="brands-admire" placeholder="List any brands, agents, or companies whose visual style or energy you'd want yours to feel like. Can be inside or outside real estate. Example: 'I like the clean feel of John L Scott's branding, the bold energy of WestUSA's marketing, and the content style of Gary Vee — but I want it to feel more local and personal.'" style="min-height:80px;"></textarea>
+        <div class="field-hint">Gives the AI visual and tonal reference points for your imagery and application templates.</div>
+      </div>
+
+      <!-- Existing Brand Assets — always visible -->
+      <div class="section-divider">
+        <div class="section-divider-title" id="assets-title">Existing Brand Assets</div>
+        <div class="section-divider-desc" id="assets-desc">If you already have colors, fonts, or a logo, enter them below. The AI will build around what you have. Leave blank for AI suggestions.</div>
+      </div>
+
+      <div class="callout-box" id="assets-callout-new">
+        <strong>Have a logo?</strong> Upload it directly to your AI assistant along with the first prompt. The AI will extract colors and visual direction from it. If you also know your exact hex codes, enter them below to lock them in.<br><br>
+        <strong>Need help choosing colors?</strong> Use Canva's <a href="https://www.canva.com/colors/color-palette-generator/" target="_blank" style="color:var(--primary);text-decoration:underline;text-underline-offset:2px;">Color Palette Generator</a> — upload an image or explore palettes to find hex codes that fit your brand.
+      </div>
+
+      <div class="callout-box" id="assets-callout-update" style="display:none;">
+        <strong>Updating colors or fonts?</strong> Enter the <em>new</em> values below. The AI will compare them against your existing guide and show you a "before → after" in the update plan. Leave fields blank to keep your current colors/fonts unchanged.<br><br>
+        <strong>Need help choosing new colors?</strong> Use Canva's <a href="https://www.canva.com/colors/color-palette-generator/" target="_blank" style="color:var(--primary);text-decoration:underline;text-underline-offset:2px;">Color Palette Generator</a> — upload your new logo to extract a matching palette.
+      </div>
+
+      <div class="field-group">
+        <label for="brand-primary">Primary Brand Color</label>
+        <div class="color-picker-row">
+          <input type="color" id="brand-primary-picker" value="#1a1a2e" oninput="syncColor('brand-primary-picker','brand-primary')">
+          <input type="text" id="brand-primary" placeholder="#1a1a2e or 'navy blue'" oninput="syncColorFromText('brand-primary','brand-primary-picker')">
+        </div>
+        <div class="field-hint">Your dominant color — used in headers, CTAs, key accents</div>
+      </div>
+
+      <div class="field-group">
+        <label for="brand-secondary">Secondary Brand Color</label>
+        <div class="color-picker-row">
+          <input type="color" id="brand-secondary-picker" value="#c8a951" oninput="syncColor('brand-secondary-picker','brand-secondary')">
+          <input type="text" id="brand-secondary" placeholder="#c8a951 or 'gold'" oninput="syncColorFromText('brand-secondary','brand-secondary-picker')">
+        </div>
+        <div class="field-hint">Supporting color — used for highlights, secondary elements</div>
+      </div>
+
+      <div class="field-group">
+        <label for="brand-accent">Accent / Highlight Color</label>
+        <div class="color-picker-row">
+          <input type="color" id="brand-accent-picker" value="#ffffff" oninput="syncColor('brand-accent-picker','brand-accent')">
+          <input type="text" id="brand-accent" placeholder="#ffffff or 'warm gray'" oninput="syncColorFromText('brand-accent','brand-accent-picker')">
+        </div>
+        <div class="field-hint">Optional third color — for accents, motion, energy</div>
+      </div>
+
+      <div class="field-group">
+        <label for="brand-font">Primary Font / Typeface</label>
+        <input type="text" id="brand-font" placeholder="e.g. Montserrat, Playfair Display">
+        <div class="field-hint">Leave blank and the AI will recommend fonts based on your brand personality. Need inspiration? See Canva's <a href="https://www.canva.com/learn/the-ultimate-guide-to-font-pairing/" target="_blank" style="color:var(--primary);text-decoration:underline;text-underline-offset:2px;">Ultimate Guide to Font Pairing</a></div>
+      </div>
+
+      <div class="field-group full">
+        <label for="brand-notes">Additional Brand Notes</label>
+        <textarea id="brand-notes" placeholder="Any other brand details — existing style rules, fonts to avoid, brokerage brand constraints, design preferences, things you like or don't like..."></textarea>
+        <div class="field-hint">Optional — anything else the AI should know about your visual style</div>
+      </div>
+
+      <!-- Contact Info — all scopes -->
+      <div class="section-divider">
+        <div class="section-divider-title">Contact Information</div>
+        <div class="section-divider-desc">Your contact details will be used in designed brand guide pages — providing them here prevents the AI from making up placeholder info.</div>
+      </div>
+
+      <div class="field-group">
+        <label for="phone">Phone</label>
+        <input type="text" id="phone" placeholder="e.g. (360) 555-0100">
+      </div>
+
+      <div class="field-group">
+        <label for="email">Email</label>
+        <input type="text" id="email" placeholder="e.g. jane@example.com">
+      </div>
+
+      <div class="field-group">
+        <label for="website">Website</label>
+        <input type="text" id="website" placeholder="e.g. www.janesmith.com">
+      </div>
+
+      <div class="field-group" data-scope="expanded">
+        <label for="social-handles">Social Media Handles</label>
+        <input type="text" id="social-handles" placeholder="e.g. @janesmithrealty on Instagram, Facebook, YouTube">
+        <div class="field-hint">Used in application template examples — list your handle(s) and platforms</div>
+      </div>
+
+    </div>
+
+    <div id="validation-warning"></div>
+    <div class="generate-wrap">
+      <button class="btn-generate" onclick="generatePrompts()">Generate My Prompts →</button>
+      <button class="btn-reset" onclick="resetForm()">Clear all</button>
+    </div>
+  </div>
+
+  <!-- OUTPUT SECTION -->
+  <div id="output-section">
+
+    <div class="output-header">
+      <div class="output-header-left">
+        <h2>Your Prompts Are Ready</h2>
+        <p>Run them in order in one AI session &mdash; each prompt builds on the last</p>
+        <span class="prompt-count-badge" id="prompt-count-badge"></span>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn-edit" onclick="editInputs()">← Edit Inputs</button>
+        <button class="btn-edit" onclick="copyAllPrompts()" id="btn-copy-all" style="background:var(--primary);color:var(--white);border-color:var(--primary);">Copy All Prompts</button>
+      </div>
+    </div>
+
+    <div class="context-bar" id="context-bar"></div>
+
+    <div style="font-size:12px;color:var(--gray-3);background:var(--gray-5);border:1px solid var(--gray-4);border-radius:var(--radius);padding:10px 16px;margin-bottom:24px;line-height:1.6;">
+      <strong style="color:var(--gray-2);">Platform note:</strong> These prompts work in any AI assistant. <strong style="color:var(--gray-2);">ChatGPT</strong> can generate fully designed visual pages. <strong style="color:var(--gray-2);">Claude</strong> and <strong style="color:var(--gray-2);">Gemini</strong> will produce well-structured formatted content that you can then design in Canva, Google Docs, or your preferred tool.
+    </div>
+
+    <!-- Phase 1 -->
+    <div class="phase-label">Phase 1 — Brand Discovery &amp; Foundation</div>
+    <div class="phase-note">Start here. This prompt sets up the AI with your brand identity so everything that follows is consistent.</div>
+
+    <div class="prompt-card">
+      <div class="prompt-card-header">
+        <div class="prompt-card-header-left">
+          <span class="step-badge">Prompt 1</span>
+          <div>
+            <div class="prompt-card-title">Brand Discovery &amp; Setup</div>
+            <div class="prompt-card-subtitle">Upload logo if you have one · Establishes brand foundation</div>
+          </div>
+        </div>
+        <button class="btn-copy" onclick="copyPrompt('prompt1', this)">Copy Prompt</button>
+      </div>
+      <div class="prompt-card-instructions">
+        <strong>Start here.</strong> Before pasting this prompt, upload your logo, headshot, and any existing brand materials (business cards, social posts, flyers) directly to your AI assistant. Drag and drop or use the attachment button — then paste this prompt in the same message. The AI will analyze everything you upload and use it as the foundation for your brand guide.
+      </div>
+      <div class="prompt-body" id="prompt1"></div>
+    </div>
+    <div class="after-step"><strong>After Prompt 1:</strong> Review the brand foundation the AI produces — brand positioning, traits, audiences, and color palette. Ask it to revise anything before moving on. This output anchors everything else.</div>
+
+    <!-- Phase 2 -->
+    <div class="phase-label">Phase 2 — Build the Guide Sections</div>
+    <div class="phase-note">Run these in order. Each prompt creates one section of your brand guide, referencing the foundation from Phase 1.</div>
+
+    <div id="prompt-cards-container"></div>
+
+    <!-- Phase 3 -->
+    <div class="phase-label" id="phase3-label" style="display:none;">Phase 3 — Final Assembly</div>
+
+    <div class="prompt-card" id="final-card" style="display:none;">
+      <div class="prompt-card-header">
+        <div class="prompt-card-header-left">
+          <span class="step-badge">Final</span>
+          <div>
+            <div class="prompt-card-title">Assemble &amp; Quick Rules</div>
+            <div class="prompt-card-subtitle">Combines all sections into a finished brand guide</div>
+          </div>
+        </div>
+        <button class="btn-copy" onclick="copyPrompt('promptFinal', this)">Copy Prompt</button>
+      </div>
+      <div class="prompt-card-instructions">
+        <strong>Last step.</strong> This prompt asks the AI to compile everything into a single, organized brand guide document with a Quick Rules summary page at the end.
+      </div>
+      <div class="prompt-body" id="promptFinal"></div>
+    </div>
+    <div class="after-step" id="final-after" style="display:none;"><strong>After Final:</strong> You now have a complete brand guide. Ask the AI to export it as a PDF, or copy the content into Canva, Google Docs, or your design tool of choice.</div>
+
+  </div>
+
+</main>
+
+<div class="footer">
+  <strong>Brand Guide Prompt Engine</strong> &middot; Real Estate CNX &middot; How Real Estate Connects<br>
+  Identity → Direction → Consistency → Recognition
+</div>
+
+<script>
+
+  // ── Brand Description Helper ──
+  function showBrandHelper() {
+    document.getElementById('brand-helper').style.display = 'block';
+  }
+
+  function addBrandQ(el) {
+    const q = el.textContent.replace('→', '').trim();
+    const ta = document.getElementById('brand-description');
+    const current = ta.value.trim();
+    const separator = current ? '\n\n' : '';
+    ta.value = current + separator + q + '\n';
+    ta.focus();
+    // Place cursor at end
+    ta.selectionStart = ta.value.length;
+    ta.selectionEnd = ta.value.length;
+    // Fade the clicked question
+    el.style.opacity = '0.4';
+    el.style.pointerEvents = 'none';
+    el.style.borderColor = 'var(--warm-mid)';
+    el.style.background = 'var(--white)';
+  }
+
+  // ── State ──
+  let selectedScope = 'standard';
+  let selectedTraits = [];
+  let selectedMode = 'new';
+
+  // ── Mode Selection ──
+  function selectMode(mode) {
+    selectedMode = mode;
+    document.getElementById('mode-new').classList.toggle('selected', mode === 'new');
+    document.getElementById('mode-update').classList.toggle('selected', mode === 'update');
+
+    const updateOpts = document.getElementById('update-options');
+    const scopeSection = document.getElementById('scope-section');
+    const scopeCards = document.getElementById('scope-cards-new');
+    const titleEl = document.querySelector('.block-title');
+    const descEl = document.querySelector('.block-desc');
+
+    if (mode === 'update') {
+      updateOpts.style.display = 'block';
+      scopeSection.style.display = 'none';
+      scopeCards.style.display = 'none';
+      titleEl.textContent = 'Update Your Brand Guide';
+      descEl.textContent = 'Upload your existing brand guide to the AI, tell us what\'s changing, and get prompts that update only what needs updating — keeping everything else intact.';
+      document.getElementById('prep-new').style.display = 'none';
+      document.getElementById('prep-update').style.display = 'block';
+      // Update identity section text
+      document.getElementById('identity-title').textContent = 'Brand Identity (optional)';
+      document.getElementById('identity-desc').textContent = 'Only fill in fields that are changing. The AI will pull everything else from your uploaded brand guide.';
+      // Show update hints, hide new callout
+      document.querySelectorAll('.update-hint').forEach(h => h.style.display = 'block');
+      document.getElementById('assets-callout-new').style.display = 'none';
+      document.getElementById('assets-callout-update').style.display = 'block';
+      document.getElementById('assets-title').textContent = 'New Brand Colors & Fonts';
+      document.getElementById('assets-desc').textContent = 'Only enter values here if you\'re changing your colors or fonts. Leave blank to keep what\'s in your current guide.';
+    } else {
+      updateOpts.style.display = 'none';
+      scopeSection.style.display = 'block';
+      scopeCards.style.display = 'grid';
+      titleEl.textContent = 'Build Your Brand Guide';
+      descEl.textContent = 'Answer the questions below about your brand, then generate prompts you can paste into any AI assistant to create a professional brand guide tailored to your business.';
+      document.getElementById('prep-new').style.display = 'block';
+      document.getElementById('prep-update').style.display = 'none';
+      // Reset identity section text
+      document.getElementById('identity-title').textContent = 'Brand Identity';
+      document.getElementById('identity-desc').textContent = 'Tell us about your business so the AI can build a brand guide that fits who you are.';
+      // Hide update hints, show new callout
+      document.querySelectorAll('.update-hint').forEach(h => h.style.display = 'none');
+      document.getElementById('assets-callout-new').style.display = 'block';
+      document.getElementById('assets-callout-update').style.display = 'none';
+      document.getElementById('assets-title').textContent = 'Existing Brand Assets';
+      document.getElementById('assets-desc').textContent = 'If you already have colors, fonts, or a logo, enter them below. The AI will build around what you have. Leave blank for AI suggestions.';
+    }
+    updateScopedFields();
+  }
+
+  // ── Scope Selection ──
+  function selectScope(scope) {
+    selectedScope = scope;
+    document.querySelectorAll('#scope-cards-new .scope-card').forEach(c => c.classList.remove('selected'));
+    document.getElementById('scope-' + scope).classList.add('selected');
+    updateScopedFields();
+  }
+
+  function updateScopedFields() {
+    const scope = selectedMode === 'update' ? 'expanded' : selectedScope;
+    document.querySelectorAll('[data-scope]').forEach(el => {
+      const scopes = el.getAttribute('data-scope').split(' ');
+      el.style.display = scopes.includes(scope) ? '' : 'none';
+    });
+    const expandedPrep = document.getElementById('prep-expanded-items');
+    if (expandedPrep) expandedPrep.style.display = (scope === 'expanded') ? 'inline' : 'none';
+  }
+
+  // Initialize on load
+  document.addEventListener('DOMContentLoaded', () => { updateScopedFields(); });
+
+  // ── Trait Chips ──
+  function toggleTrait(el) {
+    el.classList.toggle('selected');
+    selectedTraits = Array.from(document.querySelectorAll('.trait-chip.selected')).map(c => c.textContent.trim());
+  }
+
+  // ── Color Sync ──
+  function syncColor(pickerId, textId) {
+    document.getElementById(textId).value = document.getElementById(pickerId).value;
+  }
+
+  function syncColorFromText(textId, pickerId) {
+    const val = document.getElementById(textId).value.trim();
+    if (/^#[0-9a-fA-F]{6}$/.test(val)) {
+      document.getElementById(pickerId).value = val;
+    }
+  }
+
+  // ── Copy ──
+  function copyPrompt(promptId, btn) {
+    const el = document.getElementById(promptId);
+    const text = el.getAttribute('data-plain') || el.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy Prompt'; btn.classList.remove('copied'); }, 2000);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy Prompt'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  // ── Copy All ──
+  function copyAllPrompts() {
+    const allBodies = document.querySelectorAll('#output-section .prompt-body');
+    const allText = Array.from(allBodies).map((el, i) => {
+      const text = el.getAttribute('data-plain') || el.innerText;
+      return `${'='.repeat(60)}\nPROMPT ${i + 1}\n${'='.repeat(60)}\n\n${text}`;
+    }).join('\n\n\n');
+
+    const btn = document.getElementById('btn-copy-all');
+    navigator.clipboard.writeText(allText).then(() => {
+      btn.textContent = '✓ All Copied!';
+      setTimeout(() => { btn.textContent = 'Copy All Prompts'; }, 2500);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = allText;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.textContent = '✓ All Copied!';
+      setTimeout(() => { btn.textContent = 'Copy All Prompts'; }, 2500);
+    });
+  }
+
+  // ── Validation ──
+  function validateForm() {
+    if (selectedMode === 'update') {
+      // Update mode: need at least one update selection or update notes
+      const updates = getUpdateSelections();
+      const updateNotes = getVal('update-notes');
+      if (!updates.length && !updateNotes) {
+        const warn = document.getElementById('validation-warning');
+        warn.textContent = 'Please select at least one update area or describe what you want to change.';
+        warn.style.display = 'block';
+        return false;
+      }
+      document.getElementById('validation-warning').style.display = 'none';
+      return true;
+    }
+
+    // New mode: require business name
+    const required = [
+      { id: 'business-name', label: 'Brand Guide Name' },
+    ];
+    const missing = required.filter(f => !document.getElementById(f.id).value.trim());
+    if (missing.length) {
+      const warn = document.getElementById('validation-warning');
+      warn.textContent = 'Please fill in: ' + missing.map(f => f.label).join(', ');
+      warn.style.display = 'block';
+      return false;
+    }
+    document.getElementById('validation-warning').style.display = 'none';
+    return true;
+  }
+
+  // ── Nav ──
+  function editInputs() {
+    document.getElementById('output-section').classList.remove('visible');
+    document.getElementById('input-block').style.display = 'block';
+    document.getElementById('input-block').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function resetForm() {
+    ['agent-name','business-name','brokerage','market-area','tagline','brand-description','brand-primary','brand-secondary','brand-accent','brand-font','brand-notes','phone','email','website','social-handles','brands-admire','update-notes'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    document.getElementById('primary-audience').value = '';
+    document.querySelectorAll('.channel-check').forEach(c => c.checked = false);
+    document.querySelectorAll('.update-check').forEach(c => c.checked = false);
+    document.getElementById('brokerage-constraints').value = '';
+    document.querySelectorAll('.trait-chip').forEach(c => c.classList.remove('selected'));
+    selectedTraits = [];
+    selectMode('new');
+    selectScope('standard');
+    document.getElementById('validation-warning').style.display = 'none';
+    document.getElementById('brand-helper').style.display = 'none';
+    document.querySelectorAll('.brand-helper-q').forEach(q => {
+      q.style.opacity = '1';
+      q.style.pointerEvents = 'auto';
+      q.style.borderColor = 'transparent';
+      q.style.background = 'transparent';
+    });
+  }
+
+  // ── Prompt Builders ──
+
+  function getVal(id) {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+
+  function getChannels() {
+    const checks = document.querySelectorAll('.channel-check:checked');
+    return Array.from(checks).map(c => c.value).join(', ');
+  }
+
+  function buildPrompt1() {
+    const name = getVal('agent-name') || '[Your Name]';
+    const business = getVal('business-name') || '[Brand Name]';
+    const brokerage = getVal('brokerage');
+    const market = getVal('market-area');
+    const tagline = getVal('tagline');
+    const desc = getVal('brand-description');
+    const audience = getVal('primary-audience');
+    const channels = getChannels();
+    const primary = getVal('brand-primary');
+    const secondary = getVal('brand-secondary');
+    const accent = getVal('brand-accent');
+    const font = getVal('brand-font');
+    const notes = getVal('brand-notes');
+    const constraints = getVal('brokerage-constraints');
+    const brandsAdmire = getVal('brands-admire');
+    const socialHandles = getVal('social-handles');
+    const traits = selectedTraits.length ? selectedTraits.join(', ') : '';
+    const scope = selectedScope;
+
+    const scopeLabel = scope === 'minimal' ? 'Minimal (Quick Start)' : scope === 'standard' ? 'Standard (Full Brand Guide)' : 'Expanded (Complete Playbook)';
+
+    let colorBlock = '';
+    if (primary || secondary || accent || font) {
+      const parts = [];
+      if (primary) parts.push(`  • Primary color: ${primary}`);
+      if (secondary) parts.push(`  • Secondary color: ${secondary}`);
+      if (accent) parts.push(`  • Accent/highlight color: ${accent}`);
+      if (font) parts.push(`  • Primary font: ${font}`);
+      colorBlock = `\nEXISTING BRAND COLORS & FONTS (use these as the foundation — do not override):\n${parts.join('\n')}\n`;
+    }
+
+    let traitBlock = traits ? `\nBRAND PERSONALITY TRAITS:\n  ${traits}\n` : '';
+    let descBlock = desc ? `\nBRAND DESCRIPTION (in my own words):\n  ${desc}\n` : '';
+    let notesBlock = notes ? `\nADDITIONAL NOTES:\n  ${notes}\n` : '';
+    let brokerageBlock = brokerage ? `  • Team / Brokerage: ${brokerage}\n` : '';
+    let constraintsBlock = constraints && constraints !== 'No restrictions — I have full creative freedom' ? `\nBROKERAGE BRAND CONSTRAINTS:\n  ${constraints}\n  Important: Factor these constraints into all color, font, and logo recommendations. If the brokerage requires specific elements, the brand guide should show how to work within those rules while maintaining a distinct personal brand identity.\n` : '';
+    let brandsAdmireBlock = brandsAdmire ? `\nBRANDS / AGENTS I ADMIRE (for visual and tonal reference):\n  ${brandsAdmire}\n` : '';
+
+    // Contact info
+    const phone = getVal('phone');
+    const email = getVal('email');
+    const website = getVal('website');
+    const contactParts = [];
+    if (phone) contactParts.push(`  • Phone: ${phone}`);
+    if (email) contactParts.push(`  • Email: ${email}`);
+    if (website) contactParts.push(`  • Website: ${website}`);
+    let contactBlock = contactParts.length ? `\nCONTACT INFORMATION (use these exactly in any designed pages — do not invent placeholder contact details):\n${contactParts.join('\n')}\n` : `\nCONTACT INFORMATION:\n  • No contact info provided — leave contact areas blank or use "[Phone]", "[Email]", "[Website]" placeholders. Do NOT invent fake contact details.\n`;
+
+    // Minimal scope — streamlined prompt
+    if (scope === 'minimal') {
+      return `You are a brand strategist and visual identity designer. I need you to help me create a quick-start brand style sheet for my real estate business — just the essentials: color palette, typography, and usage rules.
+
+FILES I'M UPLOADING WITH THIS PROMPT:
+I may be uploading one or more of the following alongside this message:
+  • My logo (PNG, SVG, or image file)
+  • My professional headshot
+  • Existing brand materials (business cards, flyers, social posts, etc.)
+
+If files are uploaded: Analyze each one. Extract the color palette (list hex codes), visual style, typography cues, and overall brand feel. Use these as the foundation for everything below — do not guess when the files provide the answer. Confirm what you received and what you extracted before proceeding.
+
+If no files are uploaded: That's fine — build the style sheet from the information provided below.
+
+ABOUT MY BUSINESS:
+  • Brand name: ${business}
+  • Agent: ${name}
+${brokerageBlock}
+${colorBlock}${contactBlock}${notesBlock}
+DELIVERABLE — QUICK-START BRAND SHEET:
+
+1) BRAND COLORS
+  – Provide a primary, secondary, and accent color with hex codes and branded names
+  – Add 2–3 neutrals (dark, light/gray, white) with hex codes
+  – Include a brief note on the role of each color
+
+2) TYPOGRAPHY
+  – Recommend a display/title font and body font (available on Google Fonts or Canva)
+  – Include size ranges for titles, headers, body, and captions
+  – Provide one alternative font for each in case the primary isn't available
+
+3) QUICK RULES
+  – 6–8 one-line rules for consistent brand usage (e.g. "Use primary color for CTAs and emphasis", "Maintain strong contrast and whitespace")
+
+Present this as a clean, concise style sheet. This is meant to be fast and actionable — no lengthy brand philosophy needed.
+
+OUTPUT FORMAT:
+Produce a finished, designed brand style sheet — not just a text list. Generate a visual page that includes:
+  – Actual color swatches rendered as colored blocks with hex codes next to each
+  – Font names displayed in the actual recommended fonts at their recommended sizes
+  – Quick rules in a clean visual layout with checkmarks or icons
+  – Use the brand colors in the page design itself (headers, accents, dividers)
+This should look like a one-page brand cheat sheet you'd pin to your wall — designed, not described.
+
+Confirm when the style sheet is complete.`;
+    }
+
+    // Standard and Expanded — full prompt
+    let taglineBlock = tagline ? `\nEXISTING TAGLINE:\n  "${tagline}"\n` : `\nTAGLINE:\n  I don't have a tagline yet. Please suggest 3–5 tagline options that fit my brand personality, audience, and market area. Present them with a brief rationale for each.\n`;
+
+    let channelsLine = channels ? `  • Content channels: ${channels}\n` : '';
+    let socialLine = socialHandles ? `  • Social handles: ${socialHandles}\n` : '';
+
+    return `You are a brand strategist and visual identity designer specializing in real estate brands. I need you to help me build a professional brand guide for my real estate business.
+
+GUIDE SCOPE: ${scopeLabel}
+
+FILES I'M UPLOADING WITH THIS PROMPT:
+I may be uploading one or more of the following alongside this message:
+  • My logo (PNG, SVG, or image file)
+  • My professional headshot
+  • Existing brand materials (business cards, flyers, social posts, signage, etc.)
+${scope === 'expanded' ? '  • Brand inspiration screenshots or reference images\n' : ''}
+If files are uploaded: Analyze each one carefully. For my logo: extract the full color palette (list every color with hex codes), identify the visual style, and note any typography. For my headshot: acknowledge receipt — you will reference it in application mockups later. For any other brand materials: extract visual patterns, color usage, layout style, and design sensibility. Confirm what you received and what you extracted before proceeding.
+
+If no files are uploaded: That's fine — build the brand direction from the information provided below.
+
+ABOUT MY BUSINESS:
+  • Brand name: ${business}
+  • Agent: ${name}
+${brokerageBlock}${market ? `  • Market area: ${market}\n` : ''}${audience ? `  • Primary audience: ${audience}\n` : ''}${channelsLine}${socialLine}
+${descBlock}${traitBlock}${taglineBlock}${colorBlock}${contactBlock}${constraintsBlock}${brandsAdmireBlock}${notesBlock}
+DELIVERABLE — BRAND FOUNDATION:
+Using everything above, create the brand foundation document:
+
+1) BRAND POSITIONING
+  – One clear paragraph defining what ${business} is, what it stands for, and how it shows up in the real estate space
+
+2) CORE BRAND TRAITS
+  – 4–6 brand traits (like: Bold, Modern, Connected, Helpful)
+  – Each with a one-line description of what it means for this brand
+
+3) PRIMARY AUDIENCES
+  – List the key audiences this brand speaks to, with one-line descriptions
+
+4) BRAND PROMISE
+  – One clear statement of what ${business} delivers to its audience
+
+5) OFFICIAL TAGLINE
+  ${tagline ? `– Use: "${tagline}"` : '– Present 3–5 options with rationale, then recommend one'}
+${traits ? `
+Use the brand personality traits (${traits}) to inform the tone and direction of everything above.` : ''}
+
+Present this as a clean, organized brand foundation document. This will be the reference point for all sections that follow.
+
+Do NOT create the full brand guide yet — just the foundation. Confirm when ready for the next section.`;
+  }
+
+  function buildColorPrompt() {
+    const primary = getVal('brand-primary');
+    const secondary = getVal('brand-secondary');
+    const accent = getVal('brand-accent');
+    const traits = selectedTraits.length ? selectedTraits.join(', ') : '';
+
+    const hasColors = primary || secondary || accent;
+    const lockNote = hasColors
+      ? `I have provided brand colors in the foundation. Use those exact colors as the starting point and build the full palette around them.`
+      : `Based on the brand foundation, brand personality, and any uploaded logo or brand files, create a color palette from scratch.`;
+
+    return `Using the brand foundation above, create the COLOR PALETTE section of my brand guide.
+
+${lockNote}
+${traits ? `Brand personality traits: ${traits} — let these inform the palette mood (e.g. "Luxury" → deeper, richer tones; "Energetic" → brighter, bolder accents; "Warm" → earthy, approachable hues).` : ''}
+
+DELIVERABLE — COLOR PALETTE PAGE:
+
+1) PRIMARY PALETTE (3–4 colors)
+  For each color provide:
+  – Color name (a branded name, not just "blue" — e.g. "Estate Navy", "Sandstone Warm")
+  – Hex code
+  – Role: what this color is used for (e.g. "Primary energy / CTA", "Contrast / panels", "Neutral background")
+
+2) EXTENDED PALETTE (2–3 supporting colors)
+  – Neutrals: a dark, a light/gray, and white
+  – Each with hex code and role
+
+3) COLOR APPLICATION RULES
+  – Percentage breakdown: how much of each color should appear in a typical layout (e.g. Black/Dark 35%, White/Gray 30%, Primary 20%, Accent 15%)
+  – 4 "do" rules (e.g. "Use primary color for energy, CTAs, and emphasis")
+  – 4 "don't" rules (e.g. "Do not use low-contrast combinations")
+
+Format this as a clean, visual-ready brand guide page. Use a consistent structure for each color swatch.
+
+OUTPUT FORMAT:
+Produce a finished, designed brand guide page — not just a text description. Generate a visual page that includes:
+  – Actual color swatches rendered as colored blocks for each color
+  – Hex codes displayed next to each swatch
+  – A visual percentage bar showing the color application ratios
+  – Clean layout with clear sections, dividers, and hierarchy
+  – Use the brand colors themselves in the page design (headers, accents, backgrounds)
+This should look like a page you'd find in a professional brand guide PDF — designed, not described.`;
+  }
+
+  function buildTypographyPrompt() {
+    const font = getVal('brand-font');
+    const channels = getChannels();
+    const traits = selectedTraits.length ? selectedTraits.join(', ') : '';
+    const fontNote = font
+      ? `My primary font is ${font}. Build the typography system around this font.`
+      : `Based on the brand personality and visual direction, recommend a complete typography system. Choose fonts that are available on Google Fonts or Canva for easy access.`;
+
+    return `Using the brand foundation and color palette above, create the TYPOGRAPHY section of my brand guide.
+
+${fontNote}
+${channels ? `My primary content channels are: ${channels}. Choose fonts that work well across these platforms.` : ''}
+${traits ? `Brand personality traits: ${traits} — let these inform the font choices (e.g. "Bold" → strong sans-serifs; "Luxury" → refined serifs; "Modern" → clean geometric fonts; "Warm" → rounded, approachable typefaces).` : ''}
+
+DELIVERABLE — TYPOGRAPHY PAGE:
+
+1) FONT SYSTEM (4 tiers)
+  For each tier provide:
+  – Tier name: Display/Titles, Section Headers, Body Copy, Accent/Script
+  – Primary font recommendation (with weight)
+  – Alternative font (for platforms where the primary isn't available)
+  – Example text showing how it looks in context
+
+2) TYPE HIERARCHY GUIDE
+  – Titles: recommended size range (e.g. 34–48pt)
+  – Section Headers: size range (e.g. 18–28pt)
+  – Body: size range (e.g. 10–12pt)
+  – Captions: size range (e.g. 8–10pt)
+  – For each: a brief note on its purpose (e.g. "Big and attention-grabbing")
+
+3) USAGE NOTES
+  – Any rules about font pairing, weight usage, or things to avoid
+  – Note: if a stylized script exists in the logo, it should NOT be recreated as running text
+
+Keep the format consistent with the color palette page — clean, organized, and ready to be designed.
+
+OUTPUT FORMAT:
+Produce a finished, designed brand guide page — not just a text description. Generate a visual page that includes:
+  – Each font tier rendered in the actual recommended font (or closest available) at the recommended size
+  – Example text displayed in each font weight and style so the reader can see how it looks
+  – A visual type hierarchy chart showing the size relationships between tiers
+  – The brand colors used in the page design itself (headers, labels, accents)
+  – Clean layout with clear sections matching the style of the color palette page
+This should look like a page you'd find in a professional brand guide PDF — designed, not described.`;
+  }
+
+  function buildLogoPrompt() {
+    const business = getVal('business-name') || '[Brand Name]';
+    return `Using the brand foundation, color palette, and typography above, create the LOGO SYSTEM section of my brand guide.
+
+DELIVERABLE — LOGO SYSTEM PAGE:
+
+1) LOGO VERSIONS
+  Define 3 approved logo versions:
+  – A. Primary Logo: full color, full lockup (logo + tagline). When to use it.
+  – B. Secondary Logo: simplified version (no tagline or reduced detail). When to use it.
+  – C. Support Mark / Icon: minimal mark for small spaces, favicons, profile icons. When to use it.
+
+2) ADDITIONAL APPROVED VERSIONS
+  – D. Grayscale / Black & White: for one-color print, embroidery, copier-safe docs
+  – E. White / Reverse Logo: for dark backgrounds — describe when to use the prepared reverse version vs. never manually recoloring
+
+3) BACKGROUND CONTROL
+  – Approved background types: Light/White, Black/Dark, Quiet Neutral
+  – Note which logo version to use on each
+
+4) CLEAR SPACE RULES
+  – Minimum clear space around the logo (describe in terms of logo elements, e.g. "equal to the height of the main letter")
+
+5) MINIMUM SIZE
+  – Print minimum (in inches)
+  – Digital minimum (in pixels)
+  – Rule: if the tagline becomes unreadable, switch to the support mark
+
+Note: This section describes the RULES for logo usage — I will create or supply the actual logo files separately. The AI should write the usage guidelines, not generate logo artwork.
+
+OUTPUT FORMAT:
+Produce a finished, designed brand guide page — not just a text description. Generate a visual page that includes:
+  – Labeled placeholder boxes showing where each logo version would appear (Primary, Secondary, Support Mark, Grayscale, Reverse)
+  – Visual background control examples: show the logo placement area on light, dark, and neutral backgrounds using the brand colors
+  – A clear space diagram showing the minimum spacing rule visually
+  – Minimum size examples at the recommended print and digital dimensions
+  – The brand colors and typography used in the page design itself
+  – Clean layout with clear sections matching the style of previous pages
+If my logo was uploaded earlier in this session, use it in the examples. If not, use labeled placeholder boxes. This should look like a page from a professional brand guide PDF.`;
+  }
+
+  function buildVoicePrompt() {
+    const business = getVal('business-name') || '[Brand Name]';
+    const audience = getVal('primary-audience');
+    const traits = selectedTraits.length ? selectedTraits.join(', ') : '';
+    const desc = getVal('brand-description');
+
+    return `Using the brand foundation above, create the VOICE & MESSAGING section of my brand guide.
+
+${traits ? `Brand personality traits: ${traits}` : ''}
+${audience ? `Primary audience: ${audience}` : ''}
+${desc ? `Brand description: ${desc}` : ''}
+
+DELIVERABLE — VOICE & MESSAGING PAGE:
+
+1) TONE KEYWORDS
+  – 5–6 words that define how ${business} sounds in all communications (e.g. Bold, Clear, Helpful, Connected, Current, Encouraging)
+
+2) MESSAGING PILLARS
+  – 4–5 content themes that ${business} consistently talks about
+  – Example: Real Estate Education, Community Connection, Market Insight, Opportunity Awareness, Industry Relevance
+
+3) WRITING STYLE — DO
+  – 4 rules for how to write (e.g. "Use concise headlines", "Sound informed and approachable", "Keep the energy moving")
+
+4) WRITING STYLE — AVOID
+  – 5 things to never do (e.g. "Hype without substance", "Dense jargon", "Vague buzzwords", "Forced luxury language", "Disconnected corporate stiffness")
+
+5) SAMPLE CTA STYLES
+  – 5 example calls-to-action that match the brand voice
+  – These should feel like something ${business} would actually say
+  – Range from soft engagement to direct action
+
+6) BRAND STATEMENT
+  – One defining sentence that captures what ${business} does and why it matters
+  – Should feel quotable and authentic
+
+Format as a structured brand guide page. The voice section should feel alive — not like a corporate policy document.
+
+OUTPUT FORMAT:
+Produce a finished, designed brand guide page — not just a text description. Generate a visual page that includes:
+  – Tone keywords displayed as styled badges or pills using the brand colors
+  – Messaging pillars in a visual bar or grid layout (not just a bullet list)
+  – Writing style "do" and "don't" rules in a two-column visual layout with checkmarks and X marks
+  – Sample CTAs rendered as styled buttons using the brand colors and fonts
+  – The brand statement in a visually prominent callout or quote block
+  – Brand colors, fonts, and visual style used throughout the page design itself
+  – Clean layout with clear sections matching the style of previous pages
+This should look like a page from a professional brand guide PDF — designed, not described.`;
+  }
+
+  function buildImageryPrompt() {
+    const market = getVal('market-area');
+    const traits = selectedTraits.length ? selectedTraits.join(', ') : '';
+    const brandsAdmire = getVal('brands-admire');
+
+    return `Using the brand foundation and visual direction above, create the IMAGERY & GRAPHIC STYLE section of my brand guide.
+
+${market ? `Market area: ${market}` : ''}
+${traits ? `Brand personality: ${traits}` : ''}
+${brandsAdmire ? `Brands/agents I admire for visual reference: ${brandsAdmire}` : ''}
+
+DELIVERABLE — IMAGERY & GRAPHIC STYLE PAGE:
+
+1) PHOTOGRAPHY CATEGORIES
+  List 6 approved photography categories with a brief description of what each looks like:
+  – Consider: cityscapes/urban, neighborhood life, agents + clients, modern homes, events + community, market/data visuals
+  – Tailor the categories to the brand's market area and personality
+
+2) GRAPHIC ELEMENTS
+  List 5 approved graphic elements the brand uses:
+  – For each: name + brief purpose (e.g. "Directional Arrows — signal momentum and progress", "Clean Grids — create clarity and hierarchy")
+  – Consider: arrows, grids, skyline motifs, map-like connections, bold panels, geometric shapes
+
+3) WHAT TO AVOID
+  List 6 visual things to always avoid:
+  – e.g. Cluttered layouts, over-styled luxury clichés, cheesy stock photos, heavy filters, confusing color overload, busy unreadable graphics
+
+4) IMAGERY RULES
+  – How imagery should feel overall (active, relevant, people-centered, connected to real estate life in motion)
+  – How to integrate imagery with text (contrast, readability, overlay rules)
+
+OUTPUT FORMAT:
+Produce a finished, designed brand guide page — not just a text description. Generate a visual page that includes:
+  – Photography categories displayed as a grid of labeled image panels (use representative stock-style images or illustrated placeholders showing the type of imagery — cityscapes, neighborhood scenes, etc.)
+  – Graphic elements shown as visual examples (actual arrows, grid patterns, panel shapes rendered in the brand colors)
+  – "What to Avoid" displayed with X marks in a clear visual layout
+  – The brand colors and typography used throughout the page design
+  – Clean layout with clear sections matching the style of previous pages
+This should look like a page from a professional brand guide PDF — designed, not described.`;
+  }
+
+  function buildApplicationsPrompt() {
+    const business = getVal('business-name') || '[Brand Name]';
+    const channels = getChannels();
+    const name = getVal('agent-name');
+    const phone = getVal('phone');
+    const email = getVal('email');
+    const website = getVal('website');
+    const socialHandles = getVal('social-handles');
+    const brandsAdmire = getVal('brands-admire');
+
+    const contactParts = [];
+    if (name) contactParts.push(name);
+    if (phone) contactParts.push(phone);
+    if (email) contactParts.push(email);
+    if (website) contactParts.push(website);
+    const contactLine = contactParts.length ? contactParts.join(' • ') : '[Agent contact info]';
+
+    return `Using the complete brand guide sections above (foundation, colors, typography, logo system, voice, and imagery), create the APPLICATIONS section.
+
+UPLOADED FILES REFERENCE:
+If a headshot and logo were uploaded earlier in this session, reference them in the application descriptions below. Describe where the headshot and logo should appear in each template layout. If you no longer have access to the uploaded files, describe the placement generically (e.g. "agent headshot in circular crop, bottom-left" or "logo in top-right corner").
+
+${channels ? `Primary content channels: ${channels}` : ''}
+Contact info for examples: ${contactLine}
+${socialHandles ? `Social media handles: ${socialHandles}` : ''}
+${brandsAdmire ? `Brands/agents I admire (for visual and tonal direction): ${brandsAdmire}` : ''}
+
+DELIVERABLE — APPLICATIONS PAGE:
+
+Create descriptions and layout rules for 6 branded application templates:
+
+1) WEBSITE HERO / HEADER
+  – Describe the layout: logo placement, headline style, subline, background treatment
+  – Reference specific brand colors, fonts, and imagery direction
+
+2) SOCIAL MEDIA POST
+  – Describe a standard social post layout (e.g. Instagram or Facebook)
+  – Logo placement, headline, supporting text, CTA positioning
+  – Background and color treatment
+
+3) YOUTUBE THUMBNAIL
+  – Describe the thumbnail layout: headline, supporting text, brand elements
+  – How to make it scroll-stopping while staying on-brand
+
+4) BLOG / ARTICLE HEADER
+  – Describe the header image layout for blog posts
+  – Headline treatment, tagline placement, brand element integration
+
+5) INFOGRAPHIC / MARKET UPDATE
+  – Describe a data-focused layout: stat callouts, data grid, forecast section
+  – How to display numbers prominently while maintaining brand identity
+
+6) PRESENTATION COVER
+  – Describe the cover slide: logo, title, subtitle, visual treatment
+  – How the brand shows up in a slide deck context
+
+For each application, describe:
+  – Layout structure (what goes where)
+  – Which brand colors to use and where
+  – Which fonts and sizes to use
+  – How to handle imagery
+  – Any specific rules for that format
+
+OUTPUT FORMAT:
+Produce a finished, designed brand guide page — not just text descriptions. Generate a visual page that includes:
+  – Each application template shown as a visual mockup or wireframe rendered in the brand colors
+  – Show actual layout compositions: where the logo sits, where headlines go, where imagery appears, where the CTA lives
+  – Use the brand color palette, fonts, and graphic elements established earlier in all mockups
+  – If my headshot and logo were uploaded earlier, incorporate them into the mockup examples
+  – Label each mockup with its dimensions and platform (e.g. "Instagram Post — 1080×1350")
+  – Clean layout with clear sections matching the style of previous pages
+These should look like application example pages from a professional brand guide PDF — designed, not described.`;
+  }
+
+  function buildFinalPrompt() {
+    const business = getVal('business-name') || '[Brand Name]';
+    const scope = selectedScope;
+    const scopeLabel = scope === 'minimal' ? 'Minimal' : scope === 'standard' ? 'Standard' : 'Expanded';
+
+    const sections = {
+      minimal: 'Brand Foundation (brief), Color Palette, Typography, Quick Rules',
+      standard: 'Brand Foundation, Color Palette, Typography, Logo System, Voice & Messaging, Quick Rules',
+      expanded: 'Brand Foundation, Color Palette, Typography, Logo System, Voice & Messaging, Imagery & Graphic Style, Applications, Quick Rules'
+    };
+
+    return `Now compile everything we have created in this session into a single, cohesive brand guide document for ${business}.
+
+SCOPE: ${scopeLabel}
+SECTIONS TO INCLUDE (in this order):
+  ${sections[scope]}
+
+DELIVERABLE — ASSEMBLED BRAND GUIDE:
+
+1) COVER PAGE
+  – Brand name: ${business}
+  – Subtitle: "Brand Guide"
+  – Tagline (from the brand foundation)
+  – Core brand traits listed below the title
+  – Note: "Internal + Public-Facing Brand Standards"
+
+2) EACH SECTION
+  – Use the content we created in each prompt above
+  – Maintain consistent formatting: section titles, color swatches, font examples, rules
+  – Each section should feel like a page in a professional brand guide
+
+3) QUICK RULES (final page)
+  Compile 8–10 one-line rules that summarize the entire guide, such as:
+  – Use approved logo versions only
+  – Use [primary color] and [accent color] as accents, not overload
+  – Maintain strong contrast and whitespace
+  – Avoid clutter and low-value stock visuals
+  – Match typography consistently
+  – Keep layouts bold and readable
+  – Prioritize clarity and connection
+  – Reinforce the tagline where relevant
+
+4) FOOTER
+  – Every page: brand name + "Brand Guide" + tagline + page number
+
+Present the final document in a clean, organized format ready to be designed in Canva, Google Docs, or exported as a PDF. If your platform supports it, use formatting (headers, dividers, bold text) to make it feel polished.
+
+OUTPUT FORMAT:
+Produce the final assembled brand guide as a series of finished, designed pages — not a plain text document. Each page should:
+  – Use the brand colors, fonts, and graphic elements defined in the guide itself
+  – Include visual elements: color swatches, font samples, layout mockups, styled buttons, visual grids
+  – Feel like pages from a professionally designed PDF brand guide
+  – Maintain consistent page structure: section title, visual content, rules/notes, page footer
+  – The Cover Page should be fully designed with brand colors, the brand name large, tagline, and traits
+  – The Quick Rules page should use checkmarks, icons, or visual formatting — not just a text list
+
+Confirm when the assembled guide is complete.`;
+  }
+
+  // ── Update Mode Helpers ──
+  function getUpdateSelections() {
+    return Array.from(document.querySelectorAll('.update-check:checked')).map(c => c.value);
+  }
+
+  function buildUpdatePrompt() {
+    const business = getVal('business-name') || '[Brand Name]';
+    const name = getVal('agent-name') || '[Your Name]';
+    const brokerage = getVal('brokerage');
+    const market = getVal('market-area');
+    const audience = getVal('primary-audience');
+    const channels = getChannels();
+    const desc = getVal('brand-description');
+    const traits = selectedTraits.length ? selectedTraits.join(', ') : '';
+    const primary = getVal('brand-primary');
+    const secondary = getVal('brand-secondary');
+    const accent = getVal('brand-accent');
+    const font = getVal('brand-font');
+    const notes = getVal('brand-notes');
+    const constraints = getVal('brokerage-constraints');
+    const updateNotes = getVal('update-notes');
+    const updates = getUpdateSelections();
+    const socialHandles = getVal('social-handles');
+    const brandsAdmire = getVal('brands-admire');
+
+    const updateList = updates.length ? updates.map(u => {
+      const labels = {
+        colors: 'Update or add colors',
+        typography: 'Update or add fonts/typography',
+        logo: 'New or updated logo usage rules',
+        voice: 'Update voice & messaging',
+        imagery: 'Update imagery & graphic style',
+        applications: 'Add or update application templates',
+        expand: 'Expand — add sections the guide is missing',
+        condense: 'Condense — tighten or simplify the guide',
+        modernize: 'Full modernization — refresh the entire look and feel',
+        rules: 'Add or tighten brand rules'
+      };
+      return `  • ${labels[u] || u}`;
+    }).join('\n') : '  • General review and update';
+
+    let newColorBlock = '';
+    if (primary || secondary || accent || font) {
+      const parts = [];
+      if (primary) parts.push(`  • New primary color: ${primary}`);
+      if (secondary) parts.push(`  • New secondary color: ${secondary}`);
+      if (accent) parts.push(`  • New accent/highlight color: ${accent}`);
+      if (font) parts.push(`  • New primary font: ${font}`);
+      newColorBlock = `\nNEW BRAND COLORS & FONTS (replace existing values with these):\n${parts.join('\n')}\n`;
+    }
+
+    return `You are a brand strategist and visual identity designer specializing in real estate brands. I need you to review and update an existing brand guide for my real estate business.
+
+MODE: Brand Guide Update — NOT building from scratch. Preserve everything that isn't explicitly being changed.
+
+FILES I'M UPLOADING WITH THIS PROMPT:
+I am uploading my current brand guide (PDF or images) alongside this message. I may also include:
+  • An updated logo (if my logo has changed)
+  • My professional headshot
+  • New brand materials that reflect the direction I'm moving toward
+  • Screenshots of brands or designs I want to move closer to
+
+CRITICAL: Analyze the uploaded brand guide thoroughly before making any changes. Extract and document:
+  1. Every existing color with hex codes
+  2. Every font/typeface used
+  3. The current brand positioning, voice, and messaging
+  4. Logo usage rules
+  5. Any other brand standards present in the guide
+
+Then confirm what you found. This is the baseline — changes apply on top of this, not from scratch.
+
+ABOUT MY BUSINESS:
+  • Brand name: ${business}
+  • Agent: ${name}
+${brokerage ? `  • Team / Brokerage: ${brokerage}\n` : ''}${market ? `  • Market area: ${market}\n` : ''}${audience ? `  • Primary audience: ${audience}\n` : ''}${channels ? `  • Content channels: ${channels}\n` : ''}${socialHandles ? `  • Social handles: ${socialHandles}\n` : ''}
+WHAT I WANT TO UPDATE:
+${updateList}
+${updateNotes ? `\nDETAILS ON WHAT'S CHANGING:\n${updateNotes}\n` : ''}${newColorBlock}${traits ? `\nUPDATED BRAND PERSONALITY TRAITS:\n  ${traits}\n` : ''}${desc ? `\nUPDATED BRAND DESCRIPTION:\n  ${desc}\n` : ''}${constraints ? `\nBROKERAGE BRAND CONSTRAINTS:\n  ${constraints}\n` : ''}${brandsAdmire ? `\nBRANDS I ADMIRE (for visual direction of updates):\n  ${brandsAdmire}\n` : ''}${notes ? `\nADDITIONAL NOTES:\n  ${notes}\n` : ''}
+DELIVERABLE — BRAND GUIDE AUDIT & UPDATE PLAN:
+
+1) CURRENT STATE SUMMARY
+  – Summarize what the existing brand guide contains (sections, colors, fonts, rules)
+  – Note any gaps or areas that feel outdated
+
+2) PROPOSED CHANGES
+  – For each update area I selected above, describe specifically what will change
+  – Show "before → after" for any colors, fonts, or rules being replaced
+  – If expanding: list the new sections that will be added
+  – If condensing: list what will be combined or removed
+
+3) WHAT STAYS THE SAME
+  – Explicitly list the elements that will NOT change — this is important for confidence
+
+Present the audit and plan first. Do NOT make the changes yet — I want to review and approve the plan before you produce the updated guide.
+
+After I approve, I will ask you to generate the updated brand guide section by section.`;
+  }
+
+  function buildUpdateAssemblyPrompt() {
+    const business = getVal('business-name') || '[Brand Name]';
+
+    return `I approve the update plan. Now produce the complete updated brand guide for ${business}.
+
+RULES FOR THE UPDATE:
+  – Apply every change from the approved plan
+  – Keep all unchanged sections exactly as they were in the original guide
+  – Maintain consistent formatting throughout: the updated sections should match the style of the original
+  – If new sections are being added, format them to match the existing guide's style
+  – If the guide is being modernized, apply the new direction consistently across ALL sections
+
+DELIVERABLE — UPDATED BRAND GUIDE:
+
+Produce the full guide with all sections in order. For each section, note whether it was:
+  [UPDATED] — changed per the plan
+  [NEW] — added as part of the expansion
+  [UNCHANGED] — kept as-is from the original
+
+End with an updated QUICK RULES page that reflects all changes.
+
+Present the final document in a clean, organized format ready to be designed in Canva, Google Docs, or exported as a PDF.
+
+Confirm when the updated guide is complete.`;
+  }
+
+  // ── Main Generator ──
+  function generatePrompts() {
+    if (!validateForm()) return;
+
+    const business = getVal('business-name');
+    const name = getVal('agent-name');
+    const brokerage = getVal('brokerage');
+    const traits = selectedTraits.join(', ');
+    const audience = getVal('primary-audience');
+
+    // ── UPDATE MODE ──
+    if (selectedMode === 'update') {
+      const updates = getUpdateSelections();
+      const updateNotes = getVal('update-notes');
+
+      // Validate: need at least one update selection or notes
+      if (!updates.length && !updateNotes) {
+        const warn = document.getElementById('validation-warning');
+        warn.textContent = 'Please select at least one update area or describe what you want to change.';
+        warn.style.display = 'block';
+        return;
+      }
+
+      // Context bar
+      const contextBar = document.getElementById('context-bar');
+      contextBar.innerHTML = '';
+      const items = [
+        { key: 'Brand', val: business },
+        { key: 'Mode', val: 'Update' },
+        { key: 'Updates', val: updates.length ? updates.length + ' areas' : 'Custom' },
+      ];
+      if (name) items.push({ key: 'Agent', val: name });
+      if (brokerage) items.push({ key: 'Team / Brokerage', val: brokerage });
+
+      items.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'context-item';
+        div.innerHTML = `<span class="context-key">${item.key}</span><span class="context-val">${item.val}</span>`;
+        contextBar.appendChild(div);
+      });
+
+      // Build Prompt 1 — audit & plan
+      const p1Text = buildUpdatePrompt();
+      const p1El = document.getElementById('prompt1');
+      p1El.setAttribute('data-plain', p1Text);
+      p1El.textContent = p1Text;
+
+      // Update prompt 1 card label
+      const p1Header = document.querySelector('#output-section .prompt-card:first-of-type .prompt-card-title');
+      if (p1Header) p1Header.textContent = 'Brand Guide Audit & Update Plan';
+      const p1Sub = document.querySelector('#output-section .prompt-card:first-of-type .prompt-card-subtitle');
+      if (p1Sub) p1Sub.textContent = 'Upload existing brand guide · AI analyzes and proposes changes';
+
+      // No section prompts for update mode — just the final assembly
+      const container = document.getElementById('prompt-cards-container');
+      container.innerHTML = '';
+
+      // Update the phase labels
+      document.querySelector('.phase-label').textContent = 'Phase 1 — Audit & Update Plan';
+      document.querySelector('.phase-note').textContent = 'Upload your existing brand guide and any new assets alongside this prompt. The AI will analyze your current guide and present a change plan for your approval.';
+
+      // Update the after-step for prompt 1
+      const afterStep1 = document.querySelector('#output-section .after-step');
+      if (afterStep1) afterStep1.innerHTML = '<strong>After Prompt 1:</strong> Review the audit and proposed changes carefully. The AI will show you "before → after" for each change. Ask it to revise the plan before approving. Once you approve, run the final prompt to generate the updated guide.';
+
+      // Final assembly prompt becomes the update assembly
+      const finalText = buildUpdateAssemblyPrompt();
+      const finalEl = document.getElementById('promptFinal');
+      finalEl.setAttribute('data-plain', finalText);
+      finalEl.textContent = finalText;
+
+      document.getElementById('phase3-label').style.display = 'block';
+      document.getElementById('phase3-label').textContent = 'Phase 2 — Generate Updated Guide';
+      document.getElementById('final-card').style.display = 'block';
+
+      const finalTitle = document.querySelector('#final-card .prompt-card-title');
+      if (finalTitle) finalTitle.textContent = 'Generate Updated Brand Guide';
+      const finalSub = document.querySelector('#final-card .prompt-card-subtitle');
+      if (finalSub) finalSub.textContent = 'Applies approved changes · Preserves unchanged sections';
+
+      document.getElementById('final-after').style.display = 'block';
+      document.getElementById('final-after').innerHTML = '<strong>After Final:</strong> You now have an updated brand guide. Compare key sections against your original to make sure nothing was lost. Ask the AI to export as PDF or copy into Canva.';
+
+      // Badge
+      document.getElementById('prompt-count-badge').textContent = '2 prompts ready';
+
+      // Update output header
+      document.querySelector('.output-header-left h2').textContent = 'Your Update Prompts Are Ready';
+      document.querySelector('.output-header-left p').textContent = 'Upload your existing brand guide alongside Prompt 1 — the AI will audit it first, then update after your approval';
+
+      // Show output
+      document.getElementById('input-block').style.display = 'none';
+      const out = document.getElementById('output-section');
+      out.classList.add('visible');
+      out.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+
+    // ── NEW MODE ──
+    const scope = selectedScope;
+
+    // Reset any DOM changes from a previous update-mode generation
+    document.querySelector('.phase-label').textContent = 'Phase 1 — Brand Discovery & Foundation';
+    document.querySelector('.phase-note').textContent = 'Start here. This prompt sets up the AI with your brand identity so everything that follows is consistent.';
+    document.querySelector('#output-section .after-step').innerHTML = '<strong>After Prompt 1:</strong> Review the brand foundation the AI produces — brand positioning, traits, audiences, and color palette. Ask it to revise anything before moving on. This output anchors everything else.';
+    document.querySelector('.output-header-left h2').textContent = 'Your Prompts Are Ready';
+    document.querySelector('.output-header-left p').textContent = 'Run them in order in one AI session — each prompt builds on the last';
+    document.getElementById('phase3-label').textContent = 'Phase 3 — Final Assembly';
+    const p1Title = document.querySelector('#output-section .prompt-card:first-of-type .prompt-card-title');
+    if (p1Title) p1Title.textContent = 'Brand Discovery & Setup';
+    const p1Sub = document.querySelector('#output-section .prompt-card:first-of-type .prompt-card-subtitle');
+    if (p1Sub) p1Sub.textContent = 'Upload logo if you have one · Establishes brand foundation';
+    const fTitle = document.querySelector('#final-card .prompt-card-title');
+    if (fTitle) fTitle.textContent = 'Assemble & Quick Rules';
+    const fSub = document.querySelector('#final-card .prompt-card-subtitle');
+    if (fSub) fSub.textContent = 'Combines all sections into a finished brand guide';
+    document.getElementById('final-after').innerHTML = '<strong>After Final:</strong> You now have a complete brand guide. Ask the AI to export it as a PDF, or copy the content into Canva, Google Docs, or your design tool of choice.';
+
+    // Context bar
+    const contextBar = document.getElementById('context-bar');
+    contextBar.innerHTML = '';
+    const items = [
+      { key: 'Brand', val: business },
+      { key: 'Scope', val: scope.charAt(0).toUpperCase() + scope.slice(1) },
+    ];
+    if (name) items.push({ key: 'Agent', val: name });
+    if (brokerage) items.push({ key: 'Team / Brokerage', val: brokerage });
+    if (traits) items.push({ key: 'Personality', val: traits.length > 40 ? traits.substring(0, 40) + '…' : traits });
+    if (audience) items.push({ key: 'Audience', val: audience });
+
+    items.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'context-item';
+      div.innerHTML = `<span class="context-key">${item.key}</span><span class="context-val">${item.val}</span>`;
+      contextBar.appendChild(div);
+    });
+
+    // Build prompt 1
+    const p1Text = buildPrompt1();
+    const p1El = document.getElementById('prompt1');
+    p1El.setAttribute('data-plain', p1Text);
+    p1El.textContent = p1Text;
+
+    // Build section prompts based on scope
+    const container = document.getElementById('prompt-cards-container');
+    container.innerHTML = '';
+
+    const sectionPrompts = [];
+
+    // All scopes get colors and typography
+    sectionPrompts.push({
+      id: 'promptColor',
+      badge: 'Prompt 2',
+      title: 'Color Palette',
+      subtitle: 'Branded palette with hex codes and usage rules',
+      instruction: '<strong>Run in the same session as Prompt 1.</strong> The AI will use the brand foundation to create your full color system.',
+      text: buildColorPrompt(),
+      after: '<strong>After Prompt 2:</strong> Review the color palette — make sure the hex codes feel right and the usage rules make sense for your brand. Ask the AI to adjust any colors before continuing.'
+    });
+
+    sectionPrompts.push({
+      id: 'promptType',
+      badge: 'Prompt 3',
+      title: 'Typography',
+      subtitle: 'Font system with hierarchy and usage guidelines',
+      instruction: '<strong>Same session.</strong> The AI will recommend fonts that match your brand personality and color palette.',
+      text: buildTypographyPrompt(),
+      after: '<strong>After Prompt 3:</strong> Check that the recommended fonts are available on the platforms you use (Canva, Google Fonts, etc.). Ask for alternatives if needed.'
+    });
+
+    // Standard and expanded get logo + voice
+    if (scope === 'standard' || scope === 'expanded') {
+      sectionPrompts.push({
+        id: 'promptLogo',
+        badge: 'Prompt 4',
+        title: 'Logo System',
+        subtitle: 'Logo versions, usage rules, clear space, and sizing',
+        instruction: '<strong>Same session.</strong> This creates the rules for using your logo — you supply the actual logo files separately.',
+        text: buildLogoPrompt(),
+        after: '<strong>After Prompt 4:</strong> This section defines how to USE your logo, not the logo itself. If you need a logo designed, that\'s a separate project.'
+      });
+
+      sectionPrompts.push({
+        id: 'promptVoice',
+        badge: 'Prompt 5',
+        title: 'Voice &amp; Messaging',
+        subtitle: 'Tone, messaging pillars, writing rules, and CTAs',
+        instruction: '<strong>Same session.</strong> The AI will define how your brand sounds across all communications.',
+        text: buildVoicePrompt(),
+        after: '<strong>After Prompt 5:</strong> Read the sample CTAs and brand statement out loud — do they sound like you? If not, ask the AI to adjust the tone.'
+      });
+    }
+
+    // Expanded also gets imagery + applications
+    if (scope === 'expanded') {
+      sectionPrompts.push({
+        id: 'promptImagery',
+        badge: 'Prompt 6',
+        title: 'Imagery &amp; Graphic Style',
+        subtitle: 'Photography direction, graphic elements, visual rules',
+        instruction: '<strong>Same session.</strong> This defines the visual world around your brand — what imagery to use and what to avoid.',
+        text: buildImageryPrompt(),
+        after: '<strong>After Prompt 6:</strong> Consider creating a mood board in Canva or Pinterest that matches the imagery direction described here.'
+      });
+
+      sectionPrompts.push({
+        id: 'promptApps',
+        badge: 'Prompt 7',
+        title: 'Applications',
+        subtitle: 'Branded templates for social, web, video, and print',
+        instruction: '<strong>Same session.</strong> If your AI loses track of uploaded files over a long session, re-upload your headshot and logo alongside this prompt for the most accurate application mockups.',
+        text: buildApplicationsPrompt(),
+        after: '<strong>After Prompt 7:</strong> Use these application descriptions as creative briefs when building actual templates in Canva or your design tool.'
+      });
+    }
+
+    // Render prompt cards
+    let promptNum = 2;
+    sectionPrompts.forEach((p, i) => {
+      const cardHTML = `
+        <div class="prompt-card">
+          <div class="prompt-card-header">
+            <div class="prompt-card-header-left">
+              <span class="step-badge">${p.badge}</span>
+              <div>
+                <div class="prompt-card-title">${p.title}</div>
+                <div class="prompt-card-subtitle">${p.subtitle}</div>
+              </div>
+            </div>
+            <button class="btn-copy" onclick="copyPrompt('${p.id}', this)">Copy Prompt</button>
+          </div>
+          <div class="prompt-card-instructions">${p.instruction}</div>
+          <div class="prompt-body" id="${p.id}"></div>
+        </div>
+        <div class="after-step">${p.after}</div>
+      `;
+      container.insertAdjacentHTML('beforeend', cardHTML);
+
+      const bodyEl = document.getElementById(p.id);
+      bodyEl.setAttribute('data-plain', p.text);
+      bodyEl.textContent = p.text;
+      promptNum++;
+    });
+
+    // Final assembly prompt
+    const finalText = buildFinalPrompt();
+    const finalEl = document.getElementById('promptFinal');
+    finalEl.setAttribute('data-plain', finalText);
+    finalEl.textContent = finalText;
+
+    document.getElementById('phase3-label').style.display = 'block';
+    document.getElementById('final-card').style.display = 'block';
+    document.getElementById('final-after').style.display = 'block';
+
+    // Badge
+    const totalPrompts = 1 + sectionPrompts.length + 1; // prompt1 + sections + final
+    document.getElementById('prompt-count-badge').textContent = totalPrompts + ' prompts ready';
+
+    // Show output
+    document.getElementById('input-block').style.display = 'none';
+    const out = document.getElementById('output-section');
+    out.classList.add('visible');
+    out.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+</script>
+</body>
+</html>
