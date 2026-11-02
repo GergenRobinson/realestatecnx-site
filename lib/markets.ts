@@ -6,6 +6,7 @@ export type Market = {
   areas: string[];
   highlights: { title: string; body: string }[];
   updateName: string;
+  photo: "phoenix" | "seattle";
 };
 
 export const markets: Market[] = [
@@ -31,6 +32,7 @@ export const markets: Market[] = [
       },
     ],
     updateName: "AZ Snap Market Update",
+    photo: "phoenix",
   },
   {
     slug: "washington",
@@ -54,6 +56,7 @@ export const markets: Market[] = [
       },
     ],
     updateName: "WA Market Update",
+    photo: "seattle",
   },
 ];
 

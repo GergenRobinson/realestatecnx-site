@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import ConnectForm from "@/components/ConnectForm";
 import PageHero from "@/components/PageHero";
+import { photos } from "@/lib/photos";
 import { markets } from "@/lib/markets";
 
 export const metadata: Metadata = {
@@ -13,7 +14,7 @@ export default async function ConnectPage({ searchParams }: { searchParams: Prom
   const defaultState = state === "other" ? "Another state" : markets.find((m) => m.slug === state)?.name;
   return (
     <>
-      <PageHero eyebrow="Get connected" title="Tell us where you're headed." intro="Buying, selling, investing or just have questions? Share a few details and we'll make a personal introduction to someone we trust. It's free, and there's no obligation." />
+      <PageHero eyebrow="Get connected" title="Tell us where you're headed." intro="Buying, selling, investing or just have questions? Share a few details and we'll make a personal introduction to someone we trust. It's free, and there's no obligation." image={photos.agentSold} />
       <section className="py-16 md:py-20">
         <div className="container-x grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-8"><ConnectForm defaultState={defaultState} /></div>
