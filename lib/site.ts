@@ -8,7 +8,7 @@ export const site = {
     "Real Estate CNX helps real estate agents keep up and get ahead, with plain-spoken media and tools you can use the same day.",
   consumerLine:
     "Buying, selling or investing? Get clear answers and a trusted local agent, at no cost to you.",
-  url: "https://realestatecnx.com",
+  url: "https://www.realestatecnx.com",
   owner: "Gergen Robinson",
   phone: "253-651-2198",
   email: "Gergen@GergenRobinson.com",
