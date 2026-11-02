@@ -26,10 +26,10 @@ export const site = {
     { name: "Threads", href: "https://www.threads.com/@realestatecnx" },
     { name: "Bluesky", href: "https://bsky.app/profile/realestatecnx.bsky.social" },
   ],
-  // Required licensing disclosure. TODO(Gergen): fill in brokerage names and license numbers.
+  // Required licensing disclosure (verified against ADRE and WA DOL, Nov 1, 2026).
   licensing: [
-    { state: "Arizona", detail: "Licensed in Arizona. Brokerage and license number to be added." },
-    { state: "Washington", detail: "Licensed in Washington. Brokerage and license number to be added." },
+    { state: "Arizona", detail: "Arizona: Gergen Robinson, Associate Broker, license BR697838000, West USA Realty, Inc." },
+    { state: "Washington", detail: "Washington: Gergen Robinson, Managing Broker, license 25666, John L. Scott DuPont (Talent Real Estate LLC)." },
   ],
 };
 

@@ -54,7 +54,7 @@ export default function Footer() {
         <div className="container-x space-y-2 py-6 text-xs text-white/50">
           <p>
             Real Estate CNX is a media and community resource, not a real estate brokerage. Introductions to agents are made by{" "}
-            {site.owner}, a licensed real estate agent.{" "}
+            {site.owner}, licensed in Arizona and Washington.{" "}
             {site.licensing.map((l) => l.detail).join(" ")}
           </p>
           <p className="flex flex-wrap gap-x-4 gap-y-1">
