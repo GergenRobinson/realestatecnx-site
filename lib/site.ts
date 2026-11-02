@@ -11,7 +11,7 @@ export const site = {
   url: "https://www.realestatecnx.com",
   owner: "Gergen Robinson",
   phone: "253-651-2198",
-  email: "Gergen@GergenRobinson.com",
+  email: "inquiry@realestatecnx.com",
   substack: "https://realestatecnx.substack.com",
   // Private business planner app (Agent Ascend). Not part of this site.
   plannerUrl: "https://planner.realestatecnx.com",
