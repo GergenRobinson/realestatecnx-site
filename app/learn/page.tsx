@@ -20,7 +20,7 @@ export default function LearnPage() {
           <div className="mt-10 grid gap-6 md:grid-cols-2">
             {guides.map((g) => (
               <Link key={g.slug} href={`/learn/${g.slug}`} className="group rounded-2xl bg-paper p-7 ring-1 ring-black/5 transition hover:-translate-y-1 hover:shadow-xl">
-                <span className="rounded-full bg-gold-light px-3 py-1 text-xs font-bold">{g.audience}</span>
+                <span className="rounded-full bg-gold px-3 py-1 text-xs font-bold">{g.audience}</span>
                 <h3 className="mt-4 text-xl font-extrabold group-hover:text-crimson">{g.title}</h3>
                 <p className="mt-2 text-black/60">{g.summary}</p>
               </Link>

@@ -3,8 +3,11 @@
 export const site = {
   name: "Real Estate CNX",
   tagline: "Where Real Estate Connects",
+  // From the Nov 2026 brand guide.
   mission:
-    "Real Estate CNX is the free hub where buyers, sellers and agents get straight answers and the right connections.",
+    "Real Estate CNX helps real estate agents keep up and get ahead, with plain-spoken media and tools you can use the same day.",
+  consumerLine:
+    "Buying, selling or investing? Get clear answers and a trusted local agent, at no cost to you.",
   url: "https://realestatecnx.com",
   owner: "Gergen Robinson",
   phone: "253-651-2198",

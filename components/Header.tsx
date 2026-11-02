@@ -11,9 +11,9 @@ export default function Header() {
   const path = usePathname();
   return (
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur">
-      <div className="container-x flex h-18 items-center justify-between gap-6 py-3">
+      <div className="container-x flex items-center justify-between gap-6 py-3">
         <Link href="/" className="shrink-0" aria-label="Real Estate CNX home" onClick={() => setOpen(false)}>
-          <Image src="/logo-mark-640.png" alt="Real Estate CNX" width={640} height={323} priority className="h-11 w-auto" />
+          <Image src="/cnx-compact-color.svg" alt="Real Estate CNX" width={686} height={368} priority className="h-auto w-[150px]" />
         </Link>
         <nav className="hidden items-center gap-7 md:flex" aria-label="Main">
           {nav.map((item) => (

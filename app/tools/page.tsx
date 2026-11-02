@@ -20,7 +20,7 @@ export default function ToolsPage() {
         <div className="container-x grid gap-6 md:grid-cols-2">
           {tools.map((t) => (
             <div key={t.name} className="flex flex-col rounded-2xl bg-paper p-7 ring-1 ring-black/5">
-              <span className="w-fit rounded-full bg-gold-light px-3 py-1 text-xs font-bold">{t.status}</span>
+              <span className="w-fit rounded-full bg-gold px-3 py-1 text-xs font-bold">{t.status}</span>
               <h2 className="mt-4 text-xl font-extrabold">{t.name}</h2>
               <p className="mt-2 flex-1 text-black/60">{t.body}</p>
               {t.href && <Link href={t.href} className="font-display mt-5 text-sm font-bold text-crimson hover:underline">Learn more &rarr;</Link>}

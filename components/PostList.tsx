@@ -26,7 +26,7 @@ export default async function PostList({ limit = 3 }: { limit?: number }) {
             // eslint-disable-next-line @next/next/no-img-element
             <img src={p.image} alt="" className="aspect-[16/9] w-full object-cover" loading="lazy" />
           ) : (
-            <div className="aspect-[16/9] w-full bg-gradient-to-br from-ink to-crimson-dark" />
+            <div className="flex aspect-[16/9] w-full items-center justify-center bg-ink"><div className="connector w-1/2 text-red-bright" /></div>
           )}
           <div className="flex flex-1 flex-col p-5">
             {p.date && <p className="text-xs font-semibold uppercase tracking-wider text-black/40">{new Date(p.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</p>}

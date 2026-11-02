@@ -5,9 +5,9 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { site } from "@/lib/site";
 
-const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat", weight: ["500", "700", "800", "900"] });
+const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat", weight: ["600", "700", "800", "900"] });
 const openSans = Open_Sans({ subsets: ["latin"], variable: "--font-open-sans" });
-const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair", style: ["normal", "italic"] });
+const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair", style: ["italic"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     description: site.mission,
     url: site.url,
     siteName: site.name,
-    images: [{ url: "/logo-skyline.jpg", width: 1024, height: 1024 }],
+    images: [{ url: "/og.png", width: 1200, height: 630 }],
     type: "website",
   },
   twitter: { card: "summary_large_image", site: "@RealEstateCNX" },

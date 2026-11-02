@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import Newsletter from "./Newsletter";
 import { nav, site } from "@/lib/site";
@@ -8,10 +9,8 @@ export default function Footer() {
     <footer className="bg-ink text-white">
       <div className="container-x grid gap-10 py-16 md:grid-cols-12">
         <div className="md:col-span-5">
-          <p className="font-display text-2xl font-black">
-            Real Estate <span className="text-gold">CNX</span>
-          </p>
-          <p className="font-serif mt-2 text-lg italic text-white/80">{site.tagline}</p>
+          <Image src="/cnx-compact-reversed.svg" alt="Real Estate CNX" width={686} height={368} className="h-auto w-[170px]" />
+          <p className="font-display mt-4 text-xs font-semibold uppercase tracking-[0.2em] text-gold">{site.tagline}</p>
           <p className="mt-4 max-w-sm text-sm text-white/60">{site.mission}</p>
           <div className="mt-6 flex flex-wrap gap-2">
             {site.socials.map((s) => (

@@ -10,7 +10,8 @@ The Real Estate CNX website: a media and community hub where buyers, sellers and
 | Arizona and Washington market hubs (add a new state here) | `lib/markets.ts` |
 | Guides and checklists | `lib/guides.ts` |
 | Homepage | `app/page.tsx` |
-| Colors and fonts | `app/globals.css` (brand guide: Crimson #B22222, Gold #D4A017, Black #1A1A1A; Montserrat, Open Sans, Playfair Display) |
+| Colors and fonts | `app/globals.css` (Nov 2026 brand guide: CNX Red #AF1500, Gold #E6C01F, Black #1A1A1A, Red on dark #E32B12, Light #F2EFE9) |
+| Logos | `public/cnx-*.svg` (official files from the brand Drive folder) |
 
 Articles come from Substack automatically (`lib/substack.ts`, refreshed hourly). Post on Substack and they appear on the site.
 

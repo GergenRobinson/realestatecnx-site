@@ -1,12 +1,13 @@
 @import "tailwindcss";
 
 @theme {
-  --color-crimson: #b22222;
-  --color-crimson-dark: #8e1b1b;
-  --color-gold: #d4a017;
-  --color-gold-light: #f3e3b3;
+  --color-crimson: #af1500;
+  --color-crimson-dark: #8c1100;
+  --color-red-bright: #e32b12;
+  --color-gold: #e6c01f;
+  --color-gold-light: #e6c01f;
   --color-ink: #1a1a1a;
-  --color-paper: #faf8f4;
+  --color-paper: #f2efe9;
   --font-display: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-open-sans), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
@@ -35,3 +36,12 @@ h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
 .label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: .35rem; }
 
 .prose-cnx p { margin-bottom: 1rem; line-height: 1.75; }
+
+/* Brand graphic elements: connector rule (dot, line, arrow) and dot bullets. */
+.connector { display: flex; align-items: center; width: 100%; max-width: 14rem; height: 14px; }
+.connector::before { content: ""; width: 14px; height: 14px; border-radius: 9999px; background: currentColor; flex: none; }
+.connector::after { content: ""; flex: 1; height: 14px; margin-left: -2px; background: currentColor; clip-path: polygon(0 36%, calc(100% - 14px) 36%, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, calc(100% - 14px) 64%, 0 64%); }
+.dot-list li { position: relative; padding-left: 1.4rem; }
+.dot-list li::before { content: ""; position: absolute; left: 0; top: .55em; width: .55rem; height: .55rem; border-radius: 9999px; background: var(--color-crimson); }
+.btn-primary-dark { background: var(--color-red-bright); color: #fff; }
+.btn-primary-dark:hover { filter: brightness(1.08); }
